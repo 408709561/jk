@@ -1,0 +1,43 @@
+spring:
+    application:
+        name: ace-gate
+    thymeleaf:
+        mode: LEGACYHTML5
+        cache: false
+    jackson:
+        date-format: yyyy-MM-dd HH:mm:ss
+        time-zone: GMT+8
+        default-property-inclusion: non_null
+    redis:
+        database: 1
+        host: 127.0.0.1
+        pool:
+            max-active: 20
+    rabbitmq:
+        host: ${RABBIT_MQ_HOST:localhost}
+        port:  ${RABBIT_MQ_PORT:5672}
+        username: guest
+        password: guest
+    zipkin:
+      enabled: true
+    sleuth:
+      sampler:
+        percentage: 1
+server:
+    port: 8765 #启动端口
+
+gate:
+  ignore:
+    startWith: /static,/auth/jwt
+
+
+auth:
+  serviceId: ace-auth
+  user:
+    token-header: Authorization
+    limit-expire: 1440 #1天
+  client:
+    token-header: client-token
+    id: ace-gate  #不填则默认读取spring.application.name
+    secret: 123456
+
