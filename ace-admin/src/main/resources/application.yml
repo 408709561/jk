@@ -31,6 +31,12 @@ spring:
             testOnReturn: false
             poolPreparedStatements: true
             maxOpenPreparedStatements: 20
+    redis:
+        database: 1
+        host: ${REDIS_HOST:127.0.0.1}
+        port: ${REDIS_PORT:6379}
+        pool:
+            max-active: 20
     rabbitmq:
         host: ${RABBIT_MQ_HOST:localhost}
         port:  ${RABBIT_MQ_PORT:5672}
