@@ -185,7 +185,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
+            <!-- <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker.plugin.version}</version>
@@ -208,7 +208,7 @@
                         </resource>
                     </resources>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
