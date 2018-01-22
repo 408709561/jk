@@ -7,6 +7,8 @@ import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.vo.AuthorityMenuTree;
 import com.github.wxiaoqi.security.admin.vo.GroupTree;
 import com.github.wxiaoqi.security.admin.vo.GroupUsers;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
@@ -33,6 +35,8 @@ import java.util.List;
 @Controller
 @RequestMapping("group")
 @Api("群组模块")
+@CheckUserToken
+@CheckClientToken
 public class GroupController extends BaseController<GroupBiz, Group> {
     @Autowired
     private ResourceAuthorityBiz resourceAuthorityBiz;

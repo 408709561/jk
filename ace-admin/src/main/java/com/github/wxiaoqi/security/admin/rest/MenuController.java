@@ -5,6 +5,8 @@ import com.github.wxiaoqi.security.admin.biz.UserBiz;
 import com.github.wxiaoqi.security.admin.entity.Menu;
 import com.github.wxiaoqi.security.admin.vo.AuthorityMenuTree;
 import com.github.wxiaoqi.security.admin.vo.MenuTree;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
 import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
@@ -28,6 +30,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("menu")
+@CheckUserToken
+@CheckClientToken
 public class MenuController extends BaseController<MenuBiz, Menu> {
     @Autowired
     private UserBiz userBiz;

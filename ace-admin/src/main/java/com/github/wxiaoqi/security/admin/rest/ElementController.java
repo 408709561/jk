@@ -3,6 +3,8 @@ package com.github.wxiaoqi.security.admin.rest;
 import com.github.wxiaoqi.security.admin.biz.ElementBiz;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
 import com.github.wxiaoqi.security.admin.entity.Element;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
@@ -24,6 +26,8 @@ import java.util.List;
  * @version 2017-06-23 20:30
  */
 @Controller
+@CheckUserToken
+@CheckClientToken
 @RequestMapping("element")
 public class ElementController extends BaseController<ElementBiz, Element> {
   @Autowired

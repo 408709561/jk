@@ -3,7 +3,7 @@ package com.github.wxiaoqi.security.admin.rpc;
 import com.ace.cache.annotation.Cache;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import com.github.wxiaoqi.security.auth.client.annotation.IgnoreClientToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

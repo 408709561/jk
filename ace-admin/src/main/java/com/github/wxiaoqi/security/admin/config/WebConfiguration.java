@@ -53,11 +53,4 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         Collections.addAll(list, urls);
         return list;
     }
-
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/static/cache/**").addResourceLocations(
-//                "classpath:/META-INF/static/");
-//        super.addResourceHandlers(registry);
-//    }
 }

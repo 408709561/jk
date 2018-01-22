@@ -2,12 +2,12 @@ package com.github.wxiaoqi.security.admin.biz;
 
 import com.ace.cache.annotation.Cache;
 import com.ace.cache.annotation.CacheClear;
+import com.github.wxiaoqi.security.admin.constant.UserConstant;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
-import com.github.wxiaoqi.security.admin.constant.UserConstant;
+import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserBiz extends BaseBiz<UserMapper,User> {
+public class UserBiz extends BusinessBiz<UserMapper,User> {
 
     @Autowired
     private MenuMapper menuMapper;

@@ -5,7 +5,7 @@ import com.ace.cache.annotation.CacheClear;
 import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
 import com.github.wxiaoqi.security.admin.entity.Menu;
 import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class MenuBiz extends BaseBiz<MenuMapper, Menu> {
+public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
     @Override
     @Cache(key="permission:menu")
     public List<Menu> selectListAll() {

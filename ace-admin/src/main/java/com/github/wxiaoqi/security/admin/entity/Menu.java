@@ -1,11 +1,15 @@
 package com.github.wxiaoqi.security.admin.entity;
 
 import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
+import com.github.wxiaoqi.security.common.audit.*;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "base_menu")
+@AceAudit
 public class Menu {
     @Id
     private Integer id;
@@ -25,24 +29,25 @@ public class Menu {
 
     private String description;
 
+    @CrtTime
     @Column(name = "crt_time")
     private Date crtTime;
-
+    @CrtUserId
     @Column(name = "crt_user")
     private String crtUser;
-
+    @CrtUserName
     @Column(name = "crt_name")
     private String crtName;
 
     @Column(name = "crt_host")
     private String crtHost;
-
+    @ModifiedTime
     @Column(name = "upd_time")
     private Date updTime;
-
+    @ModifiedUserId
     @Column(name = "upd_user")
     private String updUser;
-
+    @ModifiedUserName
     @Column(name = "upd_name")
     private String updName;
 

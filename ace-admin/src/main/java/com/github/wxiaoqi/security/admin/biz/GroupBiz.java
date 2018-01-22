@@ -11,7 +11,7 @@ import com.github.wxiaoqi.security.admin.mapper.ResourceAuthorityMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.admin.vo.AuthorityMenuTree;
 import com.github.wxiaoqi.security.admin.vo.GroupUsers;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.*;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class GroupBiz extends BaseBiz<GroupMapper, Group> {
+public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
     @Autowired
     private UserMapper userMapper;
     @Autowired

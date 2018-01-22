@@ -6,6 +6,10 @@ import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.admin.vo.FrontUser;
 import com.github.wxiaoqi.security.admin.vo.MenuTree;
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
+import com.github.wxiaoqi.security.auth.client.annotation.IgnoreClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +29,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("user")
+@CheckUserToken
+@CheckClientToken
 public class UserController extends BaseController<UserBiz,User> {
 
     @Autowired
     private PermissionService permissionService;
 
+    @IgnoreUserToken
     @RequestMapping(value = "/validate", method = RequestMethod.POST)
     public @ResponseBody
     ObjectRestResponse<UserInfo> validate(String username, String password){

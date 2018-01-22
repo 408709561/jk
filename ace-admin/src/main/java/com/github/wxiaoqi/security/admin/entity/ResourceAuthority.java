@@ -1,9 +1,14 @@
 package com.github.wxiaoqi.security.admin.entity;
 
+import com.github.wxiaoqi.security.common.audit.*;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "base_resource_authority")
+@AceAudit
 public class ResourceAuthority {
     @Id
     private Integer id;
@@ -27,12 +32,13 @@ public class ResourceAuthority {
 
     private String description;
 
+    @CrtTime
     @Column(name = "crt_time")
     private Date crtTime;
-
+    @CrtUserId
     @Column(name = "crt_user")
     private String crtUser;
-
+    @CrtUserName
     @Column(name = "crt_name")
     private String crtName;
 

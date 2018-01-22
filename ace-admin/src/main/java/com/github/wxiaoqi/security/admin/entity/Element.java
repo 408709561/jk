@@ -1,9 +1,17 @@
 package com.github.wxiaoqi.security.admin.entity;
 
+import com.github.wxiaoqi.security.common.audit.AceAudit;
+import com.github.wxiaoqi.security.common.audit.CrtTime;
+import com.github.wxiaoqi.security.common.audit.CrtUserId;
+import com.github.wxiaoqi.security.common.audit.CrtUserName;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "base_element")
+@AceAudit
 public class Element {
     @Id
     private Integer id;
@@ -28,12 +36,13 @@ public class Element {
 
     private String description;
 
+    @CrtTime
     @Column(name = "crt_time")
     private Date crtTime;
-
+    @CrtUserId
     @Column(name = "crt_user")
     private String crtUser;
-
+    @CrtUserName
     @Column(name = "crt_name")
     private String crtName;
 

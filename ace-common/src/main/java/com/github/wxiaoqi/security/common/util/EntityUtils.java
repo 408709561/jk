@@ -1,6 +1,8 @@
 package com.github.wxiaoqi.security.common.util;
 
 import com.github.wxiaoqi.core.context.BaseContextHandler;
+import com.github.wxiaoqi.security.common.audit.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -11,11 +13,12 @@ import java.util.Date;
  * 解决问题： 1、快速对实体的常驻字段，如：crtUser、crtHost、updUser等值快速注入
  *
  * @author Ace
- * @version 1.0
  * @version 2016年4月18日
  * @since 1.7
  */
+@Slf4j
 public class EntityUtils {
+
     /**
      * 快速将bean的crtUserName, crtUserId, crtTime、updUserName, updUserId, updTime附上相关值
      *
@@ -37,7 +40,26 @@ public class EntityUtils {
         String userName = BaseContextHandler.getName();
         String userId = BaseContextHandler.getUserID();
         // 默认属性
-        String[] fields = {"crtUserName", "crtUserId", "crtTime"};
+        String[] fieldNames = {"crtUserName", "crtUserId", "crtTime"};
+        if (entity.getClass().getAnnotation(AceAudit.class) != null) {
+            Field[] fields = entity.getClass().getDeclaredFields();
+            if (fields != null) {
+                for (Field field : fields) {
+                    if (field.getAnnotation(CrtUserName.class) != null) {
+                        fieldNames[0] = field.getName();
+                        continue;
+                    }
+                    if (field.getAnnotation(CrtUserId.class) != null) {
+                        fieldNames[1] = field.getName();
+                        continue;
+                    }
+                    if (field.getAnnotation(CrtTime.class) != null) {
+                        fieldNames[2] = field.getName();
+                        continue;
+                    }
+                }
+            }
+        }
         Field field = ReflectionUtils.getAccessibleField(entity, "crtTime");
         // 默认值
         Object[] value = null;
@@ -45,7 +67,7 @@ public class EntityUtils {
             value = new Object[]{userName, userId, new Date()};
         }
         // 填充默认属性值
-        setDefaultValues(entity, fields, value);
+        setDefaultValues(entity, fieldNames, value);
     }
 
     /**
@@ -54,18 +76,38 @@ public class EntityUtils {
      * @param entity 实体bean
      * @author 王浩彬
      */
+
     public static <T> void setUpdatedInfo(T entity) {
         String userName = BaseContextHandler.getName();
         String userId = BaseContextHandler.getUserID();
         // 默认属性
-        String[] fields = {"updUserName", "updUserId", "updTime"};
+        String[] fieldNames = {"updUserName", "updUserId", "updTime"};
+        if (entity.getClass().getAnnotation(AceAudit.class) != null) {
+            Field[] fields = entity.getClass().getDeclaredFields();
+            if (fields != null) {
+                for (Field field : fields) {
+                    if (field.getAnnotation(ModifiedUserName.class) != null) {
+                        fieldNames[0] = field.getName();
+                        continue;
+                    }
+                    if (field.getAnnotation(ModifiedUserId.class) != null) {
+                        fieldNames[1] = field.getName();
+                        continue;
+                    }
+                    if (field.getAnnotation(ModifiedTime.class) != null) {
+                        fieldNames[2] = field.getName();
+                        continue;
+                    }
+                }
+            }
+        }
         Field field = ReflectionUtils.getAccessibleField(entity, "updTime");
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
             value = new Object[]{userName, userId, new Date()};
         }
         // 填充默认属性值
-        setDefaultValues(entity, fields, value);
+        setDefaultValues(entity, fieldNames, value);
     }
 
     /**
@@ -77,11 +119,19 @@ public class EntityUtils {
      * @author 王浩彬
      */
     private static <T> void setDefaultValues(T entity, String[] fields, Object[] value) {
+        StringBuffer sb = new StringBuffer("");
         for (int i = 0; i < fields.length; i++) {
             String field = fields[i];
-            if (ReflectionUtils.hasField(entity, field)) {
-                ReflectionUtils.invokeSetter(entity, field, value[i]);
+            try {
+                if (ReflectionUtils.hasField(entity, field)) {
+                    ReflectionUtils.invokeSetter(entity, field, value[i]);
+                }
+            } catch (Exception e) {
+                sb.append(field).append(" ");
             }
+        }
+        if (!sb.toString().isEmpty()) {
+            log.error(entity.getClass().getName() + ",部分字段审计失败: " + sb.toString());
         }
     }
 
