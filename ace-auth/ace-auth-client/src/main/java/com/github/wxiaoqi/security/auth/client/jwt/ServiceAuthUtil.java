@@ -64,7 +64,7 @@ public class ServiceAuthUtil{
         }
     }
 
-
+    @Scheduled(cron = "0 0/10 * * * ?")
     public void refreshClientToken() {
         log.debug("refresh client token.....");
         BaseResponse resp = serviceAuthFeign.getAccessToken(serviceAuthConfig.getClientId(), serviceAuthConfig.getClientSecret());
@@ -73,8 +73,7 @@ public class ServiceAuthUtil{
             this.clientToken = clientToken.getData();
         }
     }
-
-    @Scheduled(cron = "0 0/5 * * * ?")
+    
     public String getClientToken() {
         if (this.clientToken == null) {
             this.refreshClientToken();
