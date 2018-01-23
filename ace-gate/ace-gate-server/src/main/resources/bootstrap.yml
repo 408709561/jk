@@ -32,7 +32,10 @@ ribbon:
   MaxAutoRetries: 0
   MaxAutoRetriesNextServer: 1
   OkToRetryOnAllOperations: false
-
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
 
 hystrix:
   threadpool:
