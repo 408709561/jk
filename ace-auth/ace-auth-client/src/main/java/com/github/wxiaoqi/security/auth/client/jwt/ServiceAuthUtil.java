@@ -74,7 +74,7 @@ public class ServiceAuthUtil{
         }
     }
 
-
+    @Scheduled(cron = "0 0/5 * * * ?")
     public String getClientToken() {
         if (this.clientToken == null) {
             this.refreshClientToken();
