@@ -1,9 +1,9 @@
 package com.github.wxiaoqi.security.auth.interceptor;
 
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.auth.configuration.UserConfiguration;
 import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
-import com.github.wxiaoqi.core.context.BaseContextHandler;
+import com.github.ag.core.context.BaseContextHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

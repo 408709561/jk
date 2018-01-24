@@ -1,7 +1,7 @@
 package com.github.wxiaoqi.security.common.rest;
 
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
-import com.github.wxiaoqi.core.context.BaseContextHandler;
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;

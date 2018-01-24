@@ -3,8 +3,8 @@ package com.github.wxiaoqi.security.auth.client.jwt;
 
 import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.feign.ServiceAuthFeign;
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
-import com.github.wxiaoqi.core.util.jwt.JWTHelper;
+import com.github.ag.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.JWTHelper;
 import com.github.wxiaoqi.security.common.exception.auth.ClientTokenException;
 import com.github.wxiaoqi.security.common.msg.BaseResponse;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
@@ -73,7 +73,7 @@ public class ServiceAuthUtil{
             this.clientToken = clientToken.getData();
         }
     }
-    
+
     public String getClientToken() {
         if (this.clientToken == null) {
             this.refreshClientToken();

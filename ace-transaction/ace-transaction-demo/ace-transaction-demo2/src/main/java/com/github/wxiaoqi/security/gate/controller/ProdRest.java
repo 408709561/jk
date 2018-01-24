@@ -1,7 +1,7 @@
 package com.github.wxiaoqi.security.gate.controller;
 
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
-import com.github.wxiaoqi.core.context.BaseContextHandler;
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.gate.biz.ProdBiz;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

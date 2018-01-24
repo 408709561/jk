@@ -4,7 +4,7 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreClientToken;
 import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.common.exception.auth.ClientForbiddenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

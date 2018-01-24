@@ -1,6 +1,6 @@
 package com.github.wxiaoqi.security.common.handler;
 
-import com.github.wxiaoqi.core.exception.BaseException;
+import com.github.ag.core.exception.BaseException;
 import com.github.wxiaoqi.security.common.exception.auth.ClientTokenException;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import com.github.wxiaoqi.security.common.exception.base.BusinessException;

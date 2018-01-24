@@ -1,8 +1,8 @@
 package com.github.wxiaoqi.security.auth.module.client.service.impl;
 
-import com.github.wxiaoqi.core.constants.CommonConstants;
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
-import com.github.wxiaoqi.core.util.jwt.JWTInfo;
+import com.github.ag.core.constants.CommonConstants;
+import com.github.ag.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.JWTInfo;
 import com.github.wxiaoqi.security.auth.feign.IUserService;
 import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
 import com.github.wxiaoqi.security.auth.module.client.service.AuthService;

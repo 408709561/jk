@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableEurekaClient
 @EnableFeignClients
 @MapperScan("com.github.wxiaoqi.security.auth.module.*.mapper")
-@ComponentScan({"com.github.wxiaoqi.core","com.github.wxiaoqi.security.auth"})
+@ComponentScan({"com.github.ag.core","com.github.wxiaoqi.security.auth"})
 @EnableAutoConfiguration
 public class AuthBootstrap {
     public static void main(String[] args) {

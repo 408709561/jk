@@ -17,7 +17,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * Created by ace on 2017/9/15.
  */
 @Configuration
-@ComponentScan({"com.github.wxiaoqi.security.auth.client","com.github.wxiaoqi.core"})
+@ComponentScan({"com.github.wxiaoqi.security.auth.client","com.github.ag.core"})
 public class AutoConfiguration {
     @Bean
     ServiceAuthConfig getServiceAuthConfig(){

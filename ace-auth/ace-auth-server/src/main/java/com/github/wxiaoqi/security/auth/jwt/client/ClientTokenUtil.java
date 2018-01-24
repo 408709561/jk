@@ -1,7 +1,7 @@
 package com.github.wxiaoqi.security.auth.jwt.client;
 
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
-import com.github.wxiaoqi.core.util.jwt.JWTHelper;
+import com.github.ag.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.JWTHelper;
 import com.github.wxiaoqi.security.auth.configuration.KeyConfiguration;
 import com.github.wxiaoqi.security.common.exception.auth.ClientTokenException;
 import org.slf4j.Logger;
