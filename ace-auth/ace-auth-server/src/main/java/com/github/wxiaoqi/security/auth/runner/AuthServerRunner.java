@@ -1,6 +1,6 @@
 package com.github.wxiaoqi.security.auth.runner;
 
-import com.github.wxiaoqi.core.util.RsaKeyHelper;
+import com.github.ag.core.util.RsaKeyHelper;
 import com.github.wxiaoqi.security.auth.configuration.KeyConfiguration;
 import com.github.wxiaoqi.security.auth.jwt.AECUtil;
 import lombok.extern.slf4j.Slf4j;

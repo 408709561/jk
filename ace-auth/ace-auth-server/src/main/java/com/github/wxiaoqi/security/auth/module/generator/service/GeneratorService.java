@@ -2,7 +2,7 @@ package com.github.wxiaoqi.security.auth.module.generator.service;
 
 import com.github.wxiaoqi.security.auth.module.client.entity.Client;
 import com.github.wxiaoqi.security.auth.module.generator.util.GeneratorUtils;
-import com.github.wxiaoqi.core.context.BaseContextHandler;
+import com.github.ag.core.context.BaseContextHandler;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Component;
 

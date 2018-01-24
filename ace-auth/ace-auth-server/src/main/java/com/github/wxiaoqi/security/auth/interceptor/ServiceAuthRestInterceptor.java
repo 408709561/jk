@@ -1,6 +1,6 @@
 package com.github.wxiaoqi.security.auth.interceptor;
 
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.auth.configuration.ClientConfiguration;
 import com.github.wxiaoqi.security.auth.module.client.service.AuthClientService;
 import com.github.wxiaoqi.security.auth.jwt.client.ClientTokenUtil;

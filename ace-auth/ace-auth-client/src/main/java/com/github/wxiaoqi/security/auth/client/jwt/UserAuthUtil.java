@@ -1,8 +1,8 @@
 package com.github.wxiaoqi.security.auth.client.jwt;
 
-import com.github.wxiaoqi.core.constants.CommonConstants;
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
-import com.github.wxiaoqi.core.util.jwt.JWTHelper;
+import com.github.ag.core.constants.CommonConstants;
+import com.github.ag.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.JWTHelper;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import io.jsonwebtoken.ExpiredJwtException;

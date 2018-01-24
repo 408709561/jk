@@ -1,7 +1,7 @@
 package com.github.wxiaoqi.security.auth.jwt.user;
 
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
-import com.github.wxiaoqi.core.util.jwt.JWTHelper;
+import com.github.ag.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.JWTHelper;
 import com.github.wxiaoqi.security.auth.configuration.KeyConfiguration;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;

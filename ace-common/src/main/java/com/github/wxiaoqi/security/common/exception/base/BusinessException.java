@@ -1,7 +1,7 @@
 package com.github.wxiaoqi.security.common.exception.base;
 
 import com.github.wxiaoqi.security.common.constant.RestCodeConstants;
-import com.github.wxiaoqi.core.exception.BaseException;
+import com.github.ag.core.exception.BaseException;
 
 /**
  * 业务异常基础类

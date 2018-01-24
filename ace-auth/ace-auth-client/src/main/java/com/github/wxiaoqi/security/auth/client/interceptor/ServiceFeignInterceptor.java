@@ -3,7 +3,7 @@ package com.github.wxiaoqi.security.auth.client.interceptor;
 import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
-import com.github.wxiaoqi.core.context.BaseContextHandler;
+import com.github.ag.core.context.BaseContextHandler;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.slf4j.Logger;

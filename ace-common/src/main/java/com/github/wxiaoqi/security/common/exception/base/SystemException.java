@@ -1,6 +1,6 @@
 package com.github.wxiaoqi.security.common.exception.base;
 
-import com.github.wxiaoqi.core.exception.BaseException;
+import com.github.ag.core.exception.BaseException;
 
 /**
  * 系统基础异常类

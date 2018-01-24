@@ -2,7 +2,7 @@ package com.github.wxiaoqi.security.common.exception.auth;
 
 
 import com.github.wxiaoqi.security.common.constant.RestCodeConstants;
-import com.github.wxiaoqi.core.exception.BaseException;
+import com.github.ag.core.exception.BaseException;
 
 /**
  * Created by ace on 2017/9/10.

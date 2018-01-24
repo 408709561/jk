@@ -1,7 +1,7 @@
 package com.github.wxiaoqi.security.auth.module.client.bean;
 
 
-import com.github.wxiaoqi.core.util.jwt.IJWTInfo;
+import com.github.ag.core.util.jwt.IJWTInfo;
 
 import java.util.Date;
 
