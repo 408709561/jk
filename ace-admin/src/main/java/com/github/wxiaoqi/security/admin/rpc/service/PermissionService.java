@@ -43,6 +43,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -71,7 +72,7 @@ public class PermissionService {
         return info;
     }
 
-    public UserInfo validate(String username,String password){
+    public UserInfo validate(String username, String password) {
         UserInfo info = new UserInfo();
         User user = userBiz.getUserByUsername(username);
         if (encoder.matches(password, user.getPassword())) {
@@ -147,7 +148,12 @@ public class PermissionService {
             BeanUtils.copyProperties(menu, node);
             trees.add(node);
         }
-        return TreeUtil.bulid(trees, root);
+        return TreeUtil.bulid(trees, root, new Comparator<MenuTree>() {
+            @Override
+            public int compare(MenuTree o1, MenuTree o2) {
+                return o1.getOrderNum() - o2.getOrderNum();
+            }
+        });
     }
 
     public FrontUser getUserInfo(String token) throws Exception {
@@ -177,6 +183,6 @@ public class PermissionService {
         }
         User user = userBiz.getUserByUsername(username);
         List<Menu> menus = menuBiz.getUserAuthorityMenuByUserId(user.getId());
-        return getMenuTree(menus,AdminCommonConstant.ROOT);
+        return getMenuTree(menus, AdminCommonConstant.ROOT);
     }
 }

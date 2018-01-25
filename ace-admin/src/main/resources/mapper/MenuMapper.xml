@@ -12,6 +12,7 @@
         <result column="href" jdbcType="VARCHAR" property="href"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="type" jdbcType="CHAR" property="type"/>
+        <result column="order_num" javaType="INTEGER" property="orderNum"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="crt_time" jdbcType="DATE" property="crtTime"/>
         <result column="crt_user" jdbcType="VARCHAR" property="crtUser"/>
@@ -38,19 +39,19 @@
     and ra.authority_id = #{authorityId}
     and ra.authority_type = #{authorityType}
     and ra.resource_type = 'menu'
-  </select>
-    <select id="selectAuthorityMenuByUserId" resultMap="BaseResultMap">
-     select distinct t.* from base_resource_authority ra
-    inner join base_menu t
-    on ra.resource_id = t.id
-    and ra.authority_id in (
-      select group_id from base_group_member where user_id = #{userId}
-      union select group_id from base_group_leader where user_id = #{userId}
-    )
-    and ra.authority_type = 'group'
-    and ra.resource_type = 'menu'
-    order by t.id
-  </select>
+      </select>
+        <select id="selectAuthorityMenuByUserId" resultMap="BaseResultMap">
+         select distinct t.* from base_resource_authority ra
+        inner join base_menu t
+        on ra.resource_id = t.id
+        and ra.authority_id in (
+          select group_id from base_group_member where user_id = #{userId}
+          union select group_id from base_group_leader where user_id = #{userId}
+        )
+        and ra.authority_type = 'group'
+        and ra.resource_type = 'menu'
+        order by t.id
+      </select>
     <select id="selectAuthoritySystemByUserId" resultMap="BaseResultMap">
         select distinct t.* from base_resource_authority ra
         inner join base_menu t

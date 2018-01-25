@@ -29,19 +29,19 @@ import java.util.List;
 /**
  * Created by Ace on 2017/6/12.
  */
-public class TreeNodeVO {
+public class TreeNodeVO<T> {
     protected int id;
     protected int parentId;
 
-    public List<TreeNodeVO> getChildren() {
+    public List<T> getChildren() {
         return children;
     }
 
-    public void setChildren(List<TreeNodeVO> children) {
+    public void setChildren(List<T> children) {
         this.children = children;
     }
 
-    List<TreeNodeVO> children = new ArrayList<TreeNodeVO>();
+    List<T> children = new ArrayList<T>();
 
     public int getId() {
         return id;
@@ -59,7 +59,7 @@ public class TreeNodeVO {
         this.parentId = parentId;
     }
 
-    public void add(TreeNodeVO node){
+    public void add(T node){
         children.add(node);
     }
 }

@@ -24,7 +24,6 @@
 package com.github.wxiaoqi.security.admin.vo;
 
 import com.github.wxiaoqi.security.common.vo.TreeNodeVO;
-import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ import java.util.List;
  * @author wanghaobin
  * @version 2017-06-19 13:03
  */
-public class AuthorityMenuTree extends TreeNodeVO implements Serializable{
+public class AuthorityMenuTree extends TreeNodeVO<AuthorityMenuTree> implements Serializable{
     String text;
     List<AuthorityMenuTree> nodes = new ArrayList<AuthorityMenuTree>();
     String icon;
@@ -73,17 +72,17 @@ public class AuthorityMenuTree extends TreeNodeVO implements Serializable{
         this.nodes = nodes;
     }
 
-    @Override
-    public void setChildren(List<TreeNodeVO> children) {
-        super.setChildren(children);
-        nodes = new ArrayList<AuthorityMenuTree>();
-    }
-
-    @Override
-    public void add(TreeNodeVO node) {
-        super.add(node);
-        AuthorityMenuTree n = new AuthorityMenuTree();
-        BeanUtils.copyProperties(node,n);
-        nodes.add(n);
-    }
+//    @Override
+//    public void setChildren(List<TreeNodeVO> children) {
+//        super.setChildren(children);
+//        nodes = new ArrayList<AuthorityMenuTree>();
+//    }
+//
+//    @Override
+//    public void add(TreeNodeVO node) {
+//        super.add(node);
+//        AuthorityMenuTree n = new AuthorityMenuTree();
+//        BeanUtils.copyProperties(node,n);
+//        nodes.add(n);
+//    }
 }

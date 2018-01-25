@@ -31,7 +31,7 @@ import com.github.wxiaoqi.security.common.vo.TreeNodeVO;
  * @author wanghaobin
  * @version 2017-06-17 15:21
  */
-public class GroupTree extends TreeNodeVO {
+public class GroupTree extends TreeNodeVO<GroupTree> {
     String label;
 
     public String getLabel() {

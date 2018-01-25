@@ -118,7 +118,7 @@ public class MenuController extends BaseController<MenuBiz, Menu> {
             BeanUtils.copyProperties(menu, node);
             trees.add(node);
         }
-        return TreeUtil.bulid(trees, AdminCommonConstant.ROOT);
+        return TreeUtil.bulid(trees, AdminCommonConstant.ROOT, null);
     }
 
     @RequestMapping(value = "/user/authorityTree", method = RequestMethod.GET)
@@ -151,7 +151,7 @@ public class MenuController extends BaseController<MenuBiz, Menu> {
             node.setLabel(menu.getTitle());
             trees.add(node);
         }
-        return TreeUtil.bulid(trees,root) ;
+        return TreeUtil.bulid(trees,root, null) ;
     }
 
 

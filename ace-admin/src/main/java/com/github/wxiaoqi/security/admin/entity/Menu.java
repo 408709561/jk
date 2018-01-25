@@ -52,6 +52,8 @@ public class Menu {
 
     private String description;
 
+    private Integer orderNum;
+
     @CrtTime
     @Column(name = "crt_time")
     private Date crtTime;
@@ -443,5 +445,13 @@ public class Menu {
      */
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 }

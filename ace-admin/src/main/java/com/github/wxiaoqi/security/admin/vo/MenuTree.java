@@ -28,7 +28,7 @@ import com.github.wxiaoqi.security.common.vo.TreeNodeVO;
 /**
  * Created by Ace on 2017/6/12.
  */
-public class MenuTree extends TreeNodeVO {
+public class MenuTree extends TreeNodeVO<MenuTree> {
     String icon;
     String title;
     String href;
@@ -38,6 +38,7 @@ public class MenuTree extends TreeNodeVO {
     String authority;
     String redirect;
     String code;
+    Integer orderNum;
 
     public String getCode() {
         return code;
@@ -134,5 +135,13 @@ public class MenuTree extends TreeNodeVO {
 
     public void setSpread(boolean spread) {
         this.spread = spread;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 }
