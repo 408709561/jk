@@ -1,13 +1,39 @@
-version: '2'
+version: '2.1'
 services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:5.6.35
+    volumes:
+      - "/data/mysql1/db:/var/lib/mysql"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+
+  rabbitmq:
+    image: rabbitmq:management
+    expose:
+      - 5672
+      - 15672
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   eureka:
     image: ag/ace-center
     ports:
       - "8761:8761"
+
   ace-auth:
     image: ag/ace-auth
     ports:
       - "9777:9777"
+    links:
+      - eureka
     depends_on:
       - eureka
     environment:
@@ -18,29 +44,17 @@ services:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
       - RABBIT_MQ_HOST=rabbitmq
-      - RABBIT_MQ_HOST=5672
+      - RABBIT_MQ_PORT=5672
+
   ace-admin:
     image: ag/ace-admin
     ports:
       - "9990:9990"
     links:
       - ace-auth
-    entrypoint: ./wait-for-it.sh ace-auth:9777 -t 600 --
-    command: java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
-    environment:
-      - EUREKA_HOST=eureka
-      - EUREKA_PORT=8761
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - MYSQL_HOST=mysql
-      - MYSQL_PORT=3306
-      - RABBIT_MQ_HOST=rabbitmq
-      - RABBIT_MQ_HOST=5672
-  ace-gate:
-    image: ag/ace-gate
-    ports:
-      - "9999:9999"
-    links:
+      - eureka
+    depends_on:
+      - eureka
       - ace-auth
     entrypoint: ./wait-for-it.sh ace-auth:9777 -t 600 --
     command: java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
@@ -52,4 +66,27 @@ services:
       - MYSQL_HOST=mysql
       - MYSQL_PORT=3306
       - RABBIT_MQ_HOST=rabbitmq
-      - RABBIT_MQ_HOST=5672
+      - RABBIT_MQ_PORT=5672
+
+  ace-gate:
+    image: ag/ace-gate
+    ports:
+      - "8765:8765"
+    links:
+      - ace-auth
+      - eureka
+    depends_on:
+      - eureka
+      - ace-auth
+      - redis
+    entrypoint: ./wait-for-it.sh ace-auth:9777 -t 600 --
+    command: java -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+    environment:
+      - EUREKA_HOST=eureka
+      - EUREKA_PORT=8761
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - RABBIT_MQ_HOST=rabbitmq
+      - RABBIT_MQ_PORT=5672
