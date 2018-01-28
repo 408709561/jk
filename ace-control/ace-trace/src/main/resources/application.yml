@@ -19,7 +19,8 @@ spring:
     enabled: false
    #表示zipkin数据存储方式是mysql
 zipkin:
-  storage: typemysql
+  storage:
+    type: mysql
 
 server:
   port: 9411
