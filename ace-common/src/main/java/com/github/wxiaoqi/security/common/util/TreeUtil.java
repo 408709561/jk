@@ -51,7 +51,7 @@ public class TreeUtil<T extends TreeNodeVO> {
             }
 
             for (T it : treeNodes) {
-                if (it.getParentId() == treeNode.getId()) {
+                if (it.getParentId().equals(treeNode.getId())) {
                     if (treeNode.getChildren() == null) {
                         treeNode.setChildren(new ArrayList<>());
                     }
@@ -89,7 +89,7 @@ public class TreeUtil<T extends TreeNodeVO> {
      */
     public static <T extends TreeNodeVO> T findChildren(T treeNode, List<T> treeNodes) {
         for (T it : treeNodes) {
-            if (treeNode.getId() == it.getParentId()) {
+            if (treeNode.getId().equals(it.getParentId())) {
                 if (treeNode.getChildren() == null) {
                     treeNode.setChildren(new ArrayList<TreeNodeVO>());
                 }
