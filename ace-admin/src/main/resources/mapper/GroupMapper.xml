@@ -5,10 +5,10 @@
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="type" jdbcType="CHAR" property="type" />
     <result column="group_type" jdbcType="INTEGER" property="groupType" />
@@ -38,18 +38,18 @@
   </delete>
   <insert id="insertGroupMembersById">
     insert into base_group_member (
-       group_id,user_id
+       id,group_id,user_id
     )
     values(
-       #{groupId},#{userId}
+       #{id},#{groupId},#{userId}
     )
   </insert>
   <insert id="insertGroupLeadersById">
     insert into base_group_leader (
-       group_id,user_id
+       id,group_id,user_id
     )
     values(
-       #{groupId},#{userId}
+       #{id},#{groupId},#{userId}
     )
   </insert>
 </mapper>

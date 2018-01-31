@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="authority_id" jdbcType="VARCHAR" property="authorityId" />
     <result column="authority_type" jdbcType="VARCHAR" property="authorityType" />
     <result column="resource_id" jdbcType="VARCHAR" property="resourceId" />

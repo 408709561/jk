@@ -85,20 +85,20 @@ public class GroupController extends BaseController<GroupBiz, Group> {
 
     @RequestMapping(value = "/{id}/user", method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse modifiyUsers(@PathVariable int id,String members,String leaders){
+    public ObjectRestResponse modifiyUsers(@PathVariable String id,String members,String leaders){
         baseBiz.modifyGroupUsers(id, members, leaders);
         return new ObjectRestResponse();
     }
 
     @RequestMapping(value = "/{id}/user", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<GroupUsers> getUsers(@PathVariable int id){
+    public ObjectRestResponse<GroupUsers> getUsers(@PathVariable String id){
         return new ObjectRestResponse<GroupUsers>().data(baseBiz.getGroupUsers(id));
     }
 
     @RequestMapping(value = "/{id}/authority/menu", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse modifyMenuAuthority(@PathVariable  int id, String menuTrees){
+    public ObjectRestResponse modifyMenuAuthority(@PathVariable  String id, String menuTrees){
         String [] menus = menuTrees.split(",");
         baseBiz.modifyAuthorityMenu(id, menus);
         return new ObjectRestResponse();
@@ -106,27 +106,27 @@ public class GroupController extends BaseController<GroupBiz, Group> {
 
     @RequestMapping(value = "/{id}/authority/menu", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<AuthorityMenuTree>> getMenuAuthority(@PathVariable  int id){
+    public ObjectRestResponse<List<AuthorityMenuTree>> getMenuAuthority(@PathVariable  String id){
         return new ObjectRestResponse().data(baseBiz.getAuthorityMenu(id));
     }
 
     @RequestMapping(value = "/{id}/authority/element/add", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse addElementAuthority(@PathVariable  int id,int menuId, int elementId){
+    public ObjectRestResponse addElementAuthority(@PathVariable  String id,String menuId, String elementId){
         baseBiz.modifyAuthorityElement(id,menuId,elementId);
         return new ObjectRestResponse();
     }
 
     @RequestMapping(value = "/{id}/authority/element/remove", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse removeElementAuthority(@PathVariable int id,int menuId, int elementId){
+    public ObjectRestResponse removeElementAuthority(@PathVariable String id, String menuId, String elementId){
         baseBiz.removeAuthorityElement(id,menuId,elementId);
         return new ObjectRestResponse();
     }
 
     @RequestMapping(value = "/{id}/authority/element", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<Integer>> getElementAuthority(@PathVariable  int id){
+    public ObjectRestResponse<List<Integer>> getElementAuthority(@PathVariable  String id){
         return new ObjectRestResponse().data(baseBiz.getAuthorityElement(id));
     }
 
@@ -148,7 +148,7 @@ public class GroupController extends BaseController<GroupBiz, Group> {
     }
 
 
-    private List<GroupTree> getTree(List<Group> groups,int root) {
+    private List<GroupTree> getTree(List<Group> groups,String root) {
         List<GroupTree> trees = new ArrayList<GroupTree>();
         GroupTree node = null;
         for (Group group : groups) {

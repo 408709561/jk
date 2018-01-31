@@ -29,6 +29,7 @@ import com.github.wxiaoqi.security.common.audit.CrtUserId;
 import com.github.wxiaoqi.security.common.audit.CrtUserName;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -37,7 +38,8 @@ import java.util.Date;
 @AceAudit
 public class Element {
     @Id
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    private String id;
 
     private String code;
 
@@ -91,14 +93,14 @@ public class Element {
     /**
      * @return id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

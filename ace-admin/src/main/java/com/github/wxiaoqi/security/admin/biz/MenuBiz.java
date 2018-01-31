@@ -86,7 +86,7 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
      * @return
      */
     @Cache(key = "permission:menu:u{1}")
-    public List<Menu> getUserAuthorityMenuByUserId(int id) {
+    public List<Menu> getUserAuthorityMenuByUserId(String id) {
         return mapper.selectAuthorityMenuByUserId(id);
     }
 
@@ -96,7 +96,7 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
      * @param id
      * @return
      */
-    public List<Menu> getUserAuthoritySystemByUserId(int id) {
+    public List<Menu> getUserAuthoritySystemByUserId(String id) {
         return mapper.selectAuthoritySystemByUserId(id);
     }
 }

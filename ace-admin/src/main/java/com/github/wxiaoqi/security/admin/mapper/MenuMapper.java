@@ -37,12 +37,12 @@ public interface MenuMapper extends Mapper<Menu> {
      * @param userId
      * @return
      */
-    public List<Menu> selectAuthorityMenuByUserId (@Param("userId") int userId);
+    public List<Menu> selectAuthorityMenuByUserId (@Param("userId") String userId);
 
     /**
      * 根据用户和组的权限关系查找用户可访问的系统
      * @param userId
      * @return
      */
-    public List<Menu> selectAuthoritySystemByUserId (@Param("userId") int userId);
+    public List<Menu> selectAuthoritySystemByUserId (@Param("userId") String userId);
 }

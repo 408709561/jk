@@ -140,7 +140,7 @@ public class PermissionService {
     }
 
 
-    private List<MenuTree> getMenuTree(List<Menu> menus, int root) {
+    private List<MenuTree> getMenuTree(List<Menu> menus, String root) {
         List<MenuTree> trees = new ArrayList<MenuTree>();
         MenuTree node = null;
         for (Menu menu : menus) {

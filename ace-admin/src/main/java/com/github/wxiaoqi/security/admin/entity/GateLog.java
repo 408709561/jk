@@ -29,6 +29,7 @@ import com.github.wxiaoqi.security.common.audit.CrtUserId;
 import com.github.wxiaoqi.security.common.audit.CrtUserName;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
