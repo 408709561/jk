@@ -14,9 +14,6 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class MergeDataAspect {
-    public MergeDataAspect(){
-        System.out.println(".....");
-    }
     @Pointcut("@annotation(com.github.wxiaoqi.security.common.merge.MergeResult)")
     public void methodPointcut() {
     }

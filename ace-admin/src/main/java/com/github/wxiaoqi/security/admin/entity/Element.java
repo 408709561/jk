@@ -23,10 +23,12 @@
 
 package com.github.wxiaoqi.security.admin.entity;
 
+import com.github.wxiaoqi.security.admin.feign.DictFeign;
 import com.github.wxiaoqi.security.common.audit.AceAudit;
 import com.github.wxiaoqi.security.common.audit.CrtTime;
 import com.github.wxiaoqi.security.common.audit.CrtUserId;
 import com.github.wxiaoqi.security.common.audit.CrtUserName;
+import com.github.wxiaoqi.security.common.merge.MergeField;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -43,6 +45,7 @@ public class Element {
 
     private String code;
 
+    @MergeField(key="authority_element",feign = DictFeign.class,method = "getDictValues")
     private String type;
 
     private String name;

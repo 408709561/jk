@@ -28,6 +28,7 @@ import com.ace.cache.annotation.CacheClear;
 import com.github.wxiaoqi.security.admin.entity.Element;
 import com.github.wxiaoqi.security.admin.mapper.ElementMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
+import com.github.wxiaoqi.security.common.merge.MergeResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,5 +67,11 @@ public class ElementBiz extends BusinessBiz<ElementMapper,Element> {
     @CacheClear(keys={"permission:ele","permission"})
     public void updateSelectiveById(Element entity) {
         super.updateSelectiveById(entity);
+    }
+
+    @MergeResult
+    @Override
+    public List<Element> selectByExample(Object example) {
+        return super.selectByExample(example);
     }
 }
