@@ -44,7 +44,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableEurekaClient
 @EnableCircuitBreaker
 @SpringBootApplication
-@EnableFeignClients({"com.github.wxiaoqi.security.auth.client.feign"})
+@EnableFeignClients({"com.github.wxiaoqi.security.auth.client.feign","com.github.wxiaoqi.security.admin.feign"})
 @EnableScheduling
 @EnableAceCache
 @EnableTransactionManagement
