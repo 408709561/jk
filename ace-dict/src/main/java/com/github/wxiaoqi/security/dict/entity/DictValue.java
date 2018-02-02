@@ -25,6 +25,9 @@ public class DictValue implements Serializable {
 	    //编码
     @Column(name = "code")
     private String code;
+
+	@Column(name="value")
+	private String value;
 	
 	    //默认显示
     @Column(name = "label_default")
@@ -331,5 +334,13 @@ public class DictValue implements Serializable {
 
 	public void setTypeId(String typeId) {
 		this.typeId = typeId;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

@@ -7,6 +7,7 @@
     <resultMap type="com.github.wxiaoqi.security.dict.entity.DictValue" id="dictValueMap">
         <result property="id" column="id"/>
         <result property="code" column="code"/>
+        <result property="value" column="value"/>
         <result property="typeId" column="type_id"/>
         <result property="labelDefault" column="label_default"/>
         <result property="labelEnUs" column="label_en_US"/>

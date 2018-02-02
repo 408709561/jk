@@ -1,5 +1,7 @@
 package com.github.wxiaoqi.security.dict.rest;
 
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
 import com.github.wxiaoqi.security.dict.biz.DictTypeBiz;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("dictType")
+@CheckClientToken
+@CheckUserToken
 public class DictTypeController extends BaseController<DictTypeBiz, DictType> {
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<DictTree> getTree() {
