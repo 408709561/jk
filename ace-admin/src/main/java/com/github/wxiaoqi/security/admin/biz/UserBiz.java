@@ -31,13 +31,13 @@ import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
-import com.github.wxiaoqi.security.common.merge.MergeResult;
-import com.github.wxiaoqi.security.common.msg.TableResultResponse;
-import com.github.wxiaoqi.security.common.util.Query;
+import com.github.wxiaoqi.security.common.util.MergeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * ${DESCRIPTION}
@@ -66,10 +66,23 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
         super.updateSelectiveById(entity);
     }
 
+//    @Override
+//    @MergeResult
+//    public TableResultResponse<User> selectByQuery(Query query) {
+//        return super.selectByQuery(query);
+//    }
+
+
     @Override
-    @MergeResult
-    public TableResultResponse<User> selectByQuery(Query query) {
-        return super.selectByQuery(query);
+    public List<User> selectByExample(Object example) {
+        List<User> users = super.selectByExample(example);
+        try {
+            MergeUtils.mergeResult(User.class,users);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return users;
+        }
     }
 
     /**

@@ -14,6 +14,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 
 import java.lang.reflect.*;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +27,7 @@ public class MergeUtils {
     static final Map<String, MergeField> mergeFieldMap = new HashMap<String, MergeField>();
     static final ListeningExecutorService backgroundRefreshPools =
             MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(20));
+
     static LoadingCache<String, Map<String, String>> caches = CacheBuilder.newBuilder()
             .maximumSize(1000)
             .refreshAfterWrite(10, TimeUnit.MINUTES)
@@ -62,16 +64,19 @@ public class MergeUtils {
             ParameterizedType parameterizedType = (ParameterizedType) m.getGenericReturnType();
             Type rawType = parameterizedType.getRawType();
             List<?> result = null;
+            // 获取当前方法的返回值
+            Type[] types = parameterizedType.getActualTypeArguments();
+            Class clazz = ((Class) types[0]);
             // 非list直接返回
             if (((Class) rawType).isAssignableFrom(List.class)) {
                 result = (List<?>) proceed;
-                mergeResult(parameterizedType, result);
+                mergeResult(clazz, result);
                 return result;
             }else if(((Class) rawType).isAssignableFrom(TableResultResponse.class)){
                 TableResultResponse response = (TableResultResponse) proceed;
                 TableResultResponse.TableData data = (TableResultResponse.TableData) response.getData();
                 result = data.getRows();
-                mergeResult(parameterizedType, result);
+                mergeResult(clazz, result);
                 return response;
             }else{
                 return proceed;
@@ -83,13 +88,11 @@ public class MergeUtils {
 
     }
 
-    private static void mergeResult(ParameterizedType parameterizedType, List<?> result) throws java.util.concurrent.ExecutionException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        // 获取当前方法的返回值
-        Type[] types = parameterizedType.getActualTypeArguments();
-        Field[] fields = ((Class) types[0]).getDeclaredFields();
+    public static void mergeResult(Class clazz, List<?> result) throws ExecutionException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Field[] fields = clazz.getDeclaredFields();
         List<Field> mergeFields = new ArrayList<Field>();
         Map<String, Map<String, String>> invokes = new HashMap<>();
-        String className = ((Class) types[0]).getName();
+        String className = clazz.getName();
         // 获取属性
         for (Field field : fields) {
             MergeField annotation = field.getAnnotation(MergeField.class);
