@@ -25,16 +25,17 @@ package com.github.wxiaoqi.security.admin.biz;
 
 import com.ace.cache.annotation.Cache;
 import com.ace.cache.annotation.CacheClear;
+import com.github.wxiaoqi.merge.core.MergeCore;
 import com.github.wxiaoqi.security.admin.constant.UserConstant;
 import com.github.wxiaoqi.security.admin.entity.User;
-import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
-import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * ${DESCRIPTION}
@@ -47,9 +48,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserBiz extends BusinessBiz<UserMapper,User> {
 
     @Autowired
-    private MenuMapper menuMapper;
-    @Autowired
-    private UserAuthUtil userAuthUtil;
     @Override
     public void insertSelective(User entity) {
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(entity.getPassword());
@@ -61,6 +59,26 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     @CacheClear(pre="user{1.username}")
     public void updateSelectiveById(User entity) {
         super.updateSelectiveById(entity);
+    }
+
+//    @Override
+//    @MergeResult
+//    public TableResultResponse<User> selectByQuery(Query query) {
+//        return super.selectByQuery(query);
+//    }
+
+    @Autowired
+    private MergeCore mergeCore;
+    @Override
+    public List<User> selectByExample(Object example) {
+        List<User> users = super.selectByExample(example);
+        try {
+            mergeCore.mergeResult(User.class,users);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return users;
+        }
     }
 
     /**

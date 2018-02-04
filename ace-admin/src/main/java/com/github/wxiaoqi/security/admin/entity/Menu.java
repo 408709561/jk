@@ -27,6 +27,7 @@ import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
 import com.github.wxiaoqi.security.common.audit.*;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -35,14 +36,15 @@ import java.util.Date;
 @AceAudit
 public class Menu {
     @Id
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    private String id;
 
     private String code;
 
     private String title;
 
     @Column(name = "parent_id")
-    private Integer parentId = AdminCommonConstant.ROOT;
+    private String parentId = AdminCommonConstant.ROOT;
 
     private String href;
 
@@ -100,14 +102,14 @@ public class Menu {
     /**
      * @return id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -142,14 +144,14 @@ public class Menu {
     /**
      * @return parent_id
      */
-    public Integer getParentId() {
+    public String getParentId() {
         return parentId;
     }
 
     /**
      * @param parentId
      */
-    public void setParentId(Integer parentId) {
+    public void setParentId(String parentId) {
         this.parentId = parentId;
     }
 

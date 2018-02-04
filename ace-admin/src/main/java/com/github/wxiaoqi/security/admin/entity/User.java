@@ -23,9 +23,12 @@
 
 package com.github.wxiaoqi.security.admin.entity;
 
+import com.github.wxiaoqi.merge.annonation.MergeField;
+import com.github.wxiaoqi.security.admin.feign.DictFeign;
 import com.github.wxiaoqi.security.common.audit.*;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -34,7 +37,8 @@ import java.util.Date;
 @AceAudit
 public class User {
     @Id
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    private String id;
 
     private String username;
 
@@ -54,6 +58,7 @@ public class User {
 
     private String email;
 
+    @MergeField(key="comm_sex",feign = DictFeign.class,method = "getDictValues")
     private String sex;
 
     private String type;
@@ -104,14 +109,14 @@ public class User {
     /**
      * @return id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

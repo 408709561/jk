@@ -10,19 +10,19 @@
 #foreach($column in $columns)
   #if($column.columnName == $pk.columnName)
     <el-table-column align="center" label="${column.columnName}" width="65">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.${column.attrname}}}</span>
       </template>
     </el-table-column>
   #else
     <el-table-column width="200px" align="center" label="${column.comments}">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.${column.attrname}}}</span>
       </template>
     </el-table-column>
   #end
 #end
-      <el-table-column fixed="right" align="center" label="操作" width="150"> <template scope="scope">
+      <el-table-column fixed="right" align="center" label="操作" width="150"> <template slot-scope="scope">
         <el-button v-if="${secondModuleName}Manager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
         </el-button>
         <el-button v-if="${secondModuleName}Manager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除

@@ -14,7 +14,7 @@ Use ag_auth;
  Target Server Version : 50718
  File Encoding         : utf-8
 
- Date: 01/18/2018 20:57:35 PM
+ Date: 02/04/2018 11:51:22 AM
 */
 
 SET NAMES utf8;
@@ -48,13 +48,13 @@ CREATE TABLE `auth_client` (
   `attr7` varchar(255) DEFAULT NULL,
   `attr8` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Records of `auth_client`
 -- ----------------------------
 BEGIN;
-INSERT INTO `auth_client` VALUES ('1', 'ace-gate', '123456', 'ace-gate', '0', '服务网关', null, '', '', '', '2017-07-07 21:51:32', '1', '管理员', '0:0:0:0:0:0:0:1', '', '', '', '', '', '', '', ''), ('3', 'ace-admin', '123456', 'ace-admin', '0', '', null, null, null, null, '2017-07-06 21:42:17', '1', '管理员', '0:0:0:0:0:0:0:1', null, null, null, null, null, null, null, null), ('6', 'ace-auth', '123456', 'ace-auth', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('11', 'ace-config', 'fXHsssa2', 'ace-config', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('12', 'ace-demo-mybatis', 'bZf8yvj9', 'ace-demo-mybatis', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('13', 'ace-template', 'bZf8yvj8', 'ace-template', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('14', 'ace-monitor', 'V75ZVrdx', 'ace-monitor', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('15', 'ace-trace', 'D8BvaZRb', 'ace-trace', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('16', 'ace-admin-ui', '123456', 'ace-admin-ui', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('17', 'ace-org', '123456', 'ace-org', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('18', 'ace-transaction', '123456', 'ace-transaction', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `auth_client` VALUES ('1', 'ace-gate', '123456', 'ace-gate', '0', '服务网关', null, '', '', '', '2017-07-07 21:51:32', '1', '管理员', '0:0:0:0:0:0:0:1', '', '', '', '', '', '', '', ''), ('3', 'ace-admin', '123456', 'ace-admin', '0', '', null, null, null, null, '2017-07-06 21:42:17', '1', '管理员', '0:0:0:0:0:0:0:1', null, null, null, null, null, null, null, null), ('6', 'ace-auth', '123456', 'ace-auth', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('17', 'ace-org', '123456', 'ace-org', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('18', 'ace-transaction', '123456', 'ace-transaction', '0', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ('20', 'ace-dict', '123566', 'ace-dict', '0', '数据字典服务', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -79,13 +79,13 @@ CREATE TABLE `auth_client_service` (
   `attr7` varchar(255) DEFAULT NULL,
   `attr8` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 --  Records of `auth_client_service`
 -- ----------------------------
 BEGIN;
-INSERT INTO `auth_client_service` VALUES ('21', '4', '5', null, null, null, null, null, null, null, null, null, null, null, null, null), ('23', '3', '6', null, null, null, null, null, null, null, null, null, null, null, null, null), ('41', '3', '1', null, '2017-12-31 08:58:03', 'null', 'null', 'null', null, null, null, null, null, null, null, null), ('42', '6', '1', null, '2017-12-31 08:58:03', 'null', 'null', 'null', null, null, null, null, null, null, null, null), ('43', '3', '16', null, null, null, null, null, null, null, null, null, null, null, null, null), ('44', '17', '6', null, null, null, null, null, null, null, null, null, null, null, null, null), ('45', '12', '16', null, null, null, null, null, null, null, null, null, null, null, null, null), ('46', '18', '18', null, null, null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `auth_client_service` VALUES ('21', '4', '5', null, null, null, null, null, null, null, null, null, null, null, null, null), ('43', '3', '16', null, null, null, null, null, null, null, null, null, null, null, null, null), ('45', '12', '16', null, null, null, null, null, null, null, null, null, null, null, null, null), ('46', '18', '18', null, null, null, null, null, null, null, null, null, null, null, null, null), ('53', '3', '6', null, null, null, null, null, null, null, null, null, null, null, null, null), ('54', '3', '1', null, null, null, null, null, null, null, null, null, null, null, null, null), ('55', '6', '1', null, null, null, null, null, null, null, null, null, null, null, null, null), ('56', '20', '1', null, null, null, null, null, null, null, null, null, null, null, null, null);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

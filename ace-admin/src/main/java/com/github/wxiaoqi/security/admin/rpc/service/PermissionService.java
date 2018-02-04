@@ -87,7 +87,7 @@ public class PermissionService {
         List<PermissionInfo> result = new ArrayList<PermissionInfo>();
         PermissionInfo info = null;
         menu2permission(menus, result);
-        List<Element> elements = elementBiz.selectListAll();
+        List<Element> elements = elementBiz.getAllElementPermissions();
         element2permission(result, elements);
         return result;
     }
@@ -140,7 +140,7 @@ public class PermissionService {
     }
 
 
-    private List<MenuTree> getMenuTree(List<Menu> menus, int root) {
+    private List<MenuTree> getMenuTree(List<Menu> menus, String root) {
         List<MenuTree> trees = new ArrayList<MenuTree>();
         MenuTree node = null;
         for (Menu menu : menus) {

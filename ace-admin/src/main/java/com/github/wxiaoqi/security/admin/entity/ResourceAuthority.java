@@ -26,6 +26,7 @@ package com.github.wxiaoqi.security.admin.entity;
 import com.github.wxiaoqi.security.common.audit.*;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -34,7 +35,8 @@ import java.util.Date;
 @AceAudit
 public class ResourceAuthority {
     @Id
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    private String id;
 
     @Column(name = "authority_id")
     private String authorityId;
@@ -95,14 +97,14 @@ public class ResourceAuthority {
     /**
      * @return id
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

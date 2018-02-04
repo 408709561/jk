@@ -23,7 +23,9 @@ zuul:
     auth:
       path: /auth/**
       serviceId: ace-auth
-
+    dict:
+      path: /dict/**
+      serviceId: ace-dict
 ribbon:
   eureka:
     enabled: true

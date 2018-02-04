@@ -46,6 +46,9 @@ public class UUIDUtils {
             shortBuffer.append(chars[x % 0x3E]);
         }
         return shortBuffer.toString();
-
+    }
+    public static String generateUuid() {
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return uuid;
     }
 }

@@ -24,6 +24,7 @@
 package com.github.wxiaoqi.security.admin;
 
 import com.ace.cache.EnableAceCache;
+import com.github.wxiaoqi.merge.EnableAceMerge;
 import com.github.wxiaoqi.security.auth.client.EnableAceAuthClient;
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.mybatis.spring.annotation.MapperScan;
@@ -44,13 +45,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableEurekaClient
 @EnableCircuitBreaker
 @SpringBootApplication
-@EnableFeignClients({"com.github.wxiaoqi.security.auth.client.feign"})
+@EnableFeignClients({"com.github.wxiaoqi.security.auth.client.feign","com.github.wxiaoqi.security.admin.feign"})
 @EnableScheduling
 @EnableAceCache
 @EnableTransactionManagement
 @MapperScan("com.github.wxiaoqi.security.admin.mapper")
 @EnableAceAuthClient
 @EnableSwagger2Doc
+@EnableAceMerge
 public class AdminBootstrap {
     public static void main(String[] args) {
         new SpringApplicationBuilder(AdminBootstrap.class).web(true).run(args);    }

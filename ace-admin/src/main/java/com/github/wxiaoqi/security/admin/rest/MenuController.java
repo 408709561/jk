@@ -43,6 +43,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public class MenuController extends BaseController<MenuBiz, Menu> {
 
     @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
     @ResponseBody
-    public List<MenuTree> listMenu(Integer parentId) {
+    public List<MenuTree> listMenu(String parentId) {
         try {
             if (parentId == null) {
                 parentId = this.getSystem().get(0).getId();
@@ -123,8 +124,8 @@ public class MenuController extends BaseController<MenuBiz, Menu> {
 
     @RequestMapping(value = "/user/authorityTree", method = RequestMethod.GET)
     @ResponseBody
-    public List<MenuTree> listUserAuthorityMenu(Integer parentId){
-        int userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
+    public List<MenuTree> listUserAuthorityMenu(String parentId){
+        String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
         try {
             if (parentId == null) {
                 parentId = this.getSystem().get(0).getId();
@@ -138,11 +139,11 @@ public class MenuController extends BaseController<MenuBiz, Menu> {
     @RequestMapping(value = "/user/system", method = RequestMethod.GET)
     @ResponseBody
     public List<Menu> listUserAuthoritySystem() {
-        int userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
+        String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
         return baseBiz.getUserAuthoritySystemByUserId(userId);
     }
 
-    private List<MenuTree> getMenuTree(List<Menu> menus,int root) {
+    private List<MenuTree> getMenuTree(List<Menu> menus,String root) {
         List<MenuTree> trees = new ArrayList<MenuTree>();
         MenuTree node = null;
         for (Menu menu : menus) {
@@ -151,7 +152,12 @@ public class MenuController extends BaseController<MenuBiz, Menu> {
             node.setLabel(menu.getTitle());
             trees.add(node);
         }
-        return TreeUtil.bulid(trees,root, null) ;
+        return TreeUtil.bulid(trees,root,  new Comparator<MenuTree>() {
+            @Override
+            public int compare(MenuTree o1, MenuTree o2) {
+                return o1.getOrderNum() - o2.getOrderNum();
+            }
+        }) ;
     }
 
 

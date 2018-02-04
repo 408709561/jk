@@ -5,7 +5,7 @@
         <!--
           WARNING - @mbggenerated
         -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -58,5 +58,10 @@
          inner join base_element t
          on t.id = cs.service_id
          and cs.client_id = #{clientId}
+    </select>
+    <select id="selectAllElementPermissions" resultMap="BaseResultMap">
+        select distinct t.code,t.type,t.name,t.uri,t.method,m.title as menu_id from base_element t
+        inner join base_menu m
+        on t.menu_id = m.id
     </select>
 </mapper>

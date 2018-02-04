@@ -30,8 +30,8 @@ import java.util.List;
  * Created by Ace on 2017/6/12.
  */
 public class TreeNodeVO<T> {
-    protected int id;
-    protected int parentId;
+    protected Object id;
+    protected Object parentId;
 
     public List<T> getChildren() {
         return children;
@@ -43,23 +43,24 @@ public class TreeNodeVO<T> {
 
     List<T> children = new ArrayList<T>();
 
-    public int getId() {
+    public Object getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Object id) {
         this.id = id;
     }
 
-    public int getParentId() {
+    public Object getParentId() {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId(Object parentId) {
         this.parentId = parentId;
     }
 
     public void add(T node){
         children.add(node);
     }
+
 }

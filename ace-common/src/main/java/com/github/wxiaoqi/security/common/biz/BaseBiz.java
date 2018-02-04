@@ -115,7 +115,7 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
             }
         }
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<T> list = mapper.selectByExample(example);
+        List<T> list = this.selectByExample(example);
         return new TableResultResponse<T>(result.getTotal(), list);
     }
 

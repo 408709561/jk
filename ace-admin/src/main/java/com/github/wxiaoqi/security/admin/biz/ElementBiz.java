@@ -25,6 +25,7 @@ package com.github.wxiaoqi.security.admin.biz;
 
 import com.ace.cache.annotation.Cache;
 import com.ace.cache.annotation.CacheClear;
+import com.github.wxiaoqi.merge.annonation.MergeResult;
 import com.github.wxiaoqi.security.admin.entity.Element;
 import com.github.wxiaoqi.security.admin.mapper.ElementMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
@@ -50,10 +51,9 @@ public class ElementBiz extends BusinessBiz<ElementMapper,Element> {
         return mapper.selectAuthorityMenuElementByUserId(userId,menuId);
     }
 
-    @Override
     @Cache(key="permission:ele")
-    public List<Element> selectListAll() {
-        return super.selectListAll();
+    public List<Element> getAllElementPermissions(){
+        return mapper.selectAllElementPermissions();
     }
 
     @Override
@@ -66,5 +66,11 @@ public class ElementBiz extends BusinessBiz<ElementMapper,Element> {
     @CacheClear(keys={"permission:ele","permission"})
     public void updateSelectiveById(Element entity) {
         super.updateSelectiveById(entity);
+    }
+
+    @MergeResult
+    @Override
+    public List<Element> selectByExample(Object example) {
+        return super.selectByExample(example);
     }
 }
