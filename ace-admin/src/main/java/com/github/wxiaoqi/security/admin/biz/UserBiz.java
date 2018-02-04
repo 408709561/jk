@@ -46,8 +46,9 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserBiz extends BusinessBiz<UserMapper,User> {
-
     @Autowired
+    private MergeCore mergeCore;
+
     @Override
     public void insertSelective(User entity) {
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(entity.getPassword());
@@ -61,14 +62,7 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
         super.updateSelectiveById(entity);
     }
 
-//    @Override
-//    @MergeResult
-//    public TableResultResponse<User> selectByQuery(Query query) {
-//        return super.selectByQuery(query);
-//    }
 
-    @Autowired
-    private MergeCore mergeCore;
     @Override
     public List<User> selectByExample(Object example) {
         List<User> users = super.selectByExample(example);
