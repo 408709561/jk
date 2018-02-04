@@ -23,18 +23,25 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.merge;
+package com.github.wxiaoqi.security.admin.service;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.github.wxiaoqi.merge.facade.IMergeResultParser;
+import com.github.wxiaoqi.security.common.msg.TableResultResponse;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author ace
- * @create 2018/2/1.
+ * @create 2018/2/4.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value={ElementType.METHOD,ElementType.TYPE})
-public @interface MergeResult {
+@Component
+public class TableResultParser implements IMergeResultParser {
+    @Override
+    public List parser(Object o) {
+        TableResultResponse response = (TableResultResponse) o;
+        TableResultResponse.TableData data = (TableResultResponse.TableData) response.getData();
+        List result = data.getRows();
+        return result;
+    }
 }

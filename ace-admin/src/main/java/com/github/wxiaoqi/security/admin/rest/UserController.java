@@ -32,7 +32,6 @@ import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
-import com.github.wxiaoqi.security.common.merge.MergeResult;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;

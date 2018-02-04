@@ -128,3 +128,11 @@ redis:
     sysName: ace-admin
     enable: true
     database: 0
+# 跨服务数据合并
+merge:
+  enabled: true
+  guavaCacheNumMaxSize: 1000
+  guavaCacheRefreshWriteTime: 10 # min
+  guavaCacheRefreshThreadPoolSize: 10
+  aop:
+    enabled: true

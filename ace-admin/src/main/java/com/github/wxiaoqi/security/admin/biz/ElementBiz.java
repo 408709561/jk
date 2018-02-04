@@ -25,10 +25,10 @@ package com.github.wxiaoqi.security.admin.biz;
 
 import com.ace.cache.annotation.Cache;
 import com.ace.cache.annotation.CacheClear;
+import com.github.wxiaoqi.merge.annonation.MergeResult;
 import com.github.wxiaoqi.security.admin.entity.Element;
 import com.github.wxiaoqi.security.admin.mapper.ElementMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
-import com.github.wxiaoqi.security.common.merge.MergeResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

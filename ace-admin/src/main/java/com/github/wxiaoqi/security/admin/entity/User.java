@@ -23,9 +23,9 @@
 
 package com.github.wxiaoqi.security.admin.entity;
 
+import com.github.wxiaoqi.merge.annonation.MergeField;
 import com.github.wxiaoqi.security.admin.feign.DictFeign;
 import com.github.wxiaoqi.security.common.audit.*;
-import com.github.wxiaoqi.security.common.merge.MergeField;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
