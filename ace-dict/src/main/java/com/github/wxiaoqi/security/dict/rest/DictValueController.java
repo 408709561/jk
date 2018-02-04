@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,7 +54,12 @@ public class DictValueController extends BaseController<DictValueBiz,DictValue> 
     public TableResultResponse<DictValue> getDictValueByDictTypeCode(@PathVariable("code") String code){
         Example example = new Example(DictValue.class);
         example.createCriteria().andLike("code",code+"%");
-        List<DictValue> dictValues = this.baseBiz.selectByExample(example);
+        List<DictValue> dictValues = this.baseBiz.selectByExample(example).stream().sorted(new Comparator<DictValue>() {
+            @Override
+            public int compare(DictValue o1, DictValue o2) {
+                return o1.getOrderNum() - o2.getOrderNum();
+            }
+        }).collect(Collectors.toList());
         return new TableResultResponse<DictValue>(dictValues.size(),dictValues);
     }
 

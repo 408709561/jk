@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * @author ace
  * @version 2017/9/8
  */
-@Configuration("securityWebConfig}")
+@Configuration("securityWebConfig")
 @Primary
 public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean

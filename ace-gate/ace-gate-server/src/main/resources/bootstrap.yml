@@ -19,13 +19,15 @@ zuul:
     back:
       path: /admin/**
       serviceId: ace-admin
-
     auth:
       path: /auth/**
       serviceId: ace-auth
     dict:
       path: /dict/**
       serviceId: ace-dict
+    org:
+      path: /org/**
+      serviceId: ace-org
 ribbon:
   eureka:
     enabled: true

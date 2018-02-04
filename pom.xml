@@ -39,6 +39,7 @@
         <module>ace-admin-interface</module>
         <module>ace-transaction</module>
         <module>ace-dict</module>
+        <module>ace-org</module>
     </modules>
 
     <packaging>pom</packaging>

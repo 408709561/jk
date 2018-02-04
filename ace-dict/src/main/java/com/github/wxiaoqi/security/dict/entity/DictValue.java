@@ -47,8 +47,9 @@ public class DictValue implements Serializable {
 	    //主键
     @Id
     private String id;
-	
-	    //编码
+	private Integer orderNum;
+
+	//编码
     @Column(name = "code")
     private String code;
 
@@ -368,5 +369,13 @@ public class DictValue implements Serializable {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
 	}
 }
