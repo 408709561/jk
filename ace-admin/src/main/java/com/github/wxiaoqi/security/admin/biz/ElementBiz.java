@@ -51,10 +51,9 @@ public class ElementBiz extends BusinessBiz<ElementMapper,Element> {
         return mapper.selectAuthorityMenuElementByUserId(userId,menuId);
     }
 
-    @Override
     @Cache(key="permission:ele")
-    public List<Element> selectListAll() {
-        return super.selectListAll();
+    public List<Element> getAllElementPermissions(){
+        return mapper.selectAllElementPermissions();
     }
 
     @Override
