@@ -39,5 +39,5 @@ public interface ClientMapper extends Mapper<Client> {
 //    @ResultType(String.class)
     List<String> selectAllowedClient(String serviceId);
 
-    List<Client> selectAuthorityServiceInfo(int clientId);
+    List<Client> selectAuthorityServiceInfo(String clientId);
 }

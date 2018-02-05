@@ -1,4 +1,4 @@
-package com.github.wxiaoqi.security.org.entity;
+package com.github.wxiaoqi.security.admin.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

@@ -1,6 +1,6 @@
-package com.github.wxiaoqi.security.org.mapper;
+package com.github.wxiaoqi.security.admin.mapper;
 
-import com.github.wxiaoqi.security.org.entity.Position;
+import com.github.wxiaoqi.security.admin.entity.Position;
 import tk.mybatis.mapper.common.Mapper;
 
 /**

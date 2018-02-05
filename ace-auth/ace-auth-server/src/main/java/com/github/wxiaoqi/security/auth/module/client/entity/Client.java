@@ -31,7 +31,7 @@ import java.util.Date;
 @Table(name = "auth_client")
 public class Client {
     @Id
-    private Integer id;
+    private String id;
 
     private String code;
 
@@ -83,17 +83,11 @@ public class Client {
 
     private String attr8;
 
-    /**
-     * @return id
-     */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    /**
-     * @param id
-     */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -1,10 +1,10 @@
-package com.github.wxiaoqi.security.org.rest;
+package com.github.wxiaoqi.security.admin.rest;
 
+import com.github.wxiaoqi.security.admin.biz.PositionBiz;
+import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.common.rest.BaseController;
-import com.github.wxiaoqi.security.org.biz.PositionBiz;
-import com.github.wxiaoqi.security.org.entity.Position;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("position")
