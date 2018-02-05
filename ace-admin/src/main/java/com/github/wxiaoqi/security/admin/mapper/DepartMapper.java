@@ -2,8 +2,9 @@ package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.User;
-import com.sun.tools.javac.util.List;
 import tk.mybatis.mapper.common.Mapper;
+
+import java.util.List;
 
 /**
  * 

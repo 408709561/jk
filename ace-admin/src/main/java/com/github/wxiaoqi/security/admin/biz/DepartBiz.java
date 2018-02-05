@@ -6,8 +6,9 @@ import com.github.wxiaoqi.security.admin.mapper.DepartMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.UUIDUtils;
-import com.sun.tools.javac.util.List;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 

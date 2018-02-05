@@ -29,7 +29,7 @@
       delete from base_depart_user where depart_id = #{departId} and user_id = #{userId}
     </delete>
     <select id="selectDepartUsers" resultType="com.github.wxiaoqi.security.admin.entity.User">
-      select u.name,u.username,u.id from base_depart_user bdu INNER join user u
+      select u.name,u.username,u.id,u.sex,u.description from base_depart_user bdu INNER join base_user u
       on bdu.user_id = u.id
       where bdu.depart_id = #{departId}
     </select>
