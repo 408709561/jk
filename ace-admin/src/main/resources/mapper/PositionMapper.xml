@@ -21,5 +21,16 @@
         <result property="attr3" column="attr3"/>
         <result property="attr4" column="attr4"/>
     </resultMap>
+    <insert id="insertPositionUser">
+      insert into base_position_user (id,position_id,user_id) values (#{id},#{positionId},#{userId})
+    </insert>
+    <delete id="deletePositionUsers">
+      delete from base_position_user where position_id = #{positionId}
+    </delete>
+    <select id="selectPositionUsers" resultType="com.github.wxiaoqi.security.admin.entity.User">
+        select u.username,u.name,u.id from base_position_user bpu inner join base_user u
+        on bpu.user_id = u.id
+        where position_id = #{positionId}
+    </select>
 
 </mapper>

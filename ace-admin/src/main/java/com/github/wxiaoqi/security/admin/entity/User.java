@@ -26,6 +26,7 @@ package com.github.wxiaoqi.security.admin.entity;
 import com.github.wxiaoqi.merge.annonation.MergeField;
 import com.github.wxiaoqi.security.admin.feign.DictFeign;
 import com.github.wxiaoqi.security.common.audit.*;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,7 @@ public class User {
 
     private String username;
 
+    @Ignore
     private String password;
 
     private String name;

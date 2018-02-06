@@ -36,12 +36,12 @@
   </resultMap>
   
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
+    select u.username,u.name,u.id from base_user u
     left join  base_group_member gm
     on gm.user_id = u.id where gm.group_id = #{groupId}
   </select>
   <select id="selectLeaderByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
+    select u.username,u.name,u.id from base_user u
     left join  base_group_leader gm
     on gm.user_id = u.id where gm.group_id = #{groupId}
   </select>
