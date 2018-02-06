@@ -28,6 +28,9 @@ zuul:
     org:
       path: /org/**
       serviceId: ace-org
+#  SendErrorFilter:
+#    post:
+#      disable: true
 ribbon:
   eureka:
     enabled: true

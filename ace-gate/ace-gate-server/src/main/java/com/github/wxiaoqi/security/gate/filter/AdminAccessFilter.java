@@ -121,7 +121,8 @@ public class AdminAccessFilter extends ZuulFilter {
         try {
             user = getJWTUser(request, ctx);
         } catch (Exception e) {
-            setFailedRequest(JSON.toJSONString(new NonLoginException(e.getMessage())), HttpStatus.UNAUTHORIZED.value());
+            setFailedRequest(JSON.toJSONString(new NonLoginException("用户身份过期,请重新登录!")), HttpStatus.UNAUTHORIZED.value());
+            log.error(e.getMessage(),e);
             return null;
         }
         List<PermissionInfo> permissionIfs = userService.getAllPermissionInfo();
@@ -240,6 +241,7 @@ public class AdminAccessFilter extends ZuulFilter {
         if (ctx.getResponseBody() == null) {
             ctx.setResponseBody(body);
             ctx.setSendZuulResponse(false);
+            ctx.getResponse().setContentType("text/html;charset=UTF-8");
         }
     }
 

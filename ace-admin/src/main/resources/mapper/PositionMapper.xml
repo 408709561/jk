@@ -7,6 +7,7 @@
     <resultMap type="com.github.wxiaoqi.security.admin.entity.Position" id="positionMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
+        <result property="departId" column="depart_id"/>
         <result property="code" column="code"/>
         <result property="type" column="type"/>
         <result property="crtUserName" column="crt_user_name"/>

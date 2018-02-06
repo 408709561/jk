@@ -75,6 +75,17 @@ public class Position implements Serializable {
     @Column(name = "attr4")
     private String attr4;
 
+    public String getDepartId() {
+        return departId;
+    }
+
+    public void setDepartId(String departId) {
+        this.departId = departId;
+    }
+
+    @Column(name="depart_id")
+    private String departId;
+
     /**
      * 设置：
      */

@@ -2,6 +2,7 @@ package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.User;
+import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.List;
  */
 public interface DepartMapper extends Mapper<Depart> {
 
-    List<User> selectDepartUsers(String departId);
+    List<User> selectDepartUsers(@Param("departId") String departId,@Param("userName") String userName);
 
-    void deleteDepartUser(String departId, String userId);
+    void deleteDepartUser(@Param("departId")String departId, @Param("userId") String userId);
 
-    void insertDepartUser(String id, String departId, String userId);
+    void insertDepartUser(@Param("id") String id, @Param("departId") String departId, @Param("userId") String userId);
 }

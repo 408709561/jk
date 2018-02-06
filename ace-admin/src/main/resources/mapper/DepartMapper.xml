@@ -32,6 +32,9 @@
       select u.name,u.username,u.id,u.sex,u.description from base_depart_user bdu INNER join base_user u
       on bdu.user_id = u.id
       where bdu.depart_id = #{departId}
+       <if test="userName!=null">
+        and u.name like #{userName}
+       </if>
     </select>
 
 </mapper>

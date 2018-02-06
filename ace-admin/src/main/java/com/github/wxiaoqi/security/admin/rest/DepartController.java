@@ -33,13 +33,13 @@ public class DepartController extends BaseController<DepartBiz,Depart> {
     }
 
     @RequestMapping(value = "user",method = RequestMethod.GET)
-    public TableResultResponse<User> getDepartUsers(String departId){
-        return this.baseBiz.getDepartUsers(departId);
+    public TableResultResponse<User> getDepartUsers(String departId,String userName){
+        return this.baseBiz.getDepartUsers(departId,userName);
     }
 
     @RequestMapping(value = "user",method = RequestMethod.POST)
-    public ObjectRestResponse<Boolean> addDepartUser(String departId, String userId){
-        this.baseBiz.addDepartUser(departId,userId);
+    public ObjectRestResponse<Boolean> addDepartUser(String departId, String userIds){
+        this.baseBiz.addDepartUser(departId,userIds);
         return new ObjectRestResponse<>().data(true);
     }
 
