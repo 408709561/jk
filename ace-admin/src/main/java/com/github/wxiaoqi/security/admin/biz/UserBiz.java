@@ -52,6 +52,17 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     private MergeCore mergeCore;
 
     @Override
+    public User selectById(Object id) {
+        User user = super.selectById(id);
+        try {
+            mergeCore.mergeOne(User.class,user);
+            return user;
+        } catch (Exception e) {
+            return super.selectById(id);
+        }
+    }
+
+    @Override
     public void insertSelective(User entity) {
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(entity.getPassword());
         entity.setPassword(password);
