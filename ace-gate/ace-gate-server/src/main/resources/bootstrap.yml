@@ -25,9 +25,7 @@ zuul:
     dict:
       path: /dict/**
       serviceId: ace-dict
-    org:
-      path: /org/**
-      serviceId: ace-org
+
 #  SendErrorFilter:
 #    post:
 #      disable: true

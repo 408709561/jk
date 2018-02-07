@@ -113,6 +113,12 @@
             <groupId>org.apache.velocity</groupId>
             <version>1.7</version>
         </dependency>
+        <!-- swagger -->
+        <dependency>
+            <groupId>com.spring4all</groupId>
+            <artifactId>spring-boot-starter-swagger</artifactId>
+            <version>1.5.1.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>

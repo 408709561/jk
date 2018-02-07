@@ -1,5 +1,6 @@
 package com.github.wxiaoqi.security.admin.mapper;
 
+import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
 import org.apache.ibatis.annotations.Param;
@@ -29,5 +30,31 @@ public interface PositionMapper extends Mapper<Position> {
      */
     void insertPositionUser(@Param("id")String id, @Param("positionId")String positionId, @Param("userId") String userId);
 
+    /**
+     * 获取岗位关联的用户
+     * @param positionId
+     * @return
+     */
     List<User> selectPositionUsers(String positionId);
+
+    /**
+     * 删除岗位关联的角色
+     * @param positionId
+     */
+    void deletePositionGroups(String positionId);
+
+    /**
+     * 插入岗位关联的角色
+     * @param id
+     * @param positionId
+     * @param groupId
+     */
+    void insertPositionGroup(@Param("id")String id, @Param("positionId")String positionId, @Param("groupId") String groupId);
+
+    /**
+     * 获取岗位关联的角色
+     * @param positionId
+     * @return
+     */
+    List<Group> selectPositionGroups( @Param("positionId")String positionId);
 }

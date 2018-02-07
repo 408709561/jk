@@ -3,7 +3,7 @@
 
 <mapper namespace="com.github.wxiaoqi.security.admin.mapper.PositionMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.github.wxiaoqi.security.admin.entity.Position" id="positionMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -24,13 +24,24 @@
     <insert id="insertPositionUser">
       insert into base_position_user (id,position_id,user_id) values (#{id},#{positionId},#{userId})
     </insert>
+    <insert id="insertPositionGroup">
+      insert into base_position_group (id,position_id,group_id) values (#{id},#{positionId},#{groupId})
+    </insert>
     <delete id="deletePositionUsers">
       delete from base_position_user where position_id = #{positionId}
+    </delete>
+    <delete id="deletePositionGroups">
+        delete from base_position_group where position_id = #{positionId}
     </delete>
     <select id="selectPositionUsers" resultType="com.github.wxiaoqi.security.admin.entity.User">
         select u.username,u.name,u.id from base_position_user bpu inner join base_user u
         on bpu.user_id = u.id
-        where position_id = #{positionId}
+        where bpu.position_id = #{positionId}
+    </select>
+    <select id="selectPositionGroups" resultType="com.github.wxiaoqi.security.admin.entity.Group">
+        select g.* from base_position_group bpg inner join base_group g
+        on g.id = bpg.group_id
+        where bpg.position_id = #{positionId}
     </select>
 
 </mapper>

@@ -31,7 +31,7 @@ package com.github.wxiaoqi.security.admin.constant;
  */
 public class AdminCommonConstant {
     public final static String ROOT = "-1";
-    public final static int DEFAULT_GROUP_TYPE = 0;
+    public final static String DEFAULT_GROUP_TYPE = "role";
     /**
      * 权限关联类型
      */

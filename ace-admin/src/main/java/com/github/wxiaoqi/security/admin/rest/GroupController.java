@@ -134,9 +134,9 @@ public class GroupController extends BaseController<GroupBiz, Group> {
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     @ResponseBody
     public List<GroupTree> tree(String name,String groupType) {
-        if(StringUtils.isBlank(name)&&StringUtils.isBlank(groupType)) {
-            return new ArrayList<GroupTree>();
-        }
+//        if(StringUtils.isBlank(name)&&StringUtils.isBlank(groupType)) {
+//            return new ArrayList<GroupTree>();
+//        }
         Example example = new Example(Group.class);
         if (StringUtils.isNotBlank(name)) {
             example.createCriteria().andLike("name", "%" + name + "%");

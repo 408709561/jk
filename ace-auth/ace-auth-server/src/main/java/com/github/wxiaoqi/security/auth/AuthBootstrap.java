@@ -24,6 +24,7 @@
 package com.github.wxiaoqi.security.auth;
 
 
+import com.spring4all.swagger.EnableSwagger2Doc;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -41,6 +42,7 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan("com.github.wxiaoqi.security.auth.module.*.mapper")
 @ComponentScan({"com.github.ag.core","com.github.wxiaoqi.security.auth"})
 @EnableAutoConfiguration
+@EnableSwagger2Doc
 public class AuthBootstrap {
     public static void main(String[] args) {
         SpringApplication.run(AuthBootstrap.class, args);

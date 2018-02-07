@@ -1,13 +1,17 @@
 package com.github.wxiaoqi.security.admin.biz;
 
+import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.mapper.PositionMapper;
+import com.github.wxiaoqi.security.admin.vo.GroupTree;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import com.github.wxiaoqi.security.common.util.UUIDUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,5 +44,27 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
      */
     public List<User> getPositionUsers(String positionId) {
         return mapper.selectPositionUsers(positionId);
+    }
+
+    public void modifyPositionGroups(String positionId, String groups) {
+        if(StringUtils.isNotBlank(groups)) {
+            mapper.deletePositionGroups(positionId);
+            for (String groupId : groups.split(",")) {
+                mapper.insertPositionGroup(UUIDUtils.generateUuid(),positionId,groupId);
+            }
+        }
+    }
+
+    public List<GroupTree> getPositionGroups(String positionId) {
+        List<Group> groups = mapper.selectPositionGroups(positionId);
+        List<GroupTree> trees = new ArrayList<GroupTree>();
+        GroupTree node = null;
+        for (Group group : groups) {
+            node = new GroupTree();
+            node.setLabel(group.getName());
+            BeanUtils.copyProperties(group, node);
+            trees.add(node);
+        }
+        return trees;
     }
 }

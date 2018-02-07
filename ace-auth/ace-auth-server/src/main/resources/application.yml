@@ -108,3 +108,13 @@ client:
 redis:
   aec-key: xx288&^^%$!@#4dc
   aec-iv: 0123456789abcdef
+
+# 配置swagger
+swagger:
+    enabled: true
+    base-package: com.github.wxiaoqi.security.auth
+    title: ace-auth
+    version: 1.0.0.SNAPSHOT
+    description: 鉴权服务
+    contact:
+        name: auth

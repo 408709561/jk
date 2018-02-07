@@ -29,7 +29,7 @@ server:
 
 gate:
   ignore:
-    startWith: /static,/auth/jwt
+    startWith: /static,/auth/jwt,/admin/v2/api-docs,/dict/v2/api-docs,/auth/v2/api-docs
 
 
 auth:
@@ -42,3 +42,12 @@ auth:
     id: ace-gate  #不填则默认读取spring.application.name
     secret: 123456
 
+# 配置swagger
+swagger:
+    enabled: true
+    base-package: com.github.wxiaoqi.security.gate
+    title: ace-gate
+    version: 1.0.0.SNAPSHOT
+    description: 网关服务
+    contact:
+        name: gate

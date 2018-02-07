@@ -51,7 +51,7 @@ public class Group {
     private String type;
 
     @Column(name = "group_type")
-    private Integer groupType = AdminCommonConstant.DEFAULT_GROUP_TYPE;
+    private String groupType = AdminCommonConstant.DEFAULT_GROUP_TYPE;
 
     private String description;
 
@@ -183,14 +183,14 @@ public class Group {
     /**
      * @return group_type
      */
-    public Integer getGroupType() {
+    public String getGroupType() {
         return groupType;
     }
 
     /**
      * @param groupType
      */
-    public void setGroupType(Integer groupType) {
+    public void setGroupType(String groupType) {
         this.groupType = groupType;
     }
 
