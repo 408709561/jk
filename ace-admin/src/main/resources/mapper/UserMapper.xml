@@ -33,6 +33,9 @@
     <result column="attr6" jdbcType="VARCHAR" property="attr6" />
     <result column="attr7" jdbcType="VARCHAR" property="attr7" />
     <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <result column="depart_id" jdbcType="VARCHAR" property="departId" />
+    <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted"/>
+    <result column="is_disabled" jdbcType="VARCHAR" property="isDisabled"/>
   </resultMap>
   
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">

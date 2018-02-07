@@ -24,12 +24,12 @@
 package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.Menu;
+import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Param;
-import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;
 
-public interface MenuMapper extends Mapper<Menu> {
+public interface MenuMapper extends CommonMapper<Menu> {
     public List<Menu> selectMenuByAuthorityId(@Param("authorityId") String authorityId,@Param("authorityType") String authorityType);
 
     /**

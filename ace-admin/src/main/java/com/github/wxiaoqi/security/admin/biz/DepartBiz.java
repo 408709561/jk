@@ -1,5 +1,6 @@
 package com.github.wxiaoqi.security.admin.biz;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.wxiaoqi.merge.annonation.MergeResult;
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.User;
@@ -8,13 +9,16 @@ import com.github.wxiaoqi.security.admin.service.TableResultParser;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.UUIDUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * 
+ *
  *
  * @author Mr.AG
  * @email 463540703@qq.com
@@ -35,6 +39,20 @@ public class DepartBiz extends BusinessBiz<DepartMapper,Depart> {
                 this.mapper.insertDepartUser(UUIDUtils.generateUuid(),departId,uId);
             }
         }
+    }
+
+    /**
+     * 根据ID批量获取部门值
+     * @param departIDs
+     * @return
+     */
+    public Map<String,String> getDeparts(String departIDs){
+        if(StringUtils.isBlank(departIDs)) {
+            return new HashMap<>();
+        }
+        departIDs = "'"+departIDs.replaceAll(",","','")+"'";
+        List<Depart> departs = mapper.selectByIds(departIDs);
+        return departs.stream().collect(Collectors.toMap(Depart::getId, depart -> JSONObject.toJSONString(depart)));
     }
 
     public void delDepartUser(String departId, String userId) {

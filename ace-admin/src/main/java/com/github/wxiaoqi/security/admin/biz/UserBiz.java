@@ -30,10 +30,12 @@ import com.github.wxiaoqi.security.admin.constant.UserConstant;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
+import com.github.wxiaoqi.security.common.util.BooleanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -53,6 +55,8 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     public void insertSelective(User entity) {
         String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(entity.getPassword());
         entity.setPassword(password);
+        entity.setIsDeleted(BooleanUtil.BOOLEAN_FALSE);
+        entity.setIsDisabled(BooleanUtil.BOOLEAN_FALSE);
         super.insertSelective(entity);
     }
 
@@ -62,9 +66,17 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
         super.updateSelectiveById(entity);
     }
 
+    @Override
+    public void deleteById(Object id) {
+        User user = mapper.selectByPrimaryKey(id);
+        user.setIsDeleted(BooleanUtil.BOOLEAN_TRUE);
+        this.updateSelectiveById(user);
+    }
 
     @Override
-    public List<User> selectByExample(Object example) {
+    public List<User> selectByExample(Object obj) {
+        Example example = (Example) obj;
+        example.createCriteria().andEqualTo("isDeleted",BooleanUtil.BOOLEAN_FALSE);
         List<User> users = super.selectByExample(example);
         try {
             mergeCore.mergeResult(User.class,users);
@@ -84,6 +96,8 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     public User getUserByUsername(String username){
         User user = new User();
         user.setUsername(username);
+        user.setIsDeleted(BooleanUtil.BOOLEAN_FALSE);
+        user.setIsDisabled(BooleanUtil.BOOLEAN_FALSE);
         return mapper.selectOne(user);
     }
 

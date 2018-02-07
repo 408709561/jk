@@ -136,3 +136,5 @@ merge:
   guavaCacheRefreshThreadPoolSize: 10
   aop:
     enabled: true
+mapper:
+  mappers: com.github.wxiaoqi.security.common.mapper.CommonMapper

@@ -24,11 +24,11 @@
 package com.github.wxiaoqi.security.auth.module.client.mapper;
 
 import com.github.wxiaoqi.security.auth.module.client.entity.Client;
-import tk.mybatis.mapper.common.Mapper;
+import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 
 import java.util.List;
 
-public interface ClientMapper extends Mapper<Client> {
+public interface ClientMapper extends CommonMapper<Client> {
 //    @Select(" SELECT\n" +
 //            "        client.CODE\n" +
 //            "      FROM\n" +

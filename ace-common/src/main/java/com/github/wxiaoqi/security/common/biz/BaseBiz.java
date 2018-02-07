@@ -25,10 +25,10 @@ package com.github.wxiaoqi.security.common.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
 import java.lang.reflect.ParameterizedType;
@@ -41,7 +41,7 @@ import java.util.Map;
  * Time: 15:13
  * Version 1.0.0
  */
-public abstract class BaseBiz<M extends Mapper<T>, T> {
+public abstract class BaseBiz<M extends CommonMapper<T>, T> {
     @Autowired
     protected M mapper;
 

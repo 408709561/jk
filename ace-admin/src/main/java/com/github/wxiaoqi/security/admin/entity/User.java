@@ -24,6 +24,7 @@
 package com.github.wxiaoqi.security.admin.entity;
 
 import com.github.wxiaoqi.merge.annonation.MergeField;
+import com.github.wxiaoqi.security.admin.biz.DepartBiz;
 import com.github.wxiaoqi.security.admin.feign.DictFeign;
 import com.github.wxiaoqi.security.common.audit.*;
 import jdk.nashorn.internal.ir.annotations.Ignore;
@@ -32,11 +33,13 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "base_user")
 @AceAudit
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = -2786301994259082323L;
     @Id
     @GeneratedValue(generator = "UUID")
     private String id;
@@ -60,7 +63,7 @@ public class User {
 
     private String email;
 
-    @MergeField(key="comm_sex",feign = DictFeign.class,method = "getDictValues")
+    @MergeField(key = "comm_sex", feign = DictFeign.class, method = "getDictValues")
     private String sex;
 
     private String type;
@@ -107,6 +110,16 @@ public class User {
     private String attr7;
 
     private String attr8;
+
+    @Column(name = "is_deleted")
+    private String isDeleted;
+
+    @Column(name = "is_disabled")
+    private String isDisabled;
+
+    @MergeField(feign = DepartBiz.class,method = "getDeparts",isValueNeedMerge = true)
+    @Column(name = "depart_id")
+    private String departId;
 
     /**
      * @return id
@@ -498,5 +511,29 @@ public class User {
      */
     public void setAttr8(String attr8) {
         this.attr8 = attr8;
+    }
+
+    public String getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(String isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public String getIsDisabled() {
+        return isDisabled;
+    }
+
+    public void setIsDisabled(String isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+
+    public String getDepartId() {
+        return departId;
+    }
+
+    public void setDepartId(String departId) {
+        this.departId = departId;
     }
 }

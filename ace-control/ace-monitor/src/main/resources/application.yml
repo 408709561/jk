@@ -6,7 +6,7 @@ spring:
           routes:
             endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
           turbine:
-            clusters: jscloud
+            clusters: agcloud
             location: turbine
 server:
     port: 8764 #启动端口

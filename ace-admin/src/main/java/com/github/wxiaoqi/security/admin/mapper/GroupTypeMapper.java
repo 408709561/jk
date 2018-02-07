@@ -24,7 +24,7 @@
 package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.GroupType;
-import tk.mybatis.mapper.common.Mapper;
+import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 
-public interface GroupTypeMapper extends Mapper<GroupType> {
+public interface GroupTypeMapper extends CommonMapper<GroupType> {
 }
