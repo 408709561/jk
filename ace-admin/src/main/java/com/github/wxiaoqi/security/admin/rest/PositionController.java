@@ -4,6 +4,8 @@ import com.github.wxiaoqi.security.admin.biz.PositionBiz;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.vo.GroupTree;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("position")
+@CheckUserToken
+@CheckClientToken
 public class PositionController extends BaseController<PositionBiz, Position> {
 
     @RequestMapping(value = "/{id}/user", method = RequestMethod.PUT)
