@@ -30,7 +30,6 @@ import com.github.wxiaoqi.security.common.audit.*;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -41,7 +40,7 @@ import java.util.Date;
 public class User implements Serializable{
     private static final long serialVersionUID = -2786301994259082323L;
     @Id
-    @GeneratedValue(generator = "UUID")
+//    @GeneratedValue(generator = "UUID")
     private String id;
 
     private String username;

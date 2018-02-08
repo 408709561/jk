@@ -28,9 +28,11 @@ import com.ace.cache.annotation.CacheClear;
 import com.github.wxiaoqi.merge.core.MergeCore;
 import com.github.wxiaoqi.security.admin.constant.UserConstant;
 import com.github.wxiaoqi.security.admin.entity.User;
+import com.github.wxiaoqi.security.admin.mapper.DepartMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import com.github.wxiaoqi.security.common.util.BooleanUtil;
+import com.github.wxiaoqi.security.common.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,9 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     @Autowired
     private MergeCore mergeCore;
 
+    @Autowired
+    private DepartMapper departMapper;
+
     @Override
     public User selectById(Object id) {
         User user = super.selectById(id);
@@ -68,6 +73,9 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
         entity.setPassword(password);
         entity.setIsDeleted(BooleanUtil.BOOLEAN_FALSE);
         entity.setIsDisabled(BooleanUtil.BOOLEAN_FALSE);
+        String userId = UUIDUtils.generateUuid();
+        entity.setId(userId);
+        departMapper.insertDepartUser(UUIDUtils.generateUuid(),entity.getDepartId(),entity.getId());
         super.insertSelective(entity);
     }
 

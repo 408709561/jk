@@ -118,3 +118,6 @@ swagger:
     description: 鉴权服务
     contact:
         name: auth
+
+mapper:
+  mappers: com.github.wxiaoqi.security.common.mapper.CommonMapper
