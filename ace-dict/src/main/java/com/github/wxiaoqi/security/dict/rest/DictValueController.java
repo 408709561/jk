@@ -50,6 +50,8 @@ import java.util.stream.Collectors;
 @CheckClientToken
 @CheckUserToken
 public class DictValueController extends BaseController<DictValueBiz,DictValue> {
+    @IgnoreClientToken
+    @IgnoreUserToken
     @RequestMapping(value = "/type/{code}",method = RequestMethod.GET)
     public TableResultResponse<DictValue> getDictValueByDictTypeCode(@PathVariable("code") String code){
         Example example = new Example(DictValue.class);

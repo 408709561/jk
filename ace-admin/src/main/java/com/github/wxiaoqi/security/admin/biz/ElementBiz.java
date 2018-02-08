@@ -43,10 +43,17 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ElementBiz extends BusinessBiz<ElementMapper,Element> {
+    /**
+     * 获取用户可以访问的资源
+     * @param userId
+     * @return
+     */
     @Cache(key="permission:ele:u{1}")
     public List<Element> getAuthorityElementByUserId(String userId){
+        // TODO: 2018/2/8 资源权限获取优化 ,结合岗位
        return mapper.selectAuthorityElementByUserId(userId);
     }
+
     public List<Element> getAuthorityElementByUserId(String userId,String menuId){
         return mapper.selectAuthorityMenuElementByUserId(userId,menuId);
     }

@@ -35,6 +35,9 @@
         and ra.authority_id in (
           select group_id from base_group_member where user_id = #{userId}
           union select group_id from base_group_leader where user_id = #{userId}
+          union select bpg.group_id from base_position_group bpg
+            inner join base_position_user bpu on bpg.position_id = bpu.position_id
+            and bpu.user_id = #{userId}
         )
         and ra.authority_type = 'group'
         and ra.resource_type = 'button'

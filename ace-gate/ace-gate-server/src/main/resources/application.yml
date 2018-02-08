@@ -29,7 +29,7 @@ server:
 
 gate:
   ignore:
-    startWith: /static,/auth/jwt,/admin/v2/api-docs,/dict/v2/api-docs,/auth/v2/api-docs
+    startWith: /static,/auth/jwt,/admin/v2/api-docs,/dict/v2/api-docs,/auth/v2/api-docs,/dict/dictValue/type/comm_sex
 
 
 auth:

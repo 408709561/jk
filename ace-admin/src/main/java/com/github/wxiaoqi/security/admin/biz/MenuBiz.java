@@ -87,6 +87,7 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
      */
     @Cache(key = "permission:menu:u{1}")
     public List<Menu> getUserAuthorityMenuByUserId(String id) {
+        // TODO: 2018/2/8 菜单权限获取优化 ,结合岗位
         return mapper.selectAuthorityMenuByUserId(id);
     }
 

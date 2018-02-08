@@ -72,6 +72,7 @@ public class ElementController extends BaseController<ElementBiz, Element> {
 
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   @ResponseBody
+  @Deprecated
   public ObjectRestResponse<Element> getAuthorityElement(String menuId) {
     String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
     List<Element> elements = baseBiz.getAuthorityElementByUserId(userId + "",menuId);
@@ -80,6 +81,7 @@ public class ElementController extends BaseController<ElementBiz, Element> {
 
   @RequestMapping(value = "/user/menu", method = RequestMethod.GET)
   @ResponseBody
+  @Deprecated
   public ObjectRestResponse<Element> getAuthorityElement() {
     String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
     List<Element> elements = baseBiz.getAuthorityElementByUserId(userId + "");

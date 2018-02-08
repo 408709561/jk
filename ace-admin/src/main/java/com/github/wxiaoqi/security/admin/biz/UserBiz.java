@@ -82,6 +82,11 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     @Override
     @CacheClear(pre="user{1.username}")
     public void updateSelectiveById(User entity) {
+        User user = mapper.selectByPrimaryKey(entity.getId());
+        if(!user.getDepartId().equals(entity.getDepartId())){
+            departMapper.deleteDepartUser(user.getDepartId(),entity.getId());
+            departMapper.insertDepartUser(UUIDUtils.generateUuid(),entity.getDepartId(),entity.getId());
+        }
         super.updateSelectiveById(entity);
     }
 
