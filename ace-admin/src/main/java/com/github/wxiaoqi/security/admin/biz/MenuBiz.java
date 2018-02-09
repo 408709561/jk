@@ -28,7 +28,10 @@ import com.ace.cache.annotation.CacheClear;
 import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
 import com.github.wxiaoqi.security.admin.entity.Menu;
 import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
+import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
+import com.github.wxiaoqi.security.common.util.BooleanUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +46,8 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
+    @Autowired
+    private UserMapper userMapper;
     @Override
     @Cache(key="permission:menu")
     public List<Menu> selectListAll() {
@@ -82,13 +87,15 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
     /**
      * 获取用户可以访问的菜单
      *
-     * @param id
+     * @param userId
      * @return
      */
     @Cache(key = "permission:menu:u{1}")
-    public List<Menu> getUserAuthorityMenuByUserId(String id) {
-        // TODO: 2018/2/8 菜单权限获取优化 ,结合岗位
-        return mapper.selectAuthorityMenuByUserId(id);
+    public List<Menu> getUserAuthorityMenuByUserId(String userId) {
+        if(BooleanUtil.BOOLEAN_TRUE.equals(userMapper.selectByPrimaryKey(userId).getIsSuperAdmin())){
+            return this.selectListAll();
+        }
+        return mapper.selectAuthorityMenuByUserId(userId);
     }
 
     /**

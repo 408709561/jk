@@ -120,6 +120,9 @@ public class User implements Serializable{
     @Column(name = "depart_id")
     private String departId;
 
+    @Column(name = "is_super_admin")
+    private String isSuperAdmin;
+
     /**
      * @return id
      */
@@ -534,5 +537,13 @@ public class User implements Serializable{
 
     public void setDepartId(String departId) {
         this.departId = departId;
+    }
+
+    public String getIsSuperAdmin() {
+        return isSuperAdmin;
+    }
+
+    public void setIsSuperAdmin(String isSuperAdmin) {
+        this.isSuperAdmin = isSuperAdmin;
     }
 }

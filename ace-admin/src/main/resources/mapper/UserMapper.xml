@@ -36,6 +36,7 @@
     <result column="depart_id" jdbcType="VARCHAR" property="departId" />
     <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted"/>
     <result column="is_disabled" jdbcType="VARCHAR" property="isDisabled"/>
+    <result column="is_super_admin" jdbcType="VARCHAR" property="isSuperAdmin"/>
   </resultMap>
   
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">
