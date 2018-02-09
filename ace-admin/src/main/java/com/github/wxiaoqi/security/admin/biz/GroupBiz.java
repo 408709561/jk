@@ -106,13 +106,13 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
         if (!StringUtils.isEmpty(members)) {
             String[] mem = members.split(",");
             for (String m : mem) {
-                mapper.insertGroupMembersById(UUIDUtils.generateUuid(),groupId, m);
+                mapper.insertGroupMembersById(UUIDUtils.generateUuid(), groupId, m);
             }
         }
         if (!StringUtils.isEmpty(leaders)) {
             String[] mem = leaders.split(",");
             for (String m : mem) {
-                mapper.insertGroupLeadersById(UUIDUtils.generateUuid(),groupId, m);
+                mapper.insertGroupLeadersById(UUIDUtils.generateUuid(), groupId, m);
             }
         }
     }
@@ -123,7 +123,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * @param groupId
      * @param menus
      */
-    @CacheClear(keys = {"permission:menu","permission:u"})
+    @CacheClear(keys = {"permission:menu", "permission:u"})
     public void modifyAuthorityMenu(String groupId, String[] menus) {
         resourceAuthorityMapper.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU);
         List<Menu> menuList = menuMapper.selectAll();
@@ -148,21 +148,21 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
 
     private void findParentID(Map<String, String> map, Set<String> relationMenus, String id) {
         String parentId = map.get(id);
-        if (String.valueOf(AdminCommonConstant.ROOT).equals(id)) {
+        if (String.valueOf(AdminCommonConstant.ROOT).equals(id) || parentId == null) {
             return;
         }
         relationMenus.add(parentId);
         findParentID(map, relationMenus, parentId);
     }
 
-    /**
+    /**SimpleRouteLocator
      * 分配资源权限
      *
      * @param groupId
      * @param menuId
      * @param elementId
      */
-    @CacheClear(keys = {"permission:ele","permission:u"})
+    @CacheClear(keys = {"permission:ele", "permission:u"})
     public void modifyAuthorityElement(String groupId, String menuId, String elementId) {
         ResourceAuthority authority = new ResourceAuthority(AdminCommonConstant.AUTHORITY_TYPE_GROUP, AdminCommonConstant.RESOURCE_TYPE_BTN);
         authority.setAuthorityId(groupId + "");
@@ -178,7 +178,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * @param menuId
      * @param elementId
      */
-    @CacheClear(keys = {"permission:ele","permission:u"})
+    @CacheClear(keys = {"permission:ele", "permission:u"})
     public void removeAuthorityElement(String groupId, String menuId, String elementId) {
         ResourceAuthority authority = new ResourceAuthority();
         authority.setAuthorityId(groupId + "");
