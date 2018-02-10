@@ -54,7 +54,7 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 50000
-          strategy: SEMAPHORE
+#          strategy: SEMAPHORE
 
 eureka:
     instance:

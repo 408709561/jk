@@ -35,7 +35,7 @@ public class TenantFilter implements Filter {
         urlPath = urlPath.substring(zuulProperties.getPrefix().length() + 1, urlPath.length());
         String realPath = urlPath.substring(urlPath.indexOf("/"), urlPath.length());
         String tenant = urlPath.substring(0, urlPath.indexOf("/"));
-        BaseContextHandler.set("tenant",tenant);
+        BaseContextHandler.setTenantID(tenant);
         chain.doFilter(new UriWrapperRequest((HttpServletRequest) request,zuulProperties.getPrefix()+realPath),response);
     }
 

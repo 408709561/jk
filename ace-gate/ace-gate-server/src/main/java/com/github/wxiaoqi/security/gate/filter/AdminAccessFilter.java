@@ -24,14 +24,15 @@
 package com.github.wxiaoqi.security.gate.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.github.ag.core.context.BaseContextHandler;
+import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
 import com.github.wxiaoqi.security.api.vo.log.LogInfo;
 import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
-import com.github.ag.core.util.jwt.IJWTInfo;
-import com.github.ag.core.context.BaseContextHandler;
+import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import com.github.wxiaoqi.security.common.exception.auth.UserForbiddenException;
 import com.github.wxiaoqi.security.common.util.ClientUtil;
@@ -109,7 +110,6 @@ public class AdminAccessFilter extends ZuulFilter {
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
-        System.out.println("Tenant :" + BaseContextHandler.get("tenant"));
         HttpServletRequest request = ctx.getRequest();
         final String requestUri = request.getRequestURI().substring(zuulPrefix.length());
         final String method = request.getMethod();
@@ -136,6 +136,8 @@ public class AdminAccessFilter extends ZuulFilter {
         }
         // 申请客户端密钥头
         ctx.addZuulRequestHeader(serviceAuthConfig.getTokenHeader(), serviceAuthUtil.getClientToken());
+        // 租户传递
+        ctx.addZuulRequestHeader(RequestHeaderConstants.TENANT, BaseContextHandler.getTenantID());
         BaseContextHandler.remove();
         return null;
     }
