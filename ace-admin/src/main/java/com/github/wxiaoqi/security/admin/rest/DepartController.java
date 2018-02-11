@@ -24,9 +24,9 @@ import java.util.List;
 public class DepartController extends BaseController<DepartBiz,Depart> {
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<DepartTree> getTree() {
-        List<Depart> dictTypes = this.baseBiz.selectListAll();
+        List<Depart> departs = this.baseBiz.selectListAll();
         List<DepartTree> trees = new ArrayList<>();
-        dictTypes.forEach(dictType -> {
+        departs.forEach(dictType -> {
             trees.add(new DepartTree(dictType.getId(), dictType.getParentId(), dictType.getName(),dictType.getCode()));
         });
         return TreeUtil.bulid(trees, "-1", null);

@@ -28,9 +28,12 @@ server:
     port: 8765 #启动端口
 
 gate:
+  # 开发不进行权限校验的路径
   ignore:
     startWith: /static,/auth/jwt,/admin/v2/api-docs,/dict/v2/api-docs,/auth/v2/api-docs,/dict/dictValue/type/comm_sex
-
+  # 开启租户隔离
+  tenant:
+    enable: false
 
 auth:
   serviceId: ace-auth

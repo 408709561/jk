@@ -1,9 +1,11 @@
 package com.github.wxiaoqi.security.admin.biz;
 
+import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.mapper.PositionMapper;
+import com.github.wxiaoqi.security.admin.vo.DepartTree;
 import com.github.wxiaoqi.security.admin.vo.GroupTree;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import com.github.wxiaoqi.security.common.util.UUIDUtils;
@@ -65,6 +67,24 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
             BeanUtils.copyProperties(group, node);
             trees.add(node);
         }
+        return trees;
+    }
+
+    public void modifyPositionDeparts(String positionId, String departs) {
+        if(StringUtils.isNotBlank(departs)) {
+            mapper.deletePositionDeparts(positionId);
+            for (String groupId : departs.split(",")) {
+                mapper.insertPositionDepart(UUIDUtils.generateUuid(),positionId,groupId);
+            }
+        }
+    }
+
+    public List<DepartTree> getPositionDeparts(String positionId) {
+        List<Depart> departs = mapper.selectPositionDeparts(positionId);
+        List<DepartTree> trees = new ArrayList<>();
+        departs.forEach(depart -> {
+            trees.add(new DepartTree(depart.getId(), depart.getParentId(), depart.getName(),depart.getCode()));
+        });
         return trees;
     }
 }

@@ -1,5 +1,6 @@
 package com.github.wxiaoqi.security.admin.mapper;
 
+import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
@@ -57,4 +58,25 @@ public interface PositionMapper extends CommonMapper<Position> {
      * @return
      */
     List<Group> selectPositionGroups( @Param("positionId")String positionId);
+
+    /**
+     * 移除岗位下授权的部门
+     * @param positionId
+     */
+    void deletePositionDeparts(String positionId);
+
+    /**
+     * 添加岗位下授权的部门
+     * @param id
+     * @param positionId
+     * @param departId
+     */
+    void insertPositionDepart(@Param("id")String id, @Param("positionId")String positionId, @Param("departId") String departId);
+
+    /**
+     * 获取岗位授权的部门
+     * @param positionId
+     * @return
+     */
+    List<Depart> selectPositionDeparts(String positionId);
 }

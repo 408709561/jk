@@ -238,4 +238,5 @@ public class Depart implements Serializable {
 	public void setAttr4(String attr4) {
 		this.attr4 = attr4;
 	}
+
 }

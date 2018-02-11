@@ -27,11 +27,17 @@
     <insert id="insertPositionGroup">
       insert into base_position_group (id,position_id,group_id) values (#{id},#{positionId},#{groupId})
     </insert>
+    <insert id="insertPositionDepart">
+      insert into base_position_depart (id,position_id,depart_id) values (#{id},#{positionId},#{departId})
+    </insert>
     <delete id="deletePositionUsers">
       delete from base_position_user where position_id = #{positionId}
     </delete>
     <delete id="deletePositionGroups">
         delete from base_position_group where position_id = #{positionId}
+    </delete>
+    <delete id="deletePositionDeparts">
+        delete from base_position_depart where position_id = #{positionId}
     </delete>
     <select id="selectPositionUsers" resultType="com.github.wxiaoqi.security.admin.entity.User">
         select u.username,u.name,u.id from base_position_user bpu inner join base_user u
@@ -42,6 +48,11 @@
         select g.* from base_position_group bpg inner join base_group g
         on g.id = bpg.group_id
         where bpg.position_id = #{positionId}
+    </select>
+    <select id="selectPositionDeparts" resultType="com.github.wxiaoqi.security.admin.entity.Depart">
+        select d.* from base_depart d inner join base_position_depart bpd
+        on d.id = bpd.depart_id
+        where bpd.position_id = #{positionId}
     </select>
 
 </mapper>

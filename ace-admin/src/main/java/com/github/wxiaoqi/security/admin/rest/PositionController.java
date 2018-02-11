@@ -3,6 +3,7 @@ package com.github.wxiaoqi.security.admin.rest;
 import com.github.wxiaoqi.security.admin.biz.PositionBiz;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
+import com.github.wxiaoqi.security.admin.vo.DepartTree;
 import com.github.wxiaoqi.security.admin.vo.GroupTree;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
@@ -42,5 +43,18 @@ public class PositionController extends BaseController<PositionBiz, Position> {
     @ResponseBody
     public ObjectRestResponse<List<GroupTree>> getRoles(@PathVariable("id") String positionId) {
         return new ObjectRestResponse<List<GroupTree>>().data(baseBiz.getPositionGroups(positionId));
+    }
+
+    @RequestMapping(value = "/{id}/depart", method = RequestMethod.PUT)
+    @ResponseBody
+    public ObjectRestResponse modifyDeparts(@PathVariable String id, String departs) {
+        baseBiz.modifyPositionDeparts(id, departs);
+        return new ObjectRestResponse();
+    }
+
+    @RequestMapping(value = "/{id}/depart", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<List<DepartTree>> getDeparts(@PathVariable("id") String positionId) {
+        return new ObjectRestResponse<List<DepartTree>>().data(baseBiz.getPositionDeparts(positionId));
     }
 }
