@@ -34,6 +34,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -46,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
     private IUserService userService;
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     public AuthServiceImpl(
@@ -61,7 +62,11 @@ public class AuthServiceImpl implements AuthService {
         Map<String, String> data = userService.validate(username, password).getData();
         String token = "";
         if (!StringUtils.isEmpty(data.get("id"))) {
-            token = jwtTokenUtil.generateToken(new JWTInfo(data.get("username"), data.get("id"), data.get("name")));
+            Map<String, String> map = new HashMap<>();
+            map.put(CommonConstants.JWT_KEY_TENANT_ID, String.valueOf(data.get("tenantId")));
+            map.put(CommonConstants.JWT_KEY_DEPART_ID, String.valueOf(data.get("departId")));
+            JWTInfo jwtInfo = new JWTInfo(data.get("username"), data.get("id"), data.get("name"));
+            token = jwtTokenUtil.generateToken(jwtInfo, map);
         }
         return token;
     }
@@ -74,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Boolean invalid(String token) throws Exception {
         IJWTInfo infoFromToken = jwtTokenUtil.getInfoFromToken(token);
-        redisTemplate.opsForValue().set(CommonConstants.REDIS_USER_TOKEN+infoFromToken.getId()+infoFromToken.getExpireTime().getTime(),"1");
+        redisTemplate.opsForValue().set(CommonConstants.REDIS_USER_TOKEN + infoFromToken.getId() + infoFromToken.getExpireTime().getTime(), "1");
         return true;
     }
 
@@ -82,6 +87,6 @@ public class AuthServiceImpl implements AuthService {
     public String refresh(String oldToken) throws Exception {
         IJWTInfo infoFromToken = jwtTokenUtil.getInfoFromToken(oldToken);
         invalid(oldToken);
-        return jwtTokenUtil.generateToken(infoFromToken);
+        return jwtTokenUtil.generateToken(infoFromToken,infoFromToken.getOtherInfo());
     }
 }

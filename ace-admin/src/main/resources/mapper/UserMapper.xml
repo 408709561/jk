@@ -37,6 +37,7 @@
     <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted"/>
     <result column="is_disabled" jdbcType="VARCHAR" property="isDisabled"/>
     <result column="is_super_admin" jdbcType="VARCHAR" property="isSuperAdmin"/>
+    <result column="tenant_id" jdbcType="VARCHAR" property="tenantId"/>
   </resultMap>
   
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">
@@ -48,5 +49,11 @@
     select u.username,u.name,u.id from base_user u
     left join  base_group_leader gm
     on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
+  <select id="selectUserDataDepartIds" resultType="java.lang.String">
+    select bpd.depart_id from base_position_depart bpd
+    inner join base_position_user bpu
+    on bpd.position_id = bpu.position_id
+    where bpu.user_id = #{userId}
   </select>
 </mapper>

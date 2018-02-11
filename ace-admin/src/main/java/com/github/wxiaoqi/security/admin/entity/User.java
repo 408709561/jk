@@ -123,6 +123,17 @@ public class User implements Serializable{
     @Column(name = "is_super_admin")
     private String isSuperAdmin;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     /**
      * @return id
      */

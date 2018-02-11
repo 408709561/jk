@@ -32,4 +32,6 @@ import java.util.List;
 public interface UserMapper extends CommonMapper<User> {
     public List<User> selectMemberByGroupId(@Param("groupId") String groupId);
     public List<User> selectLeaderByGroupId(@Param("groupId") String groupId);
+
+    List<String> selectUserDataDepartIds(String userId);
 }

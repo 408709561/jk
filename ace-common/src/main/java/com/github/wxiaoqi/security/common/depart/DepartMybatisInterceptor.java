@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.tenant;
+package com.github.wxiaoqi.security.common.depart;
 
 import com.github.ag.core.context.BaseContextHandler;
 import net.sf.jsqlparser.expression.Expression;
@@ -41,32 +41,39 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 
 import java.io.StringReader;
 import java.sql.Connection;
+import java.util.List;
 import java.util.Properties;
 
 /**
  * 租户数据隔离拦截器
+ *
  * @author ace
  * @create 2018/2/9.
  */
 @Intercepts({@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class, Integer.class})})
-public class TenantMybatisInterceptor implements Interceptor {
+public class DepartMybatisInterceptor implements Interceptor {
+    private IUserDepartDataService userDepartDataService;
+
+    public DepartMybatisInterceptor(IUserDepartDataService userDepartDataService) {
+        this.userDepartDataService = userDepartDataService;
+    }
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler handler = (StatementHandler) invocation.getTarget();
         //由于mappedStatement中有我们需要的方法id,但却是protected的，所以要通过反射获取
         MetaObject statementHandler = SystemMetaObject.forObject(handler);
         MappedStatement mappedStatement = (MappedStatement) statementHandler.getValue("delegate.mappedStatement");
-
         if (!SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
         }
-        if(handler.getBoundSql().getSql().startsWith("SELECT count(0) FROM")){
-            return  invocation.proceed();
-        }
+//        if (handler.getBoundSql().getSql().startsWith("SELECT count(0) FROM")) {
+//            return invocation.proceed();
+//        }
         String namespace = mappedStatement.getId();
         String className = namespace.substring(0, namespace.lastIndexOf("."));
         Class<?> clazz = Class.forName(className);
-        Tenant annotation = clazz.getAnnotation(Tenant.class);
+        Depart annotation = clazz.getAnnotation(Depart.class);
         // 租户数据隔离
         if (annotation != null) {
             //获取sql
@@ -76,17 +83,31 @@ public class TenantMybatisInterceptor implements Interceptor {
             Select select = (Select) parserManager.parse(new StringReader(sql));
             PlainSelect plain = (PlainSelect) select.getSelectBody();
             Expression where = plain.getWhere();
+            StringBuffer whereSql = new StringBuffer("1 = 0 ");
+            // 添加用户自己的查询条件
+            whereSql.append(" or ").append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
+            // 拼接部门数据sql
+            if (userDepartDataService != null) {
+                List<String> userDataDepartIds = userDepartDataService.getUserDataDepartIds(BaseContextHandler.getUserID());
+                if (userDataDepartIds != null && userDataDepartIds.size() > 0) {
+                    for (int i = 0; i < userDataDepartIds.size(); i++) {
+                        if (i == 0) {
+                            whereSql.append(" or ");
+                        }
+                        whereSql.append(annotation.departField()).append(" = '").append(userDataDepartIds.get(i)).append("' ");
+                    }
+                }
+            }
             Expression expression = CCJSqlParserUtil
-                    .parseCondExpression("1 = 0 or " +annotation.dbField() + " = '" + BaseContextHandler.getTenantID() + "'");
-            if(where==null){
+                    .parseCondExpression(whereSql.toString());
+            if (where == null) {
                 Expression whereExpression = (Expression) expression;
                 plain.setWhere(whereExpression);
-            }else{
+            } else {
                 expression = CCJSqlParserUtil
                         .parseCondExpression(expression.toString() + " and ( " + where.toString() + " )");
                 plain.setWhere(expression);
             }
-            System.out.println(select.toString());
             statementHandler.setValue("delegate.boundSql.sql", select.toString());
         }
         return invocation.proceed();

@@ -126,4 +126,7 @@ public class UserBiz extends BusinessBiz<UserMapper,User> {
     }
 
 
+    public List<String> getUserDataDepartIds(String userId) {
+        return mapper.selectUserDataDepartIds(userId);
+    }
 }

@@ -23,6 +23,7 @@
 
 package com.github.wxiaoqi.security.admin.rest;
 
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,5 +82,13 @@ public class UserController extends BaseController<UserBiz,User> {
     public @ResponseBody
     List<MenuTree> getMenusByUsername(String token) throws Exception {
         return permissionService.getMenusByUsername(token);
+    }
+
+    @RequestMapping(value = "/dataDepart",method = RequestMethod.GET)
+    public List<String> getUserDataDepartIds(String userId){
+        if(BaseContextHandler.getUserID().equals(userId)){
+          return baseBiz.getUserDataDepartIds(userId);
+        }
+        return new ArrayList<>();
     }
 }
