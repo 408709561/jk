@@ -23,15 +23,19 @@
 
 package com.github.wxiaoqi.security.auth.client.interceptor;
 
+import com.alibaba.fastjson.JSON;
+import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreClientToken;
 import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
-import com.github.ag.core.util.jwt.IJWTInfo;
-import com.github.wxiaoqi.security.common.exception.auth.ClientForbiddenException;
+import com.github.wxiaoqi.security.common.constant.RestCodeConstants;
+import com.github.wxiaoqi.security.common.exception.auth.ClientTokenException;
+import com.github.wxiaoqi.security.common.msg.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -70,14 +74,25 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
             return super.preHandle(request, response, handler);
         } else {
             String token = request.getHeader(serviceAuthConfig.getTokenHeader());
-            IJWTInfo infoFromToken = serviceAuthUtil.getInfoFromToken(token);
-            String uniqueName = infoFromToken.getUniqueName();
-            for (String client : serviceAuthUtil.getAllowedClient()) {
-                if (client.equals(uniqueName)) {
-                    return super.preHandle(request, response, handler);
+            try {
+                IJWTInfo infoFromToken = serviceAuthUtil.getInfoFromToken(token);
+                String uniqueName = infoFromToken.getUniqueName();
+                for (String client : serviceAuthUtil.getAllowedClient()) {
+                    if (client.equals(uniqueName)) {
+                        return super.preHandle(request, response, handler);
+                    }
                 }
+            }catch(ClientTokenException ex){
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                logger.error(ex.getMessage(),ex);
+                response.setContentType("UTF-8");
+                response.getOutputStream().println(JSON.toJSONString(new BaseResponse(ex.getStatus(), ex.getMessage())));
+                return false;
             }
-            throw new ClientForbiddenException("Client is Forbidden!");
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.getOutputStream().println(JSON.toJSONString(new BaseResponse(RestCodeConstants.EX_CLIENT_FORBIDDEN_CODE,"Client is Forbidden!")));
+            return false;
         }
     }
 }

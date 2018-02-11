@@ -28,6 +28,7 @@ package com.github.wxiaoqi.demo.depart.mapper;
 import com.github.wxiaoqi.demo.depart.entity.DepartDataTest;
 import com.github.wxiaoqi.security.common.depart.Depart;
 import com.github.wxiaoqi.security.common.mapper.CommonMapper;
+import com.github.wxiaoqi.security.common.depart.Tenant;
 
 /**
  * 
@@ -37,6 +38,7 @@ import com.github.wxiaoqi.security.common.mapper.CommonMapper;
  * @version 2018-02-11 16:05:19
  */
 @Depart
+@Tenant
 public interface DepartDataTestMapper extends CommonMapper<DepartDataTest> {
 	
 }

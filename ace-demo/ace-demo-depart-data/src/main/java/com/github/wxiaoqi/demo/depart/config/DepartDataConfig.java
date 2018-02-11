@@ -26,8 +26,15 @@
 package com.github.wxiaoqi.demo.depart.config;
 
 import com.github.wxiaoqi.security.common.depart.DepartMybatisConfig;
+import com.github.wxiaoqi.security.common.depart.DepartMybatisInterceptor;
+import com.github.wxiaoqi.security.common.depart.IUserDepartDataService;
+import com.github.wxiaoqi.security.common.tenant.TenantMybatisInterceptor;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author ace
@@ -35,8 +42,16 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class DepartDataConfig {
-    @Bean
-    DepartMybatisConfig getDepartMybatisConfig(){
-        return new DepartMybatisConfig();
+
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
+
+    @Autowired
+    private IUserDepartDataService userDepartDataService;
+
+    @PostConstruct
+    public void init(){
+        sqlSessionFactory.getConfiguration().addInterceptor(new DepartMybatisInterceptor(userDepartDataService));
+//        sqlSessionFactory.getConfiguration().addInterceptor(new TenantMybatisInterceptor());
     }
 }

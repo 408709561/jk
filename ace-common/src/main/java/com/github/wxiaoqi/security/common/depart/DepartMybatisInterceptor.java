@@ -67,25 +67,31 @@ public class DepartMybatisInterceptor implements Interceptor {
         if (!SqlCommandType.SELECT.equals(mappedStatement.getSqlCommandType())) {
             return invocation.proceed();
         }
-//        if (handler.getBoundSql().getSql().startsWith("SELECT count(0) FROM")) {
-//            return invocation.proceed();
-//        }
         String namespace = mappedStatement.getId();
         String className = namespace.substring(0, namespace.lastIndexOf("."));
         Class<?> clazz = Class.forName(className);
+        Tenant tenant = clazz.getAnnotation(Tenant.class);
         Depart annotation = clazz.getAnnotation(Depart.class);
+        BoundSql boundSql = handler.getBoundSql();
+        //获取sql
+        String sql = boundSql.getSql();
+        StringBuffer whereSql = new StringBuffer("1 = 0");
+        CCJSqlParserManager parserManager = new CCJSqlParserManager();
+        Select select = (Select) parserManager.parse(new StringReader(sql));
+        PlainSelect plain = (PlainSelect) select.getSelectBody();
+        // 获取当前查询条件
+        Expression where = plain.getWhere();
         // 租户数据隔离
+        if (tenant != null) {
+            whereSql.append(" or ").append(tenant.dbField() + " = '" + BaseContextHandler.getTenantID() + "'");
+            if (annotation != null) {
+                whereSql.append(" and ( ");
+            }
+        }
+        // 部门数据隔离
         if (annotation != null) {
-            //获取sql
-            BoundSql boundSql = handler.getBoundSql();
-            String sql = boundSql.getSql();
-            CCJSqlParserManager parserManager = new CCJSqlParserManager();
-            Select select = (Select) parserManager.parse(new StringReader(sql));
-            PlainSelect plain = (PlainSelect) select.getSelectBody();
-            Expression where = plain.getWhere();
-            StringBuffer whereSql = new StringBuffer("1 = 0 ");
             // 添加用户自己的查询条件
-            whereSql.append(" or ").append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
+            whereSql.append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
             // 拼接部门数据sql
             if (userDepartDataService != null) {
                 List<String> userDataDepartIds = userDepartDataService.getUserDataDepartIds(BaseContextHandler.getUserID());
@@ -98,18 +104,25 @@ public class DepartMybatisInterceptor implements Interceptor {
                     }
                 }
             }
+        }
+        if (where == null) {
+            if(tenant!=null){
+                whereSql.append(")");
+            }
             Expression expression = CCJSqlParserUtil
                     .parseCondExpression(whereSql.toString());
-            if (where == null) {
-                Expression whereExpression = (Expression) expression;
-                plain.setWhere(whereExpression);
-            } else {
-                expression = CCJSqlParserUtil
-                        .parseCondExpression(expression.toString() + " and ( " + where.toString() + " )");
-                plain.setWhere(expression);
+            Expression whereExpression = (Expression) expression;
+            plain.setWhere(whereExpression);
+        } else {
+            whereSql.append(" and ( " + where.toString() + " )" );
+            if(tenant!=null){
+                whereSql.append(")");
             }
-            statementHandler.setValue("delegate.boundSql.sql", select.toString());
+            Expression expression = CCJSqlParserUtil
+                    .parseCondExpression(whereSql.toString());
+            plain.setWhere(expression);
         }
+        statementHandler.setValue("delegate.boundSql.sql", select.toString());
         return invocation.proceed();
     }
 

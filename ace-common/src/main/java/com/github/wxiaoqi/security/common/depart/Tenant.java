@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.tenant;
+package com.github.wxiaoqi.security.common.depart;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

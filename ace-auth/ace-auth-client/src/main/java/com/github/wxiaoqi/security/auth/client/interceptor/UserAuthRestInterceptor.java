@@ -23,6 +23,7 @@
 
 package com.github.wxiaoqi.security.auth.client.interceptor;
 
+import com.alibaba.fastjson.JSON;
 import com.github.ag.core.constants.CommonConstants;
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.ag.core.util.jwt.IJWTInfo;
@@ -31,6 +32,7 @@ import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
+import com.github.wxiaoqi.security.common.msg.BaseResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,12 +89,12 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
                 BaseContextHandler.setName(infoFromToken.getName());
                 BaseContextHandler.setUserID(infoFromToken.getId());
                 BaseContextHandler.setDepartID(infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_DEPART_ID));
+                BaseContextHandler.setTenantID(infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID));
             }catch(NonLoginException ex){
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 logger.error(ex.getMessage(),ex);
                 response.setContentType("UTF-8");
-                // TODO: 2018/2/11
-//                response.getOutputStream().println(new BaseResponse(ex.getStatus(), ex.getMessage()));
+                response.getOutputStream().println(JSON.toJSONString(new BaseResponse(ex.getStatus(), ex.getMessage())));
                 return false;
             }
 
