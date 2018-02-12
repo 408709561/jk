@@ -17,14 +17,12 @@
     <result column="sex" jdbcType="CHAR" property="sex" />
     <result column="type" jdbcType="CHAR" property="type" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="crt_time" jdbcType="DATE" property="crtTime" />
-    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
-    <result column="crt_name" jdbcType="VARCHAR" property="crtName" />
-    <result column="crt_host" jdbcType="VARCHAR" property="crtHost" />
-    <result column="upd_time" jdbcType="DATE" property="updTime" />
-    <result column="upd_user" jdbcType="VARCHAR" property="updUser" />
-    <result column="upd_name" jdbcType="VARCHAR" property="updName" />
-    <result column="upd_host" jdbcType="VARCHAR" property="updHost" />
+    <result property="crtUserName" column="crt_user_name"/>
+    <result property="crtUserId" column="crt_user_id"/>
+    <result property="crtTime" column="crt_time"/>
+    <result property="updUserName" column="upd_user_name"/>
+    <result property="updUserId" column="upd_user_id"/>
+    <result property="updTime" column="upd_time"/>
     <result column="attr1" jdbcType="VARCHAR" property="attr1" />
     <result column="attr2" jdbcType="VARCHAR" property="attr2" />
     <result column="attr3" jdbcType="VARCHAR" property="attr3" />

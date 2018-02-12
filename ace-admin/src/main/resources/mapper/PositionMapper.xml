@@ -41,12 +41,12 @@
         delete from base_position_depart where position_id = #{positionId}
     </delete>
     <select id="selectPositionUsers" resultType="com.github.wxiaoqi.security.admin.entity.User">
-        select u.username,u.name,u.id from base_position_user bpu inner join base_user u
+        select u.username,u.name,u.id from base_user u inner join base_position_user bpu
         on bpu.user_id = u.id
         where bpu.position_id = #{positionId}
     </select>
     <select id="selectPositionGroups" resultType="com.github.wxiaoqi.security.admin.entity.Group">
-        select g.* from base_position_group bpg inner join base_group g
+        select g.* from base_group g inner join base_position_group bpg
         on g.id = bpg.group_id
         where bpg.position_id = #{positionId}
     </select>
