@@ -29,7 +29,6 @@ package com.github.wxiaoqi.security.dict.config;
 import com.github.wxiaoqi.security.auth.client.interceptor.ServiceAuthRestInterceptor;
 import com.github.wxiaoqi.security.auth.client.interceptor.UserAuthRestInterceptor;
 import com.github.wxiaoqi.security.common.handler.GlobalExceptionHandler;
-import com.github.wxiaoqi.security.common.tenant.TenantWebInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;

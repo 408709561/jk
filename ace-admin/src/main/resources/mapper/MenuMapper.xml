@@ -31,16 +31,18 @@
         <result column="attr7" jdbcType="VARCHAR" property="attr7"/>
         <result column="attr8" jdbcType="VARCHAR" property="attr8"/>
         <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result property="tenantId" column="tenant_id"/>
     </resultMap>
     <select id="selectMenuByAuthorityId" resultMap="BaseResultMap">
-    select t.* from base_resource_authority ra
-    inner join base_menu t
-    on ra.resource_id = t.id
-    and ra.authority_id = #{authorityId}
-    and ra.authority_type = #{authorityType}
-    and ra.resource_type = 'menu'
+        select t.* from base_resource_authority ra
+        inner join base_menu t
+        on ra.resource_id = t.id
+        and ra.authority_id = #{authorityId}
+        and ra.authority_type = #{authorityType}
+        and ra.resource_type = 'menu'
+        and ra.type = #{type}
       </select>
-        <select id="selectAuthorityMenuByUserId" resultMap="BaseResultMap">
+      <select id="selectAuthorityMenuByUserId" resultMap="BaseResultMap">
          select distinct t.* from base_resource_authority ra
         inner join base_menu t
         on ra.resource_id = t.id
@@ -53,6 +55,7 @@
         )
         and ra.authority_type = 'group'
         and ra.resource_type = 'menu'
+        and ra.type = #{type}
         order by t.id
       </select>
     <select id="selectAuthoritySystemByUserId" resultMap="BaseResultMap">
@@ -65,6 +68,7 @@
         )
         and ra.authority_type = 'group'
         and ra.resource_type = 'menu'
+        and ra.type = #{type}
         where t.parent_id = -1
     </select>
 </mapper>

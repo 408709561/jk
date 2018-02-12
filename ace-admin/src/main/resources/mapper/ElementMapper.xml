@@ -27,6 +27,7 @@
         <result column="attr6" jdbcType="VARCHAR" property="attr6"/>
         <result column="attr7" jdbcType="VARCHAR" property="attr7"/>
         <result column="attr8" jdbcType="VARCHAR" property="attr8"/>
+        <result property="tenantId" column="tenant_id"/>
     </resultMap>
     <select id="selectAuthorityElementByUserId" resultMap="BaseResultMap">
     select distinct t.code,t.type,t.name,t.uri,t.method,m.title as menu_id from base_resource_authority ra
@@ -41,6 +42,7 @@
         )
         and ra.authority_type = 'group'
         and ra.resource_type = 'button'
+        and ra.type = #{type}
         inner join base_menu m
        on t.menu_id = m.id
   </select>
@@ -54,6 +56,7 @@
         )
         and ra.authority_type = 'group'
         and ra.resource_type = 'button'
+        and ra.type = #{type}
         and t.menu_id = #{menuId}
     </select>
     <select id="selectAuthorityElementByClientId" resultMap="BaseResultMap">

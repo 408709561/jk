@@ -98,6 +98,17 @@ public class Menu {
     private String attr8;
 
     private String path;
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
 
     /**
      * @return id

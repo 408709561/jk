@@ -53,4 +53,9 @@ public class AdminCommonConstant {
 
     public final static String BOOLEAN_NUMBER_TRUE = "1";
 
+    public final static String RESOURCE_TYPE_VIEW = "0";
+
+    public final static String RESOURCE_TYPE_AUTHORISE = "1";
+
+
 }

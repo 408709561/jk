@@ -85,6 +85,16 @@ public class Depart implements Serializable {
 	@Column(name = "attr4")
 	private String attr4;
 
+	@Column(name = "tenant_id")
+	private String tenantId;
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
 
 	/**
 	 * 设置：主键

@@ -23,6 +23,7 @@
 
 package com.github.wxiaoqi.security.admin.entity;
 
+import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
 import com.github.wxiaoqi.security.common.audit.*;
 
 import javax.persistence.Column;
@@ -57,6 +58,8 @@ public class ResourceAuthority {
 
     private String description;
 
+    private String type = AdminCommonConstant.RESOURCE_TYPE_VIEW;
+
     @CrtTime
     @Column(name = "crt_time")
     private Date crtTime;
@@ -86,12 +89,32 @@ public class ResourceAuthority {
 
     private String attr8;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+
     public ResourceAuthority(String authorityType, String resourceType) {
         this.authorityType = authorityType;
         this.resourceType = resourceType;
     }
 
     public ResourceAuthority() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**

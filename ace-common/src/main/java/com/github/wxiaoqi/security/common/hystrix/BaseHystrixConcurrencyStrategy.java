@@ -38,8 +38,6 @@ import com.netflix.hystrix.strategy.metrics.HystrixMetricsPublisher;
 import com.netflix.hystrix.strategy.properties.HystrixPropertiesStrategy;
 import com.netflix.hystrix.strategy.properties.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -145,7 +143,7 @@ public class BaseHystrixConcurrencyStrategy extends HystrixConcurrencyStrategy {
                 BaseContextHandler.setTenantID(tenantId);
                 return target.call();
             } finally {
-                RequestContextHolder.resetRequestAttributes();
+                BaseContextHandler.remove();
             }
         }
     }

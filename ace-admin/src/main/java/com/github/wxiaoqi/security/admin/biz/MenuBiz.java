@@ -48,16 +48,17 @@ import java.util.List;
 public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
     @Autowired
     private UserMapper userMapper;
+
     @Override
-    @Cache(key="permission:menu")
+    @Cache(key = "permission:menu")
     public List<Menu> selectListAll() {
         return super.selectListAll();
     }
 
     @Override
-    @CacheClear(keys={"permission:menu","permission"})
+    @CacheClear(keys = {"permission:menu", "permission"})
     public void insertSelective(Menu entity) {
-        if (AdminCommonConstant.ROOT == entity.getParentId()) {
+        if (AdminCommonConstant.ROOT.equals(entity.getParentId())) {
             entity.setPath("/" + entity.getCode());
         } else {
             Menu parent = this.selectById(entity.getParentId());
@@ -67,7 +68,13 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
     }
 
     @Override
-    @CacheClear(keys={"permission:menu","permission"})
+    @CacheClear(keys = {"permission:menu", "permission"})
+    public void deleteById(Object id) {
+        super.deleteById(id);
+    }
+
+    @Override
+    @CacheClear(keys = {"permission:menu", "permission"})
     public void updateById(Menu entity) {
         if (AdminCommonConstant.ROOT == entity.getParentId()) {
             entity.setPath("/" + entity.getCode());
@@ -79,7 +86,7 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
     }
 
     @Override
-    @CacheClear(keys={"permission:menu","permission"})
+    @CacheClear(keys = {"permission:menu", "permission"})
     public void updateSelectiveById(Menu entity) {
         super.updateSelectiveById(entity);
     }
@@ -92,10 +99,10 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
      */
     @Cache(key = "permission:menu:u{1}")
     public List<Menu> getUserAuthorityMenuByUserId(String userId) {
-        if(BooleanUtil.BOOLEAN_TRUE.equals(userMapper.selectByPrimaryKey(userId).getIsSuperAdmin())){
+        if (BooleanUtil.BOOLEAN_TRUE.equals(userMapper.selectByPrimaryKey(userId).getIsSuperAdmin())) {
             return this.selectListAll();
         }
-        return mapper.selectAuthorityMenuByUserId(userId);
+        return mapper.selectAuthorityMenuByUserId(userId, AdminCommonConstant.RESOURCE_TYPE_VIEW);
     }
 
     /**
@@ -105,6 +112,6 @@ public class MenuBiz extends BusinessBiz<MenuMapper, Menu> {
      * @return
      */
     public List<Menu> getUserAuthoritySystemByUserId(String id) {
-        return mapper.selectAuthoritySystemByUserId(id);
+        return mapper.selectAuthoritySystemByUserId(id, AdminCommonConstant.RESOURCE_TYPE_VIEW);
     }
 }

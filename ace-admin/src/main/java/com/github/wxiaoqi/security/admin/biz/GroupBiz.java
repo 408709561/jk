@@ -24,23 +24,26 @@
 package com.github.wxiaoqi.security.admin.biz;
 
 import com.ace.cache.annotation.CacheClear;
+import com.github.ag.core.context.BaseContextHandler;
+import com.github.wxiaoqi.merge.annonation.MergeResult;
 import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
+import com.github.wxiaoqi.security.admin.entity.Element;
 import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Menu;
 import com.github.wxiaoqi.security.admin.entity.ResourceAuthority;
-import com.github.wxiaoqi.security.admin.mapper.GroupMapper;
-import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
-import com.github.wxiaoqi.security.admin.mapper.ResourceAuthorityMapper;
-import com.github.wxiaoqi.security.admin.mapper.UserMapper;
+import com.github.wxiaoqi.security.admin.mapper.*;
 import com.github.wxiaoqi.security.admin.vo.AuthorityMenuTree;
 import com.github.wxiaoqi.security.admin.vo.GroupUsers;
+import com.github.wxiaoqi.security.admin.vo.MenuTree;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
+import com.github.wxiaoqi.security.common.util.BooleanUtil;
 import com.github.wxiaoqi.security.common.util.UUIDUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
 
@@ -59,6 +62,8 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
     private ResourceAuthorityMapper resourceAuthorityMapper;
     @Autowired
     private MenuMapper menuMapper;
+    @Autowired
+    private ElementMapper elementMapper;
 
     @Override
     public void insertSelective(Group entity) {
@@ -124,8 +129,8 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * @param menus
      */
     @CacheClear(keys = {"permission:menu", "permission:u"})
-    public void modifyAuthorityMenu(String groupId, String[] menus) {
-        resourceAuthorityMapper.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU);
+    public void modifyAuthorityMenu(String groupId, String[] menus, String type) {
+        resourceAuthorityMapper.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU, AdminCommonConstant.RESOURCE_TYPE_VIEW);
         List<Menu> menuList = menuMapper.selectAll();
         Map<String, String> map = new HashMap<String, String>();
         for (Menu menu : menuList) {
@@ -142,6 +147,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
             authority.setAuthorityId(groupId + "");
             authority.setResourceId(menuId);
             authority.setParentId("-1");
+            authority.setType(type);
             resourceAuthorityMapper.insertSelective(authority);
         }
     }
@@ -155,7 +161,8 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
         findParentID(map, relationMenus, parentId);
     }
 
-    /**SimpleRouteLocator
+    /**
+     * SimpleRouteLocator
      * 分配资源权限
      *
      * @param groupId
@@ -163,11 +170,12 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * @param elementId
      */
     @CacheClear(keys = {"permission:ele", "permission:u"})
-    public void modifyAuthorityElement(String groupId, String menuId, String elementId) {
+    public void modifyAuthorityElement(String groupId, String menuId, String elementId, String type) {
         ResourceAuthority authority = new ResourceAuthority(AdminCommonConstant.AUTHORITY_TYPE_GROUP, AdminCommonConstant.RESOURCE_TYPE_BTN);
         authority.setAuthorityId(groupId + "");
         authority.setResourceId(elementId + "");
         authority.setParentId("-1");
+        authority.setType(type);
         resourceAuthorityMapper.insertSelective(authority);
     }
 
@@ -175,15 +183,15 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * 移除资源权限
      *
      * @param groupId
-     * @param menuId
      * @param elementId
      */
     @CacheClear(keys = {"permission:ele", "permission:u"})
-    public void removeAuthorityElement(String groupId, String menuId, String elementId) {
+    public void removeAuthorityElement(String groupId, String elementId, String type) {
         ResourceAuthority authority = new ResourceAuthority();
         authority.setAuthorityId(groupId + "");
         authority.setResourceId(elementId + "");
         authority.setParentId("-1");
+        authority.setType(type);
         resourceAuthorityMapper.delete(authority);
     }
 
@@ -194,8 +202,8 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * @param groupId
      * @return
      */
-    public List<AuthorityMenuTree> getAuthorityMenu(String groupId) {
-        List<Menu> menus = menuMapper.selectMenuByAuthorityId(String.valueOf(groupId), AdminCommonConstant.AUTHORITY_TYPE_GROUP);
+    public List<AuthorityMenuTree> getAuthorityMenu(String groupId, String type) {
+        List<Menu> menus = menuMapper.selectMenuByAuthorityId(String.valueOf(groupId), AdminCommonConstant.AUTHORITY_TYPE_GROUP, type);
         List<AuthorityMenuTree> trees = new ArrayList<AuthorityMenuTree>();
         AuthorityMenuTree node = null;
         for (Menu menu : menus) {
@@ -213,14 +221,42 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      * @param groupId
      * @return
      */
-    public List<Integer> getAuthorityElement(String groupId) {
+    public List<String> getAuthorityElement(String groupId, String type) {
         ResourceAuthority authority = new ResourceAuthority(AdminCommonConstant.AUTHORITY_TYPE_GROUP, AdminCommonConstant.RESOURCE_TYPE_BTN);
-        authority.setAuthorityId(groupId + "");
+        authority.setAuthorityId(groupId);
+        authority.setType(type);
         List<ResourceAuthority> authorities = resourceAuthorityMapper.select(authority);
-        List<Integer> ids = new ArrayList<Integer>();
+        List<String> ids = new ArrayList<String>();
         for (ResourceAuthority auth : authorities) {
-            ids.add(Integer.parseInt(auth.getResourceId()));
+            ids.add(auth.getResourceId());
         }
         return ids;
+    }
+
+    /**
+     * 获取当前管理员可以分配的菜单
+     * @return
+     */
+    public List<MenuTree> getAuthorizeMenus() {
+        if (BooleanUtil.BOOLEAN_TRUE.equals(userMapper.selectByPrimaryKey(BaseContextHandler.getUserID()).getIsSuperAdmin())) {
+            return MenuTree.buildTree(menuMapper.selectAll(), AdminCommonConstant.ROOT);
+        }
+        return MenuTree.buildTree(menuMapper.selectAuthorityMenuByUserId(BaseContextHandler.getUserID(), AdminCommonConstant.RESOURCE_TYPE_AUTHORISE), AdminCommonConstant.ROOT);
+    }
+
+    /**
+     * 获取当前管理员可以分配的资源
+     * @param menuId
+     * @return
+     */
+    @MergeResult
+    public List<Element> getAuthorizeElements(String menuId) {
+        if (BooleanUtil.BOOLEAN_TRUE.equals(userMapper.selectByPrimaryKey(BaseContextHandler.getUserID()).getIsSuperAdmin())) {
+            Example example = new Example(Element.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("menuId", menuId);
+            return elementMapper.selectByExample(example);
+        }
+        return elementMapper.selectAuthorityMenuElementByUserId(BaseContextHandler.getUserID(),menuId,AdminCommonConstant.RESOURCE_TYPE_AUTHORISE);
     }
 }

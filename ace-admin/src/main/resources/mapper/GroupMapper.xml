@@ -29,6 +29,7 @@
     <result column="attr6" jdbcType="VARCHAR" property="attr6" />
     <result column="attr7" jdbcType="VARCHAR" property="attr7" />
     <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <result property="tenantId" column="tenant_id"/>
   </resultMap>
   <delete id="deleteGroupMembersById">
       delete from base_group_member where group_id = #{groupId}

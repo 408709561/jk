@@ -96,6 +96,18 @@ public class Group {
 
     private String attr8;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+
     /**
      * @return id
      */

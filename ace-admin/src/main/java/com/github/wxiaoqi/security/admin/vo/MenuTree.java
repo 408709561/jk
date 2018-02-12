@@ -23,7 +23,14 @@
 
 package com.github.wxiaoqi.security.admin.vo;
 
+import com.github.wxiaoqi.security.admin.entity.Menu;
+import com.github.wxiaoqi.security.common.util.TreeUtil;
 import com.github.wxiaoqi.security.common.vo.TreeNodeVO;
+import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Ace on 2017/6/12.
@@ -143,5 +150,22 @@ public class MenuTree extends TreeNodeVO<MenuTree> {
 
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public static List<MenuTree> buildTree(List<Menu> menus, String root) {
+        List<MenuTree> trees = new ArrayList<MenuTree>();
+        MenuTree node = null;
+        for (Menu menu : menus) {
+            node = new MenuTree();
+            BeanUtils.copyProperties(menu, node);
+            node.setLabel(menu.getTitle());
+            trees.add(node);
+        }
+        return TreeUtil.bulid(trees,root,  new Comparator<MenuTree>() {
+            @Override
+            public int compare(MenuTree o1, MenuTree o2) {
+                return o1.getOrderNum() - o2.getOrderNum();
+            }
+        }) ;
     }
 }

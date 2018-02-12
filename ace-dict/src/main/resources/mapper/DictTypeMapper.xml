@@ -20,6 +20,7 @@
         <result property="attr2" column="attr2"/>
         <result property="attr3" column="attr3"/>
         <result property="attr4" column="attr4"/>
+        <result property="tenantId" column="tenant_id"/>
     </resultMap>
 
 </mapper>

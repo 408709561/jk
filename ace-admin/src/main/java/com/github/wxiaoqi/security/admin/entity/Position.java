@@ -86,6 +86,18 @@ public class Position implements Serializable {
     @Column(name="depart_id")
     private String departId;
 
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+
     /**
      * 设置：
      */

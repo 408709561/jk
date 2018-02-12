@@ -26,6 +26,7 @@ package com.github.wxiaoqi.security.admin.biz;
 import com.ace.cache.annotation.Cache;
 import com.ace.cache.annotation.CacheClear;
 import com.github.wxiaoqi.merge.annonation.MergeResult;
+import com.github.wxiaoqi.security.admin.constant.AdminCommonConstant;
 import com.github.wxiaoqi.security.admin.entity.Element;
 import com.github.wxiaoqi.security.admin.mapper.ElementMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
@@ -58,12 +59,11 @@ public class ElementBiz extends BusinessBiz<ElementMapper,Element> {
         if(BooleanUtil.BOOLEAN_TRUE.equals(userMapper.selectByPrimaryKey(userId).getIsSuperAdmin())){
             return mapper.selectAllElementPermissions();
         }
-        // TODO: 2018/2/8 资源权限获取优化 ,结合岗位
-       return mapper.selectAuthorityElementByUserId(userId);
+       return mapper.selectAuthorityElementByUserId(userId,AdminCommonConstant.RESOURCE_TYPE_VIEW);
     }
 
     public List<Element> getAuthorityElementByUserId(String userId,String menuId){
-        return mapper.selectAuthorityMenuElementByUserId(userId,menuId);
+        return mapper.selectAuthorityMenuElementByUserId(userId,menuId,AdminCommonConstant.RESOURCE_TYPE_VIEW);
     }
 
     @Cache(key="permission:ele")

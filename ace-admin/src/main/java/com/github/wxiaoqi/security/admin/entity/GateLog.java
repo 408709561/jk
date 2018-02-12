@@ -29,7 +29,6 @@ import com.github.wxiaoqi.security.common.audit.CrtUserId;
 import com.github.wxiaoqi.security.common.audit.CrtUserName;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -58,6 +57,17 @@ public class GateLog {
 
     @Column(name = "crt_host")
     private String crtHost;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 
     /**
      * @return id

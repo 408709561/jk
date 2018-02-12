@@ -28,5 +28,5 @@ import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Param;
 
 public interface ResourceAuthorityMapper extends CommonMapper<ResourceAuthority> {
-    public void deleteByAuthorityIdAndResourceType(@Param("authorityId")String authorityId,@Param("resourceType") String resourceType);
+    public void deleteByAuthorityIdAndResourceType(@Param("authorityId")String authorityId,@Param("resourceType") String resourceType,@Param("type") String type);
 }

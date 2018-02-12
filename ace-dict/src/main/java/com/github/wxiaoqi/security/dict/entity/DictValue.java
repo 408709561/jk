@@ -48,6 +48,7 @@ public class DictValue implements Serializable {
     @Id
     private String id;
 	private Integer orderNum;
+
 	@Column(name = "tenant_id")
 	private String tenantId;
 
@@ -128,6 +129,7 @@ public class DictValue implements Serializable {
 
 	@Column(name="type_id")
 	private String typeId;
+
 	/**
 	 * 设置：主键
 	 */
