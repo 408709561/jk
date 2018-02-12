@@ -51,7 +51,10 @@
     on gm.user_id = u.id where gm.group_id = #{groupId}
   </select>
   <select id="selectUserDataDepartIds" resultType="java.lang.String">
-    select bpd.depart_id from base_position_depart bpd
+    select bd.id from base_depart bd
+    inner join
+    base_position_depart bpd
+    on bpd.depart_id = bd.id
     inner join base_position_user bpu
     on bpd.position_id = bpu.position_id
     where bpu.user_id = #{userId}

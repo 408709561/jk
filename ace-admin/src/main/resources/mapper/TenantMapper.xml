@@ -20,6 +20,8 @@
         <result property="attr4" column="attr4"/>
         <result property="description" column="description"/>
         <result property="isSuperTenant" column="is_super_tenant"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="owner" column="owner"/>
     </resultMap>
 
 </mapper>

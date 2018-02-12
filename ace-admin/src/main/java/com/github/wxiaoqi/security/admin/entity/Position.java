@@ -1,7 +1,6 @@
 package com.github.wxiaoqi.security.admin.entity;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -19,7 +18,6 @@ public class Position implements Serializable {
 
     //
     @Id
-    @GeneratedValue(generator = "UUID")
     private String id;
 
     //职位

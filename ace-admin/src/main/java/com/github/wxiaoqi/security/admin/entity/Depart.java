@@ -1,7 +1,6 @@
 package com.github.wxiaoqi.security.admin.entity;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -21,7 +20,6 @@ public class Depart implements Serializable {
 	
 	    //主键
     @Id
-	@GeneratedValue(generator = "UUID")
     private String id;
 	
 	    //组织名称

@@ -79,7 +79,28 @@ public class Tenant implements Serializable {
 	    //是否超级租户
     @Column(name = "is_super_tenant")
     private String isSuperTenant;
-	
+
+
+	@Column(name = "tenant_id")
+	private String tenantId;
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	private String owner;
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
+	}
 
 	/**
 	 * 设置：

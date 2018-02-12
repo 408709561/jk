@@ -34,6 +34,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.annotation.PostConstruct;
 
 /**
+ * 租户\部门数据隔离
  * @author ace
  * @create 2018/2/11.
  */
@@ -48,7 +49,6 @@ public class DepartDataConfig {
 
     @PostConstruct
     public void init(){
-        sqlSessionFactory.getConfiguration().addInterceptor(new DepartMybatisInterceptor(userDepartDataService));
-//        sqlSessionFactory.getConfiguration().addInterceptor(new TenantMybatisInterceptor());
+        sqlSessionFactory.getConfiguration().addInterceptor(new DepartMybatisInterceptor(userDepartDataService,"com.github.wxiaoqi.security.admin.mapper.UserMapper.selectOne"));
     }
 }

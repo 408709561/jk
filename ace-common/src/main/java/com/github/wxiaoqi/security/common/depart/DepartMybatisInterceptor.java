@@ -41,8 +41,10 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 
 import java.io.StringReader;
 import java.sql.Connection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * 租户数据隔离拦截器
@@ -54,9 +56,14 @@ import java.util.Properties;
 public class DepartMybatisInterceptor implements Interceptor {
     private IUserDepartDataService userDepartDataService;
 
-    public DepartMybatisInterceptor(IUserDepartDataService userDepartDataService) {
+    public DepartMybatisInterceptor(IUserDepartDataService userDepartDataService, String... ignoreMappers) {
         this.userDepartDataService = userDepartDataService;
+        for (String ignore : ignoreMappers) {
+            this.ignoreMappers.add(ignore);
+        }
     }
+
+    private Set<String> ignoreMappers = new HashSet<>();
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -68,6 +75,9 @@ public class DepartMybatisInterceptor implements Interceptor {
             return invocation.proceed();
         }
         String namespace = mappedStatement.getId();
+        if (ignoreMappers.contains(namespace)) {
+            return invocation.proceed();
+        }
         String className = namespace.substring(0, namespace.lastIndexOf("."));
         Class<?> clazz = Class.forName(className);
 
@@ -84,7 +94,10 @@ public class DepartMybatisInterceptor implements Interceptor {
         Expression where = plain.getWhere();
         // 租户数据隔离
         if (tenant != null) {
-            whereSql.append(" 1 = 0 or ").append(plain.getFromItem().getAlias()).append(".").append(tenant.dbField() + " = '" + BaseContextHandler.getTenantID() + "'");
+            whereSql.append("( 1 = 0 or ");
+            whereSql.append(addAlias(plain, tenant.userField())).append(" = '").append(BaseContextHandler.getUserID()).append("'");
+            whereSql.append(" or ");
+            whereSql.append(addAlias(plain, tenant.tenantField()) + " = '" + BaseContextHandler.getTenantID() + "' )");
             if (annotation != null) {
                 whereSql.append(" and ( ");
             }
@@ -93,7 +106,7 @@ public class DepartMybatisInterceptor implements Interceptor {
         if (annotation != null) {
             // 添加用户自己的查询条件
             whereSql.append(" ( 1 = 0 or ");
-            whereSql.append(plain.getFromItem().getAlias()).append(".").append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
+            whereSql.append(addAlias(plain, annotation.userField())).append(" = '").append(BaseContextHandler.getUserID()).append("'");
             // 拼接部门数据sql
             if (userDepartDataService != null) {
                 List<String> userDataDepartIds = userDepartDataService.getUserDataDepartIds(BaseContextHandler.getUserID());
@@ -102,7 +115,7 @@ public class DepartMybatisInterceptor implements Interceptor {
                         if (i == 0) {
                             whereSql.append(" or ");
                         }
-                        whereSql.append(plain.getFromItem().getAlias()).append(".").append(annotation.departField()).append(" = '").append(userDataDepartIds.get(i)).append("' ");
+                        whereSql.append(addAlias(plain, annotation.departField())).append(" = '").append(userDataDepartIds.get(i)).append("' ");
                     }
                 }
             }
@@ -112,10 +125,12 @@ public class DepartMybatisInterceptor implements Interceptor {
             if (tenant != null) {
                 whereSql.append(")");
             }
-            Expression expression = CCJSqlParserUtil
-                    .parseCondExpression(whereSql.toString());
-            Expression whereExpression = (Expression) expression;
-            plain.setWhere(whereExpression);
+            if (whereSql.length() > 0) {
+                Expression expression = CCJSqlParserUtil
+                        .parseCondExpression(whereSql.toString());
+                Expression whereExpression = (Expression) expression;
+                plain.setWhere(whereExpression);
+            }
         } else {
             if (whereSql.length() > 0) {
                 whereSql.append(" and ( " + where.toString() + " )");
@@ -144,5 +159,13 @@ public class DepartMybatisInterceptor implements Interceptor {
     @Override
     public void setProperties(Properties properties) {
 
+    }
+
+    private String addAlias(PlainSelect plain, String field) {
+        if (plain.getFromItem().getAlias() != null) {
+            return plain.getFromItem().getAlias() + "." + field;
+        } else {
+            return field;
+        }
     }
 }

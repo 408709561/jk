@@ -2,6 +2,7 @@ package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.User;
+import com.github.wxiaoqi.security.common.depart.Tenant;
 import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @email 463540703@qq.com
  * @version 2018-02-04 19:06:43
  */
+@Tenant
 public interface DepartMapper extends CommonMapper<Depart> {
 
     List<User> selectDepartUsers(@Param("departId") String departId,@Param("userName") String userName);

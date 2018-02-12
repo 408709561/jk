@@ -30,8 +30,12 @@
       delete from base_depart_user where depart_id = #{departId} and user_id = #{userId}
     </delete>
     <select id="selectDepartUsers" resultType="com.github.wxiaoqi.security.admin.entity.User">
-      select u.name,u.username,u.id,u.sex,u.description from base_depart_user bdu INNER join base_user u
-      on bdu.user_id = u.id
+      select u.name,u.username,u.id,u.sex,u.description,u.depart_id from base_depart d
+          inner join base_depart_user bdu
+        on bdu.depart_id = d.id
+          inner join
+          base_user u
+        on bdu.user_id = u.id
       where bdu.depart_id = #{departId}
        <if test="userName!=null">
         and u.name like #{userName}

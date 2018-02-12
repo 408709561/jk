@@ -68,4 +68,10 @@ public class DepartBiz extends BusinessBiz<DepartMapper,Depart> {
         }
         this.mapper.deleteDepartUser(departId,userId);
     }
+
+    @Override
+    public void insertSelective(Depart entity) {
+        entity.setId(UUIDUtils.generateUuid());
+        super.insertSelective(entity);
+    }
 }

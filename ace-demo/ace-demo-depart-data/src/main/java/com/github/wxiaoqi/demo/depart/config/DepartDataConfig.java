@@ -28,7 +28,6 @@ package com.github.wxiaoqi.demo.depart.config;
 import com.github.wxiaoqi.security.common.depart.DepartMybatisConfig;
 import com.github.wxiaoqi.security.common.depart.DepartMybatisInterceptor;
 import com.github.wxiaoqi.security.common.depart.IUserDepartDataService;
-import com.github.wxiaoqi.security.common.tenant.TenantMybatisInterceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

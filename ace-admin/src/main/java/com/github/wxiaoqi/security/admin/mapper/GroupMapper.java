@@ -24,9 +24,10 @@
 package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.Group;
+import com.github.wxiaoqi.security.common.depart.Tenant;
 import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Param;
-
+@Tenant(userField = "crt_user")
 public interface GroupMapper extends CommonMapper<Group> {
     public void deleteGroupMembersById (@Param("groupId") String groupId);
     public void deleteGroupLeadersById (@Param("groupId") String groupId);

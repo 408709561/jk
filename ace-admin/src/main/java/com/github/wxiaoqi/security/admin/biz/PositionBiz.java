@@ -88,4 +88,13 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
         });
         return trees;
     }
+
+    @Override
+    public void insertSelective(Position entity) {
+        String departId = entity.getDepartId();
+        entity.setId(UUIDUtils.generateUuid());
+        super.insertSelective(entity);
+        entity.setDepartId(departId);
+        updateSelectiveById(entity);
+    }
 }

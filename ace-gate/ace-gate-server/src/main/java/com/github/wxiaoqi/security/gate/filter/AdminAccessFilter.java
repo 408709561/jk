@@ -192,7 +192,7 @@ public class AdminAccessFilter extends ZuulFilter {
 
 
     private void checkUserPermission(PermissionInfo[] permissions, RequestContext ctx, IJWTInfo user) {
-        List<PermissionInfo> permissionInfos = userService.getPermissionByUsername(user.getUniqueName());
+        List<PermissionInfo> permissionInfos = userService.getPermissionByUsername();
         PermissionInfo current = null;
         for (PermissionInfo info : permissions) {
             boolean anyMatch = permissionInfos.parallelStream().anyMatch(new Predicate<PermissionInfo>() {

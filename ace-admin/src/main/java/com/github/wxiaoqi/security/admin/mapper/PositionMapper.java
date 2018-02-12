@@ -4,6 +4,7 @@ import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
+import com.github.wxiaoqi.security.common.depart.Tenant;
 import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @email 463540703@qq.com
  * @version 2018-02-04 19:06:43
  */
+@Tenant
 public interface PositionMapper extends CommonMapper<Position> {
     /**
      * 批量删除岗位中得用户

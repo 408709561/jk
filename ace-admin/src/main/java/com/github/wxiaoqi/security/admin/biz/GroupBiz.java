@@ -67,7 +67,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
 
     @Override
     public void insertSelective(Group entity) {
-        if (AdminCommonConstant.ROOT == entity.getParentId()) {
+        if (AdminCommonConstant.ROOT.equals(entity.getParentId())) {
             entity.setPath("/" + entity.getCode());
         } else {
             Group parent = this.selectById(entity.getParentId());
@@ -130,7 +130,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      */
     @CacheClear(keys = {"permission:menu", "permission:u"})
     public void modifyAuthorityMenu(String groupId, String[] menus, String type) {
-        resourceAuthorityMapper.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU, AdminCommonConstant.RESOURCE_TYPE_VIEW);
+        resourceAuthorityMapper.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU, type);
         List<Menu> menuList = menuMapper.selectAll();
         Map<String, String> map = new HashMap<String, String>();
         for (Menu menu : menuList) {

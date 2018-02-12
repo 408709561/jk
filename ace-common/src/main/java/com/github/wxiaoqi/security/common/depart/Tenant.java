@@ -37,5 +37,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value={ElementType.METHOD,ElementType.TYPE})
 public @interface Tenant {
-    String dbField() default "tenant_id";
+    String tenantField() default "tenant_id";
+    String userField() default "crt_user_id";
 }

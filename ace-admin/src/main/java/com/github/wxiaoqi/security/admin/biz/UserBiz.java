@@ -77,6 +77,7 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
         String userId = UUIDUtils.generateUuid();
         entity.setTenantId(BaseContextHandler.getTenantID());
         entity.setId(userId);
+        entity.setIsSuperAdmin(BooleanUtil.BOOLEAN_FALSE);
         // 如果非超级管理员,无法修改用户的租户信息
         if (BooleanUtil.BOOLEAN_FALSE.equals(mapper.selectByPrimaryKey(BaseContextHandler.getUserID()).getIsSuperAdmin())) {
             entity.setIsSuperAdmin(BooleanUtil.BOOLEAN_FALSE);
