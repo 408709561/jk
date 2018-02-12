@@ -20,6 +20,6 @@ public interface DepartMapper extends CommonMapper<Depart> {
 
     void deleteDepartUser(@Param("departId")String departId, @Param("userId") String userId);
 
-    void insertDepartUser(@Param("id") String id, @Param("departId") String departId, @Param("userId") String userId);
+    void insertDepartUser(@Param("id") String id, @Param("departId") String departId, @Param("userId") String userId,@Param("tenantId") String tenantId);
 
 }

@@ -39,18 +39,18 @@
   </delete>
   <insert id="insertGroupMembersById">
     insert into base_group_member (
-       id,group_id,user_id
+       id,group_id,user_id,tenant_id
     )
     values(
-       #{id},#{groupId},#{userId}
+       #{id},#{groupId},#{userId},#{tenantId}
     )
   </insert>
   <insert id="insertGroupLeadersById">
     insert into base_group_leader (
-       id,group_id,user_id
+       id,group_id,user_id,tenant_id
     )
     values(
-       #{id},#{groupId},#{userId}
+       #{id},#{groupId},#{userId},#{tenantId}
     )
   </insert>
 </mapper>

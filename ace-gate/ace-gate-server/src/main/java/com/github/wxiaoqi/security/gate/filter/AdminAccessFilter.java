@@ -24,6 +24,7 @@
 package com.github.wxiaoqi.security.gate.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.github.ag.core.constants.CommonConstants;
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
@@ -50,7 +51,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -142,7 +142,7 @@ public class AdminAccessFilter extends ZuulFilter {
         }
         // 申请客户端密钥头
         ctx.addZuulRequestHeader(serviceAuthConfig.getTokenHeader(), serviceAuthUtil.getClientToken());
-       BaseContextHandler.remove();
+        BaseContextHandler.remove();
         return null;
     }
 
@@ -169,10 +169,7 @@ public class AdminAccessFilter extends ZuulFilter {
 
     private void setCurrentUserInfoAndLog(RequestContext ctx, IJWTInfo user, PermissionInfo pm) {
         String host = ClientUtil.getClientIp(ctx.getRequest());
-        ctx.addZuulRequestHeader("userId", user.getId());
-        ctx.addZuulRequestHeader("userName", URLEncoder.encode(user.getName()));
-        ctx.addZuulRequestHeader("userHost", ClientUtil.getClientIp(ctx.getRequest()));
-        LogInfo logInfo = new LogInfo(pm.getMenu(), pm.getName(), pm.getUri(), new Date(), user.getId(), user.getName(), host);
+        LogInfo logInfo = new LogInfo(pm.getMenu(), pm.getName(), pm.getUri(), new Date(), user.getId(), user.getName(), host, user.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID));
         DBLog.getInstance().setLogService(logService).offerQueue(logInfo);
     }
 

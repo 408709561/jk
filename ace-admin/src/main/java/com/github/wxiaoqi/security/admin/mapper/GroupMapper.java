@@ -30,6 +30,6 @@ import org.apache.ibatis.annotations.Param;
 public interface GroupMapper extends CommonMapper<Group> {
     public void deleteGroupMembersById (@Param("groupId") String groupId);
     public void deleteGroupLeadersById (@Param("groupId") String groupId);
-    public void insertGroupMembersById (@Param("id") String id,@Param("groupId") String groupId,@Param("userId") String userId);
-    public void insertGroupLeadersById (@Param("id") String id,@Param("groupId") String groupId,@Param("userId") String userId);
+    public void insertGroupMembersById (@Param("id") String id,@Param("groupId") String groupId,@Param("userId") String userId,@Param("tenantId") String tenantId);
+    public void insertGroupLeadersById (@Param("id") String id,@Param("groupId") String groupId,@Param("userId") String userId,@Param("tenantId") String tenantId);
 }

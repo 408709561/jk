@@ -24,7 +24,7 @@
         <result property="tenantId" column="tenant_id"/>
     </resultMap>
     <insert id="insertDepartUser">
-      insert into base_depart_user (id,user_id,depart_id) values (#{id},#{userId},#{departId})
+      insert into base_depart_user (id,user_id,depart_id,tenant_id) values (#{id},#{userId},#{departId},#{tenantId})
     </insert>
     <delete id="deleteDepartUser">
       delete from base_depart_user where depart_id = #{departId} and user_id = #{userId}

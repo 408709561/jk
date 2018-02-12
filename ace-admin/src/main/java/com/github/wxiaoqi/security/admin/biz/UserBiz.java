@@ -81,7 +81,7 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
         if (BooleanUtil.BOOLEAN_FALSE.equals(mapper.selectByPrimaryKey(BaseContextHandler.getUserID()).getIsSuperAdmin())) {
             entity.setIsSuperAdmin(BooleanUtil.BOOLEAN_FALSE);
         }
-        departMapper.insertDepartUser(UUIDUtils.generateUuid(), entity.getDepartId(), entity.getId());
+        departMapper.insertDepartUser(UUIDUtils.generateUuid(), entity.getDepartId(), entity.getId(),BaseContextHandler.getTenantID());
         super.insertSelective(entity);
     }
 
@@ -91,7 +91,7 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
         User user = mapper.selectByPrimaryKey(entity.getId());
         if (!user.getDepartId().equals(entity.getDepartId())) {
             departMapper.deleteDepartUser(user.getDepartId(), entity.getId());
-            departMapper.insertDepartUser(UUIDUtils.generateUuid(), entity.getDepartId(), entity.getId());
+            departMapper.insertDepartUser(UUIDUtils.generateUuid(), entity.getDepartId(), entity.getId(),BaseContextHandler.getTenantID());
         }
         // 如果非超级管理员,无法修改用户的租户信息
         if (BooleanUtil.BOOLEAN_FALSE.equals(mapper.selectByPrimaryKey(BaseContextHandler.getUserID()).getIsSuperAdmin())) {

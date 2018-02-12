@@ -23,13 +23,13 @@
         <result property="tenantId" column="tenant_id"/>
     </resultMap>
     <insert id="insertPositionUser">
-      insert into base_position_user (id,position_id,user_id) values (#{id},#{positionId},#{userId})
+      insert into base_position_user (id,position_id,user_id,tenant_id) values (#{id},#{positionId},#{userId},#{tenantId})
     </insert>
     <insert id="insertPositionGroup">
-      insert into base_position_group (id,position_id,group_id) values (#{id},#{positionId},#{groupId})
+      insert into base_position_group (id,position_id,group_id,tenant_id) values (#{id},#{positionId},#{groupId},#{tenantId})
     </insert>
     <insert id="insertPositionDepart">
-      insert into base_position_depart (id,position_id,depart_id) values (#{id},#{positionId},#{departId})
+      insert into base_position_depart (id,position_id,depart_id,tenant_id) values (#{id},#{positionId},#{departId},#{tenantId})
     </insert>
     <delete id="deletePositionUsers">
       delete from base_position_user where position_id = #{positionId}

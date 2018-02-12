@@ -70,12 +70,13 @@ public class DepartMybatisInterceptor implements Interceptor {
         String namespace = mappedStatement.getId();
         String className = namespace.substring(0, namespace.lastIndexOf("."));
         Class<?> clazz = Class.forName(className);
+
         Tenant tenant = clazz.getAnnotation(Tenant.class);
         Depart annotation = clazz.getAnnotation(Depart.class);
         BoundSql boundSql = handler.getBoundSql();
         //获取sql
         String sql = boundSql.getSql();
-        StringBuffer whereSql = new StringBuffer("1 = 0");
+        StringBuffer whereSql = new StringBuffer();
         CCJSqlParserManager parserManager = new CCJSqlParserManager();
         Select select = (Select) parserManager.parse(new StringReader(sql));
         PlainSelect plain = (PlainSelect) select.getSelectBody();
@@ -83,7 +84,7 @@ public class DepartMybatisInterceptor implements Interceptor {
         Expression where = plain.getWhere();
         // 租户数据隔离
         if (tenant != null) {
-            whereSql.append(" or ").append(tenant.dbField() + " = '" + BaseContextHandler.getTenantID() + "'");
+            whereSql.append(" 1 = 0 or ").append(plain.getFromItem().getAlias()).append(".").append(tenant.dbField() + " = '" + BaseContextHandler.getTenantID() + "'");
             if (annotation != null) {
                 whereSql.append(" and ( ");
             }
@@ -91,8 +92,8 @@ public class DepartMybatisInterceptor implements Interceptor {
         // 部门数据隔离
         if (annotation != null) {
             // 添加用户自己的查询条件
-            whereSql.append(" ( ");
-            whereSql.append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
+            whereSql.append(" ( 1 = 0 or ");
+            whereSql.append(plain.getFromItem().getAlias()).append(".").append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
             // 拼接部门数据sql
             if (userDepartDataService != null) {
                 List<String> userDataDepartIds = userDepartDataService.getUserDataDepartIds(BaseContextHandler.getUserID());
@@ -101,14 +102,14 @@ public class DepartMybatisInterceptor implements Interceptor {
                         if (i == 0) {
                             whereSql.append(" or ");
                         }
-                        whereSql.append(annotation.departField()).append(" = '").append(userDataDepartIds.get(i)).append("' ");
+                        whereSql.append(plain.getFromItem().getAlias()).append(".").append(annotation.departField()).append(" = '").append(userDataDepartIds.get(i)).append("' ");
                     }
                 }
             }
             whereSql.append(" ) ");
         }
         if (where == null) {
-            if(tenant!=null){
+            if (tenant != null) {
                 whereSql.append(")");
             }
             Expression expression = CCJSqlParserUtil
@@ -116,8 +117,12 @@ public class DepartMybatisInterceptor implements Interceptor {
             Expression whereExpression = (Expression) expression;
             plain.setWhere(whereExpression);
         } else {
-            whereSql.append(" and ( " + where.toString() + " )" );
-            if(tenant!=null){
+            if (whereSql.length() > 0) {
+                whereSql.append(" and ( " + where.toString() + " )");
+            } else {
+                whereSql.append(where.toString());
+            }
+            if (tenant != null) {
                 whereSql.append(")");
             }
             Expression expression = CCJSqlParserUtil

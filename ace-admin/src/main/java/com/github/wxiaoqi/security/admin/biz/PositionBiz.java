@@ -1,5 +1,6 @@
 package com.github.wxiaoqi.security.admin.biz;
 
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
@@ -34,7 +35,7 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
         if(StringUtils.isNotBlank(users)){
             mapper.deletePositionUsers(positionId);
             for (String uId : users.split(",")) {
-                mapper.insertPositionUser(UUIDUtils.generateUuid(),positionId,uId);
+                mapper.insertPositionUser(UUIDUtils.generateUuid(),positionId,uId, BaseContextHandler.getTenantID());
             }
         }
     }
@@ -52,7 +53,7 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
         if(StringUtils.isNotBlank(groups)) {
             mapper.deletePositionGroups(positionId);
             for (String groupId : groups.split(",")) {
-                mapper.insertPositionGroup(UUIDUtils.generateUuid(),positionId,groupId);
+                mapper.insertPositionGroup(UUIDUtils.generateUuid(),positionId,groupId, BaseContextHandler.getTenantID());
             }
         }
     }
@@ -74,7 +75,7 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
         if(StringUtils.isNotBlank(departs)) {
             mapper.deletePositionDeparts(positionId);
             for (String groupId : departs.split(",")) {
-                mapper.insertPositionDepart(UUIDUtils.generateUuid(),positionId,groupId);
+                mapper.insertPositionDepart(UUIDUtils.generateUuid(),positionId,groupId, BaseContextHandler.getTenantID());
             }
         }
     }

@@ -111,13 +111,13 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
         if (!StringUtils.isEmpty(members)) {
             String[] mem = members.split(",");
             for (String m : mem) {
-                mapper.insertGroupMembersById(UUIDUtils.generateUuid(), groupId, m);
+                mapper.insertGroupMembersById(UUIDUtils.generateUuid(), groupId, m, BaseContextHandler.getTenantID());
             }
         }
         if (!StringUtils.isEmpty(leaders)) {
             String[] mem = leaders.split(",");
             for (String m : mem) {
-                mapper.insertGroupLeadersById(UUIDUtils.generateUuid(), groupId, m);
+                mapper.insertGroupLeadersById(UUIDUtils.generateUuid(), groupId, m, BaseContextHandler.getTenantID());
             }
         }
     }

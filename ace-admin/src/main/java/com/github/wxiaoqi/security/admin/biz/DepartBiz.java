@@ -1,6 +1,7 @@
 package com.github.wxiaoqi.security.admin.biz;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.merge.annonation.MergeResult;
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.User;
@@ -41,7 +42,7 @@ public class DepartBiz extends BusinessBiz<DepartMapper,Depart> {
         if (!StringUtils.isEmpty(userIds)) {
             String[] uIds = userIds.split(",");
             for (String uId : uIds) {
-                this.mapper.insertDepartUser(UUIDUtils.generateUuid(),departId,uId);
+                this.mapper.insertDepartUser(UUIDUtils.generateUuid(),departId,uId, BaseContextHandler.getTenantID());
             }
         }
     }

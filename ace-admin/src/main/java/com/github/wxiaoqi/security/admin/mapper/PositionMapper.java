@@ -29,7 +29,7 @@ public interface PositionMapper extends CommonMapper<Position> {
      * @param positionId
      * @param userId
      */
-    void insertPositionUser(@Param("id")String id, @Param("positionId")String positionId, @Param("userId") String userId);
+    void insertPositionUser(@Param("id")String id, @Param("positionId")String positionId, @Param("userId") String userId,@Param("tenantId") String tenantId);
 
     /**
      * 获取岗位关联的用户
@@ -50,7 +50,7 @@ public interface PositionMapper extends CommonMapper<Position> {
      * @param positionId
      * @param groupId
      */
-    void insertPositionGroup(@Param("id")String id, @Param("positionId")String positionId, @Param("groupId") String groupId);
+    void insertPositionGroup(@Param("id")String id, @Param("positionId")String positionId, @Param("groupId") String groupId,@Param("tenantId") String tenantId);
 
     /**
      * 获取岗位关联的角色
@@ -71,7 +71,7 @@ public interface PositionMapper extends CommonMapper<Position> {
      * @param positionId
      * @param departId
      */
-    void insertPositionDepart(@Param("id")String id, @Param("positionId")String positionId, @Param("departId") String departId);
+    void insertPositionDepart(@Param("id")String id, @Param("positionId")String positionId, @Param("departId") String departId,@Param("tenantId") String tenantId);
 
     /**
      * 获取岗位授权的部门
