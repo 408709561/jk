@@ -3,6 +3,8 @@ package com.github.wxiaoqi.demo.depart.config;
 import com.github.wxiaoqi.security.auth.client.interceptor.ServiceAuthRestInterceptor;
 import com.github.wxiaoqi.security.auth.client.interceptor.UserAuthRestInterceptor;
 import com.github.wxiaoqi.security.common.handler.GlobalExceptionHandler;
+import com.github.wxiaoqi.security.common.xss.XssFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -51,5 +53,17 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     UserAuthRestInterceptor getUserAuthRestInterceptor() {
         return new UserAuthRestInterceptor();
+    }
+
+    /**
+     * xssFilter注册
+     */
+    @Bean
+    public FilterRegistrationBean xssFilterRegistration() {
+        XssFilter xssFilter = new XssFilter();
+        FilterRegistrationBean registration = new FilterRegistrationBean(xssFilter);
+        registration.addUrlPatterns("/*");
+        registration.setOrder(Integer.MIN_VALUE);
+        return registration;
     }
 }

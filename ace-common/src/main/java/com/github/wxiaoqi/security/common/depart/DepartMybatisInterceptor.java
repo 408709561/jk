@@ -91,6 +91,7 @@ public class DepartMybatisInterceptor implements Interceptor {
         // 部门数据隔离
         if (annotation != null) {
             // 添加用户自己的查询条件
+            whereSql.append(" ( ");
             whereSql.append(annotation.userField()).append(" = '").append(BaseContextHandler.getUserID()).append("'");
             // 拼接部门数据sql
             if (userDepartDataService != null) {
@@ -104,6 +105,7 @@ public class DepartMybatisInterceptor implements Interceptor {
                     }
                 }
             }
+            whereSql.append(" ) ");
         }
         if (where == null) {
             if(tenant!=null){

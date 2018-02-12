@@ -24,7 +24,6 @@
 package com.github.wxiaoqi.security.gate.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.github.ag.core.constants.CommonConstants;
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
@@ -33,10 +32,8 @@ import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
-import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import com.github.wxiaoqi.security.common.exception.auth.UserForbiddenException;
-import com.github.wxiaoqi.security.common.exception.base.BusinessException;
 import com.github.wxiaoqi.security.common.util.ClientUtil;
 import com.github.wxiaoqi.security.gate.feign.ILogFeign;
 import com.github.wxiaoqi.security.gate.feign.IUserFeign;
@@ -82,9 +79,6 @@ public class AdminAccessFilter extends ZuulFilter {
 
     @Value("${zuul.prefix}")
     private String zuulPrefix;
-
-    @Value("${gate.tenant.enable}")
-    private Boolean enableTenant;
 
     @Autowired
     private UserAuthUtil userAuthUtil;
@@ -132,15 +126,12 @@ public class AdminAccessFilter extends ZuulFilter {
             log.error(e.getMessage(), e);
             return null;
         }
-        // 判断当前用户是否属于当前租户
-        if (enableTenant) {
-            // 租户传递
-            ctx.addZuulRequestHeader(RequestHeaderConstants.TENANT, BaseContextHandler.getTenantID());
-            if(!BaseContextHandler.getTenantID().equals(user.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID))) {
-                setFailedRequest(JSON.toJSONString(new BusinessException("当前用户不属于当前租户,不具有该租户的任何权限!")), HttpStatus.FORBIDDEN.value());
-                return null;
-            }
-        }
+        // 判断当前租户是否过期
+//        ctx.addZuulRequestHeader(RequestHeaderConstants.TENANT, BaseContextHandler.getTenantID());
+//        if(!BaseContextHandler.getTenantID().equals(user.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID))) {
+//            setFailedRequest(JSON.toJSONString(new BusinessException("当前用户不属于当前租户,不具有该租户的任何权限!")), HttpStatus.FORBIDDEN.value());
+//            return null;
+//        }
         List<PermissionInfo> permissionIfs = userService.getAllPermissionInfo();
         // 判断资源是否启用权限约束
         Stream<PermissionInfo> stream = getPermissionIfs(requestUri, method, permissionIfs);

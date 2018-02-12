@@ -1,8 +1,10 @@
 package com.github.wxiaoqi.demo.depart.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.*;
 
 
 /**
@@ -18,7 +20,7 @@ public class DepartDataTest implements Serializable {
 	
 	    //
     @Id
-    private Integer id;
+    private String id;
 	
 	    //
     @Column(name = "name")
@@ -60,13 +62,13 @@ public class DepartDataTest implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 	/**
