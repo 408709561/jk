@@ -32,8 +32,8 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
      * @param users
      */
     public void modifyPositionUsers(String positionId, String users) {
+        mapper.deletePositionUsers(positionId);
         if(StringUtils.isNotBlank(users)){
-            mapper.deletePositionUsers(positionId);
             for (String uId : users.split(",")) {
                 mapper.insertPositionUser(UUIDUtils.generateUuid(),positionId,uId, BaseContextHandler.getTenantID());
             }
@@ -50,8 +50,8 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
     }
 
     public void modifyPositionGroups(String positionId, String groups) {
+        mapper.deletePositionGroups(positionId);
         if(StringUtils.isNotBlank(groups)) {
-            mapper.deletePositionGroups(positionId);
             for (String groupId : groups.split(",")) {
                 mapper.insertPositionGroup(UUIDUtils.generateUuid(),positionId,groupId, BaseContextHandler.getTenantID());
             }
@@ -72,8 +72,8 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
     }
 
     public void modifyPositionDeparts(String positionId, String departs) {
+        mapper.deletePositionDeparts(positionId);
         if(StringUtils.isNotBlank(departs)) {
-            mapper.deletePositionDeparts(positionId);
             for (String groupId : departs.split(",")) {
                 mapper.insertPositionDepart(UUIDUtils.generateUuid(),positionId,groupId, BaseContextHandler.getTenantID());
             }
