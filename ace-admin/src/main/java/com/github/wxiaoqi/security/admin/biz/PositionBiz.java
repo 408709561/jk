@@ -1,5 +1,6 @@
 package com.github.wxiaoqi.security.admin.biz;
 
+import com.ace.cache.annotation.CacheClear;
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.Group;
@@ -31,6 +32,7 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
      * @param positionId
      * @param users
      */
+    @CacheClear(pre = "permission")
     public void modifyPositionUsers(String positionId, String users) {
         mapper.deletePositionUsers(positionId);
         if(StringUtils.isNotBlank(users)){
