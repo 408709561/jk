@@ -10,7 +10,7 @@ import com.github.wxiaoqi.security.common.mapper.CommonMapper;
  * @email 463540703@qq.com
  * @version 2018-02-08 21:42:09
  */
-@com.github.wxiaoqi.security.common.depart.Tenant
+@com.github.wxiaoqi.security.common.data.Tenant
 public interface TenantMapper extends CommonMapper<Tenant> {
 	
 }

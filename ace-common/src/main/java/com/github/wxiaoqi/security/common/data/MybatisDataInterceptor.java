@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.depart;
+package com.github.wxiaoqi.security.common.data;
 
 import com.github.ag.core.context.BaseContextHandler;
 import net.sf.jsqlparser.expression.Expression;
@@ -53,10 +53,10 @@ import java.util.Set;
  * @create 2018/2/9.
  */
 @Intercepts({@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class, Integer.class})})
-public class DepartMybatisInterceptor implements Interceptor {
+public class MybatisDataInterceptor implements Interceptor {
     private IUserDepartDataService userDepartDataService;
 
-    public DepartMybatisInterceptor(IUserDepartDataService userDepartDataService, String... ignoreMappers) {
+    public MybatisDataInterceptor(IUserDepartDataService userDepartDataService, String... ignoreMappers) {
         this.userDepartDataService = userDepartDataService;
         for (String ignore : ignoreMappers) {
             this.ignoreMappers.add(ignore);

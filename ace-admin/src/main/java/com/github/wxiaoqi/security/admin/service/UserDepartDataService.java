@@ -26,7 +26,7 @@
 package com.github.wxiaoqi.security.admin.service;
 
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
-import com.github.wxiaoqi.security.common.depart.IUserDepartDataService;
+import com.github.wxiaoqi.security.common.data.IUserDepartDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

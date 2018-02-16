@@ -26,7 +26,7 @@
 package com.github.wxiaoqi.demo.depart.service;
 
 import com.github.wxiaoqi.demo.depart.feign.IUserFeign;
-import com.github.wxiaoqi.security.common.depart.IUserDepartDataService;
+import com.github.wxiaoqi.security.common.data.IUserDepartDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +42,7 @@ public class UserDepartDataService implements IUserDepartDataService {
     private IUserFeign userFeign;
     @Override
     public List<String> getUserDataDepartIds(String userId) {
-        // 获取用户授权的部门数据权限,此处模拟两个账户
+        // 获取用户授权的数据权限部门ID列表
         return userFeign.getUserDataDepartIds(userId);
     }
 }

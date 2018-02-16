@@ -40,7 +40,7 @@ import java.util.List;
 @FeignClient(value = "ace-admin",configuration = FeignApplyConfiguration.class)
 public interface IUserFeign {
     /**
-     * 获取所有菜单和按钮权限
+     * 获取当前用户授权的部门数据权限Id列表
      * @return
      */
     @RequestMapping(value="/user/dataDepart",method = RequestMethod.GET)

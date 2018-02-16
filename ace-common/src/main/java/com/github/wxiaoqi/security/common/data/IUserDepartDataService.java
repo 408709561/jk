@@ -23,20 +23,19 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.depart;
+package com.github.wxiaoqi.security.common.data;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.List;
 
 /**
  * @author ace
  * @create 2018/2/11.
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value={ElementType.METHOD,ElementType.TYPE})
-public @interface Depart {
-    String departField() default "depart_id";
-    String userField() default "crt_user_id";
+public interface IUserDepartDataService {
+    /**
+     * 根据用户获取用户可访问的数据部门Id
+     * @param userId
+     * @return
+     */
+    public List<String> getUserDataDepartIds(String userId);
 }

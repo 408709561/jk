@@ -26,9 +26,9 @@
 package com.github.wxiaoqi.demo.depart.mapper;
 
 import com.github.wxiaoqi.demo.depart.entity.DepartDataTest;
-import com.github.wxiaoqi.security.common.depart.Depart;
+import com.github.wxiaoqi.security.common.data.Depart;
 import com.github.wxiaoqi.security.common.mapper.CommonMapper;
-import com.github.wxiaoqi.security.common.depart.Tenant;
+import com.github.wxiaoqi.security.common.data.Tenant;
 
 /**
  * 

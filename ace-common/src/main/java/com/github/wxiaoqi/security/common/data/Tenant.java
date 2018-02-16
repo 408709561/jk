@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.depart;
+package com.github.wxiaoqi.security.common.data;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -4,7 +4,7 @@ import com.github.wxiaoqi.security.admin.entity.Depart;
 import com.github.wxiaoqi.security.admin.entity.Group;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
-import com.github.wxiaoqi.security.common.depart.Tenant;
+import com.github.wxiaoqi.security.common.data.Tenant;
 import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 import org.apache.ibatis.annotations.Param;
 
