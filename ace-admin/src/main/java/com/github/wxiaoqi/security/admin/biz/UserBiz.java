@@ -33,6 +33,7 @@ import com.github.wxiaoqi.security.admin.mapper.DepartMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
 import com.github.wxiaoqi.security.common.util.BooleanUtil;
+import com.github.wxiaoqi.security.common.util.Query;
 import com.github.wxiaoqi.security.common.util.UUIDUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ${DESCRIPTION}
@@ -141,6 +143,16 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
         return mapper.selectOne(user);
     }
 
+    @Override
+    public void query2criteria(Query query, Example example) {
+        if (query.entrySet().size() > 0) {
+            for (Map.Entry<String, Object> entry : query.entrySet()) {
+                Example.Criteria criteria = example.createCriteria();
+                criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
+                example.or(criteria);
+            }
+        }
+    }
 
     public List<String> getUserDataDepartIds(String userId) {
         return mapper.selectUserDataDepartIds(userId);
