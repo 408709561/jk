@@ -32,9 +32,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
- *
  * @author ace
  * @version 2017/9/10
  */
@@ -43,14 +43,16 @@ public class JwtTokenUtil {
 
     @Value("${jwt.expire}")
     private int expire;
+
     @Autowired
     private KeyConfiguration keyConfiguration;
+
     @Autowired
     private JWTHelper jwtHelper;
 
-    public String generateToken(IJWTInfo jwtInfo) throws Exception {
+    public String generateToken(IJWTInfo jwtInfo, Map<String, String> otherInfo) throws Exception {
         Date expireTime = DateTime.now().plusSeconds(expire).toDate();
-        return jwtHelper.generateToken(jwtInfo, keyConfiguration.getUserPriKey(), expireTime);
+        return jwtHelper.generateToken(jwtInfo, keyConfiguration.getUserPriKey(), expireTime, otherInfo);
     }
 
     public IJWTInfo getInfoFromToken(String token) throws Exception {

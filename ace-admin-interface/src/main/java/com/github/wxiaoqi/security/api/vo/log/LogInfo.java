@@ -48,7 +48,17 @@ public class LogInfo implements Serializable{
 
     private String crtHost;
 
-    public LogInfo(String menu, String option, String uri,  Date crtTime, String crtUser, String crtName, String crtHost) {
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    private String tenantId;
+
+    public LogInfo(String menu, String option, String uri,  Date crtTime, String crtUser, String crtName, String crtHost,String tenantId) {
         this.menu = menu;
         this.opt = option;
         this.uri = uri;
@@ -56,6 +66,7 @@ public class LogInfo implements Serializable{
         this.crtUser = crtUser;
         this.crtName = crtName;
         this.crtHost = crtHost;
+        this.tenantId = tenantId;
     }
 
     public LogInfo() {

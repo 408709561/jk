@@ -32,12 +32,30 @@ import java.util.Date;
  * @author wanghaobin
  * @version 2017-06-21 8:12
  */
-public class UserInfo implements Serializable{
+public class UserInfo implements Serializable {
     public String id;
     public String username;
-    public String password;
     public String name;
     private String description;
+    private String departId;
+    private String tenantId;
+
+    public String getDepartId() {
+        return departId;
+    }
+
+    public void setDepartId(String departId) {
+        this.departId = departId;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
 
     public Date getUpdTime() {
         return updTime;
@@ -63,14 +81,6 @@ public class UserInfo implements Serializable{
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {

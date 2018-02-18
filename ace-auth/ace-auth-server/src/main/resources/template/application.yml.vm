@@ -77,3 +77,6 @@ auth:
     id: ${clientId}
     secret: ${clientSecret}
     token-header: client-token
+    
+mapper:
+  mappers: com.github.wxiaoqi.security.common.mapper.CommonMapper

@@ -5,9 +5,13 @@ import ${package}.biz.${className}Biz;
 import ${package}.entity.${className};
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 
 @RestController
 @RequestMapping("${secondModuleName}")
+@CheckClientToken
+@CheckUserToken
 public class ${className}Controller extends BaseController<${className}Biz,${className}> {
 
 }

@@ -24,7 +24,9 @@
 package com.github.wxiaoqi.security.admin.mapper;
 
 import com.github.wxiaoqi.security.admin.entity.GateLog;
-import tk.mybatis.mapper.common.Mapper;
+import com.github.wxiaoqi.security.common.data.Tenant;
+import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 
-public interface GateLogMapper extends Mapper<GateLog> {
+@Tenant(userField = "crt_user")
+public interface GateLogMapper extends CommonMapper<GateLog> {
 }

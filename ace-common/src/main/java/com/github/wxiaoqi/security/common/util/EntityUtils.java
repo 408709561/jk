@@ -62,8 +62,10 @@ public class EntityUtils {
     public static <T> void setCreateInfo(T entity) {
         String userName = BaseContextHandler.getName();
         String userId = BaseContextHandler.getUserID();
+        String departId = BaseContextHandler.getDepartID();
+        String tenantId = BaseContextHandler.getTenantID();
         // 默认属性
-        String[] fieldNames = {"crtUserName", "crtUserId", "crtTime"};
+        String[] fieldNames = {"crtUserName", "crtUserId", "crtTime","departId","tenantId"};
         if (entity.getClass().getAnnotation(AceAudit.class) != null) {
             Field[] fields = entity.getClass().getDeclaredFields();
             if (fields != null) {
@@ -87,7 +89,7 @@ public class EntityUtils {
         // 默认值
         Object[] value = null;
         if (field != null && field.getType().equals(Date.class)) {
-            value = new Object[]{userName, userId, new Date()};
+            value = new Object[]{userName, userId, new Date(),departId,tenantId};
         }
         // 填充默认属性值
         setDefaultValues(entity, fieldNames, value);

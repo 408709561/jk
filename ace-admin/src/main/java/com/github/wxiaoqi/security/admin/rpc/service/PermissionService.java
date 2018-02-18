@@ -23,6 +23,8 @@
 
 package com.github.wxiaoqi.security.admin.rpc.service;
 
+import com.ace.cache.annotation.Cache;
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.biz.ElementBiz;
 import com.github.wxiaoqi.security.admin.biz.MenuBiz;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
@@ -114,13 +116,13 @@ public class PermissionService {
         }
     }
 
+    @Cache(key="permission:u{1}")
     public List<PermissionInfo> getPermissionByUsername(String username) {
-        User user = userBiz.getUserByUsername(username);
-        List<Menu> menus = menuBiz.getUserAuthorityMenuByUserId(user.getId());
+        List<Menu> menus = menuBiz.getUserAuthorityMenuByUserId(BaseContextHandler.getUserID());
         List<PermissionInfo> result = new ArrayList<PermissionInfo>();
         PermissionInfo info = null;
         menu2permission(menus, result);
-        List<Element> elements = elementBiz.getAuthorityElementByUserId(user.getId() + "");
+        List<Element> elements = elementBiz.getAuthorityElementByUserId(BaseContextHandler.getUserID());
         element2permission(result, elements);
         return result;
     }
@@ -156,8 +158,8 @@ public class PermissionService {
         });
     }
 
-    public FrontUser getUserInfo(String token) throws Exception {
-        String username = userAuthUtil.getInfoFromToken(token).getUniqueName();
+    public FrontUser getUserInfo() throws Exception {
+        String username = BaseContextHandler.getUsername();
         if (username == null) {
             return null;
         }
@@ -176,12 +178,8 @@ public class PermissionService {
         return frontUser;
     }
 
-    public List<MenuTree> getMenusByUsername(String token) throws Exception {
-        String username = userAuthUtil.getInfoFromToken(token).getUniqueName();
-        if (username == null) {
-            return null;
-        }
-        User user = userBiz.getUserByUsername(username);
+    public List<MenuTree> getMenusByUsername() throws Exception {
+        User user = userBiz.getUserByUsername(BaseContextHandler.getUsername());
         List<Menu> menus = menuBiz.getUserAuthorityMenuByUserId(user.getId());
         return getMenuTree(menus, AdminCommonConstant.ROOT);
     }

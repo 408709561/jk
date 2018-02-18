@@ -41,14 +41,14 @@ public class ServiceController extends BaseController<ClientBiz,Client>{
 
     @RequestMapping(value = "/{id}/client", method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse modifyUsers(@PathVariable int id, String clients){
+    public ObjectRestResponse modifyUsers(@PathVariable String id, String clients){
         baseBiz.modifyClientServices(id, clients);
         return new ObjectRestResponse();
     }
 
     @RequestMapping(value = "/{id}/client", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<List<Client>> getUsers(@PathVariable int id){
+    public ObjectRestResponse<List<Client>> getUsers(@PathVariable String id){
         ObjectRestResponse<List<Client> > entityObjectRestResponse = new ObjectRestResponse<>();
         Object o = baseBiz.getClientServices(id);
         entityObjectRestResponse.data((List<Client>)o);

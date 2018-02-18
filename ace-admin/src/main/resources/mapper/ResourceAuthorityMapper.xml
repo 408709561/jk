@@ -25,8 +25,10 @@
     <result column="attr6" jdbcType="VARCHAR" property="attr6" />
     <result column="attr7" jdbcType="VARCHAR" property="attr7" />
     <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <result property="tenantId" column="tenant_id"/>
+    <result property="type" column="type"/>
   </resultMap>
   <delete id="deleteByAuthorityIdAndResourceType">
-    delete from base_resource_authority where authority_id = #{authorityId} and resource_type = #{resourceType}
+    delete from base_resource_authority where authority_id = #{authorityId} and resource_type = #{resourceType} and type = #{type}
   </delete>
 </mapper>

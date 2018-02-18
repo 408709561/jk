@@ -50,7 +50,7 @@ public class GeneratorController {
      * 生成代码
      */
     @RequestMapping("/build")
-    public void code(Integer id, String packageName, boolean zipkin, boolean tx, HttpServletResponse response) throws IOException {
+    public void code(String id, String packageName, boolean zipkin, boolean tx, HttpServletResponse response) throws IOException {
         Client client = clientBiz.selectById(id);
         if (client != null) {
             byte[] data = generatorService.buildProject(client, packageName, zipkin, tx);

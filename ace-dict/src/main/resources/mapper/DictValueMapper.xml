@@ -9,6 +9,7 @@
         <result property="code" column="code"/>
         <result property="value" column="value"/>
         <result property="typeId" column="type_id"/>
+        <result column="order_num" javaType="INTEGER"/>
         <result property="labelDefault" column="label_default"/>
         <result property="labelEnUs" column="label_en_US"/>
         <result property="labelZhCh" column="label_zh_CH"/>
@@ -26,6 +27,7 @@
         <result property="attr2" column="attr2"/>
         <result property="attr3" column="attr3"/>
         <result property="attr4" column="attr4"/>
+        <result property="tenantId" column="tenant_id"/>
     </resultMap>
 
 </mapper>

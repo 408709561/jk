@@ -25,5 +25,6 @@
     <result column="attr6" jdbcType="VARCHAR" property="attr6" />
     <result column="attr7" jdbcType="VARCHAR" property="attr7" />
     <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <result property="tenantId" column="tenant_id"/>
   </resultMap>
 </mapper>

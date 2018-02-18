@@ -27,6 +27,7 @@ package com.github.wxiaoqi.security.auth.module.client.bean;
 import com.github.ag.core.util.jwt.IJWTInfo;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by ace on 2017/9/10.
@@ -75,6 +76,11 @@ public class ClientInfo implements IJWTInfo {
 
     @Override
     public Date getExpireTime() {
+        return null;
+    }
+
+    @Override
+    public Map<String, String> getOtherInfo() {
         return null;
     }
 }

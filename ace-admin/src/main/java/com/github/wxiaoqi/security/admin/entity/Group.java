@@ -30,11 +30,12 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "base_group")
-@AceAudit
-public class Group {
+public class Group implements Serializable{
+    private static final long serialVersionUID = 1185680020024758211L;
     @Id
     @GeneratedValue(generator = "UUID")
     private String id;
@@ -51,34 +52,33 @@ public class Group {
     private String type;
 
     @Column(name = "group_type")
-    private Integer groupType = AdminCommonConstant.DEFAULT_GROUP_TYPE;
+    private String groupType = AdminCommonConstant.DEFAULT_GROUP_TYPE;
 
     private String description;
 
-    @CrtTime
+    //创建人
+    @Column(name = "crt_user_name")
+    private String crtUserName;
+
+    //创建人ID
+    @Column(name = "crt_user_id")
+    private String crtUserId;
+
+    //创建时间
     @Column(name = "crt_time")
     private Date crtTime;
-    @CrtUserId
-    @Column(name = "crt_user")
-    private String crtUser;
-    @CrtUserName
-    @Column(name = "crt_name")
-    private String crtName;
 
-    @Column(name = "crt_host")
-    private String crtHost;
-    @ModifiedTime
+    //最后更新人
+    @Column(name = "upd_user_name")
+    private String updUserName;
+
+    //最后更新人ID
+    @Column(name = "upd_user_id")
+    private String updUserId;
+
+    //最后更新时间
     @Column(name = "upd_time")
     private Date updTime;
-    @ModifiedUserId
-    @Column(name = "upd_user")
-    private String updUser;
-    @ModifiedUserName
-    @Column(name = "upd_name")
-    private String updName;
-
-    @Column(name = "upd_host")
-    private String updHost;
 
     private String attr1;
 
@@ -95,6 +95,18 @@ public class Group {
     private String attr7;
 
     private String attr8;
+
+    @Column(name = "tenant_id")
+    private String tenantId;
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
 
     /**
      * @return id
@@ -183,14 +195,14 @@ public class Group {
     /**
      * @return group_type
      */
-    public Integer getGroupType() {
+    public String getGroupType() {
         return groupType;
     }
 
     /**
      * @param groupType
      */
-    public void setGroupType(Integer groupType) {
+    public void setGroupType(String groupType) {
         this.groupType = groupType;
     }
 
@@ -208,116 +220,52 @@ public class Group {
         this.description = description;
     }
 
-    /**
-     * @return crt_time
-     */
+    public String getCrtUserName() {
+        return crtUserName;
+    }
+
+    public void setCrtUserName(String crtUserName) {
+        this.crtUserName = crtUserName;
+    }
+
+    public String getCrtUserId() {
+        return crtUserId;
+    }
+
+    public void setCrtUserId(String crtUserId) {
+        this.crtUserId = crtUserId;
+    }
+
     public Date getCrtTime() {
         return crtTime;
     }
 
-    /**
-     * @param crtTime
-     */
     public void setCrtTime(Date crtTime) {
         this.crtTime = crtTime;
     }
 
-    /**
-     * @return crt_user
-     */
-    public String getCrtUser() {
-        return crtUser;
+    public String getUpdUserName() {
+        return updUserName;
     }
 
-    /**
-     * @param crtUser
-     */
-    public void setCrtUser(String crtUser) {
-        this.crtUser = crtUser;
+    public void setUpdUserName(String updUserName) {
+        this.updUserName = updUserName;
     }
 
-    /**
-     * @return crt_name
-     */
-    public String getCrtName() {
-        return crtName;
+    public String getUpdUserId() {
+        return updUserId;
     }
 
-    /**
-     * @param crtName
-     */
-    public void setCrtName(String crtName) {
-        this.crtName = crtName;
+    public void setUpdUserId(String updUserId) {
+        this.updUserId = updUserId;
     }
 
-    /**
-     * @return crt_host
-     */
-    public String getCrtHost() {
-        return crtHost;
-    }
-
-    /**
-     * @param crtHost
-     */
-    public void setCrtHost(String crtHost) {
-        this.crtHost = crtHost;
-    }
-
-    /**
-     * @return upd_time
-     */
     public Date getUpdTime() {
         return updTime;
     }
 
-    /**
-     * @param updTime
-     */
     public void setUpdTime(Date updTime) {
         this.updTime = updTime;
-    }
-
-    /**
-     * @return upd_user
-     */
-    public String getUpdUser() {
-        return updUser;
-    }
-
-    /**
-     * @param updUser
-     */
-    public void setUpdUser(String updUser) {
-        this.updUser = updUser;
-    }
-
-    /**
-     * @return upd_name
-     */
-    public String getUpdName() {
-        return updName;
-    }
-
-    /**
-     * @param updName
-     */
-    public void setUpdName(String updName) {
-        this.updName = updName;
-    }
-
-    /**
-     * @return upd_host
-     */
-    public String getUpdHost() {
-        return updHost;
-    }
-
-    /**
-     * @param updHost
-     */
-    public void setUpdHost(String updHost) {
-        this.updHost = updHost;
     }
 
     /**

@@ -24,9 +24,11 @@
 package com.github.wxiaoqi.security.admin.rpc;
 
 import com.ace.cache.annotation.Cache;
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
-import com.github.wxiaoqi.security.auth.client.annotation.IgnoreClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
+import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +42,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api")
+@CheckUserToken
+@CheckClientToken
 public class UserRest {
     @Autowired
     private PermissionService permissionService;
@@ -51,9 +55,9 @@ public class UserRest {
         return permissionService.getAllPermission();
     }
 
-    @Cache(key="permission:u{1}")
-    @RequestMapping(value = "/user/un/{username}/permissions", method = RequestMethod.GET)
-    public @ResponseBody List<PermissionInfo> getPermissionByUsername(@PathVariable("username") String username){
+    @RequestMapping(value = "/user/permissions", method = RequestMethod.GET)
+    public @ResponseBody List<PermissionInfo> getPermissionByUsername(){
+        String username = BaseContextHandler.getUsername();
         return permissionService.getPermissionByUsername(username);
     }
 

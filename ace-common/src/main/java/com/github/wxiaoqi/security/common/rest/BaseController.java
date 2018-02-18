@@ -23,12 +23,14 @@
 
 package com.github.wxiaoqi.security.common.rest;
 
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.ag.core.context.BaseContextHandler;
+import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
+import com.github.wxiaoqi.security.common.util.StringEscapeEditor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +44,13 @@ import java.util.Map;
  * @version 2017-06-15 8:48
  */
 public class BaseController<Biz extends BaseBiz,Entity> {
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringEscapeEditor());
+        binder.registerCustomEditor(String[].class, new StringEscapeEditor());
+    }
+
     @Autowired
     protected HttpServletRequest request;
     @Autowired

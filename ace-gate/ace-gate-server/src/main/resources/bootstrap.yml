@@ -19,13 +19,16 @@ zuul:
     back:
       path: /admin/**
       serviceId: ace-admin
-
     auth:
       path: /auth/**
       serviceId: ace-auth
     dict:
       path: /dict/**
       serviceId: ace-dict
+
+#  SendErrorFilter:
+#    post:
+#      disable: true
 ribbon:
   eureka:
     enabled: true
@@ -51,7 +54,7 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 50000
-          strategy: SEMAPHORE
+#          strategy: SEMAPHORE
 
 eureka:
     instance:

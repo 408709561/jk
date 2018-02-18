@@ -55,9 +55,17 @@ public class AuthClientRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("初始化加载用户pubKey");
-        refreshUserPubKey();
+        try {
+            refreshUserPubKey();
+        }catch(Exception e){
+            log.error("初始化加载用户pubKey失败,1分钟后自动重试!",e);
+        }
         log.info("初始化加载客户pubKey");
-        refreshServicePubKey();
+        try {
+            refreshServicePubKey();
+        }catch(Exception e){
+            log.error("初始化加载客户pubKey失败,1分钟后自动重试!",e);
+        }
     }
     @Scheduled(cron = "0 0/1 * * * ?")
     public void refreshUserPubKey(){

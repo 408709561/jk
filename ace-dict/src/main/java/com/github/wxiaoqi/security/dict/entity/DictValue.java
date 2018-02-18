@@ -44,11 +44,15 @@ import java.util.Date;
 public class DictValue implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	    //主键
+	//主键
     @Id
     private String id;
-	
-	    //编码
+	private Integer orderNum;
+
+	@Column(name = "tenant_id")
+	private String tenantId;
+
+	//编码
     @Column(name = "code")
     private String code;
 
@@ -125,6 +129,7 @@ public class DictValue implements Serializable {
 
 	@Column(name="type_id")
 	private String typeId;
+
 	/**
 	 * 设置：主键
 	 */
@@ -368,5 +373,21 @@ public class DictValue implements Serializable {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public Integer getOrderNum() {
+		return orderNum;
+	}
+
+	public void setOrderNum(Integer orderNum) {
+		this.orderNum = orderNum;
+	}
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public void setTenantId(String tenantId) {
+		this.tenantId = tenantId;
 	}
 }

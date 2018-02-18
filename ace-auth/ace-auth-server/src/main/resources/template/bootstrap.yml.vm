@@ -53,7 +53,9 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 50000
+#if($tx)
           strategy: SEMAPHORE
+#end
 #if($tx)
 # txmanager地址
 tm:

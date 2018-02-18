@@ -17,14 +17,12 @@
     <result column="sex" jdbcType="CHAR" property="sex" />
     <result column="type" jdbcType="CHAR" property="type" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="crt_time" jdbcType="DATE" property="crtTime" />
-    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
-    <result column="crt_name" jdbcType="VARCHAR" property="crtName" />
-    <result column="crt_host" jdbcType="VARCHAR" property="crtHost" />
-    <result column="upd_time" jdbcType="DATE" property="updTime" />
-    <result column="upd_user" jdbcType="VARCHAR" property="updUser" />
-    <result column="upd_name" jdbcType="VARCHAR" property="updName" />
-    <result column="upd_host" jdbcType="VARCHAR" property="updHost" />
+    <result property="crtUserName" column="crt_user_name"/>
+    <result property="crtUserId" column="crt_user_id"/>
+    <result property="crtTime" column="crt_time"/>
+    <result property="updUserName" column="upd_user_name"/>
+    <result property="updUserId" column="upd_user_id"/>
+    <result property="updTime" column="upd_time"/>
     <result column="attr1" jdbcType="VARCHAR" property="attr1" />
     <result column="attr2" jdbcType="VARCHAR" property="attr2" />
     <result column="attr3" jdbcType="VARCHAR" property="attr3" />
@@ -33,16 +31,30 @@
     <result column="attr6" jdbcType="VARCHAR" property="attr6" />
     <result column="attr7" jdbcType="VARCHAR" property="attr7" />
     <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <result column="depart_id" jdbcType="VARCHAR" property="departId" />
+    <result column="is_deleted" jdbcType="VARCHAR" property="isDeleted"/>
+    <result column="is_disabled" jdbcType="VARCHAR" property="isDisabled"/>
+    <result column="is_super_admin" jdbcType="VARCHAR" property="isSuperAdmin"/>
+    <result column="tenant_id" jdbcType="VARCHAR" property="tenantId"/>
   </resultMap>
   
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
+    select u.username,u.name,u.id from base_user u
     left join  base_group_member gm
     on gm.user_id = u.id where gm.group_id = #{groupId}
   </select>
   <select id="selectLeaderByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_group_leader gm
+    select u.username,u.name,u.id from base_user u
+    left join base_group_leader gm
     on gm.user_id = u.id where gm.group_id = #{groupId}
+  </select>
+  <select id="selectUserDataDepartIds" resultType="java.lang.String">
+    select bd.id from base_depart bd
+    inner join
+    base_position_depart bpd
+    on bpd.depart_id = bd.id
+    inner join base_position_user bpu
+    on bpd.position_id = bpu.position_id
+    where bpu.user_id = #{userId}
   </select>
 </mapper>

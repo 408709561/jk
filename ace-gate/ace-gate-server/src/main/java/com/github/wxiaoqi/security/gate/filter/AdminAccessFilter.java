@@ -24,14 +24,15 @@
 package com.github.wxiaoqi.security.gate.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.github.ag.core.constants.CommonConstants;
+import com.github.ag.core.context.BaseContextHandler;
+import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
 import com.github.wxiaoqi.security.api.vo.log.LogInfo;
 import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
-import com.github.ag.core.util.jwt.IJWTInfo;
-import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import com.github.wxiaoqi.security.common.exception.auth.UserForbiddenException;
 import com.github.wxiaoqi.security.common.util.ClientUtil;
@@ -50,7 +51,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
@@ -79,6 +79,7 @@ public class AdminAccessFilter extends ZuulFilter {
 
     @Value("${zuul.prefix}")
     private String zuulPrefix;
+
     @Autowired
     private UserAuthUtil userAuthUtil;
 
@@ -121,9 +122,16 @@ public class AdminAccessFilter extends ZuulFilter {
         try {
             user = getJWTUser(request, ctx);
         } catch (Exception e) {
-            setFailedRequest(JSON.toJSONString(new NonLoginException(e.getMessage())), HttpStatus.UNAUTHORIZED.value());
+            setFailedRequest(JSON.toJSONString(new NonLoginException("用户身份过期,请重新登录!")), HttpStatus.UNAUTHORIZED.value());
+            log.error(e.getMessage(), e);
             return null;
         }
+        // 判断当前租户是否过期
+//        ctx.addZuulRequestHeader(RequestHeaderConstants.TENANT, BaseContextHandler.getTenantID());
+//        if(!BaseContextHandler.getTenantID().equals(user.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID))) {
+//            setFailedRequest(JSON.toJSONString(new BusinessException("当前用户不属于当前租户,不具有该租户的任何权限!")), HttpStatus.FORBIDDEN.value());
+//            return null;
+//        }
         List<PermissionInfo> permissionIfs = userService.getAllPermissionInfo();
         // 判断资源是否启用权限约束
         Stream<PermissionInfo> stream = getPermissionIfs(requestUri, method, permissionIfs);
@@ -161,10 +169,7 @@ public class AdminAccessFilter extends ZuulFilter {
 
     private void setCurrentUserInfoAndLog(RequestContext ctx, IJWTInfo user, PermissionInfo pm) {
         String host = ClientUtil.getClientIp(ctx.getRequest());
-        ctx.addZuulRequestHeader("userId", user.getId());
-        ctx.addZuulRequestHeader("userName", URLEncoder.encode(user.getName()));
-        ctx.addZuulRequestHeader("userHost", ClientUtil.getClientIp(ctx.getRequest()));
-        LogInfo logInfo = new LogInfo(pm.getMenu(), pm.getName(), pm.getUri(), new Date(), user.getId(), user.getName(), host);
+        LogInfo logInfo = new LogInfo(pm.getMenu(), pm.getName(), pm.getUri(), new Date(), user.getId(), user.getName(), host, user.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID));
         DBLog.getInstance().setLogService(logService).offerQueue(logInfo);
     }
 
@@ -187,7 +192,7 @@ public class AdminAccessFilter extends ZuulFilter {
 
 
     private void checkUserPermission(PermissionInfo[] permissions, RequestContext ctx, IJWTInfo user) {
-        List<PermissionInfo> permissionInfos = userService.getPermissionByUsername(user.getUniqueName());
+        List<PermissionInfo> permissionInfos = userService.getPermissionByUsername();
         PermissionInfo current = null;
         for (PermissionInfo info : permissions) {
             boolean anyMatch = permissionInfos.parallelStream().anyMatch(new Predicate<PermissionInfo>() {
@@ -240,6 +245,7 @@ public class AdminAccessFilter extends ZuulFilter {
         if (ctx.getResponseBody() == null) {
             ctx.setResponseBody(body);
             ctx.setSendZuulResponse(false);
+            ctx.getResponse().setContentType("text/html;charset=UTF-8");
         }
     }
 

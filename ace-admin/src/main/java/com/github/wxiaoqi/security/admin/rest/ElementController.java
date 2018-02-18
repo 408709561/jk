@@ -59,7 +59,7 @@ public class ElementController extends BaseController<ElementBiz, Element> {
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   @ResponseBody
   public TableResultResponse<Element> page(@RequestParam(defaultValue = "10") int limit,
-      @RequestParam(defaultValue = "1") int offset,String name, @RequestParam(defaultValue = "0") int menuId) {
+      @RequestParam(defaultValue = "1") int offset,String name, @RequestParam(defaultValue = "0") String menuId) {
     Example example = new Example(Element.class);
     Example.Criteria criteria = example.createCriteria();
     criteria.andEqualTo("menuId", menuId);
@@ -72,6 +72,7 @@ public class ElementController extends BaseController<ElementBiz, Element> {
 
   @RequestMapping(value = "/user", method = RequestMethod.GET)
   @ResponseBody
+  @Deprecated
   public ObjectRestResponse<Element> getAuthorityElement(String menuId) {
     String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
     List<Element> elements = baseBiz.getAuthorityElementByUserId(userId + "",menuId);
@@ -80,6 +81,7 @@ public class ElementController extends BaseController<ElementBiz, Element> {
 
   @RequestMapping(value = "/user/menu", method = RequestMethod.GET)
   @ResponseBody
+  @Deprecated
   public ObjectRestResponse<Element> getAuthorityElement() {
     String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
     List<Element> elements = baseBiz.getAuthorityElementByUserId(userId + "");

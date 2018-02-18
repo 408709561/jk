@@ -48,11 +48,11 @@ public class ClientBiz extends BaseBiz<ClientMapper,Client> {
     @Autowired
     private ClientServiceBiz clientServiceBiz;
 
-    public List<Client> getClientServices(int id) {
+    public List<Client> getClientServices(String id) {
         return mapper.selectAuthorityServiceInfo(id);
     }
 
-    public void modifyClientServices(int id, String clients) {
+    public void modifyClientServices(String id, String clients) {
         clientServiceMapper.deleteByServiceId(id);
         if (!StringUtils.isEmpty(clients)) {
             String[] mem = clients.split(",");

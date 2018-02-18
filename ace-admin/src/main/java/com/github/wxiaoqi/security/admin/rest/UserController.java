@@ -23,6 +23,7 @@
 
 package com.github.wxiaoqi.security.admin.rest;
 
+import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,8 +69,8 @@ public class UserController extends BaseController<UserBiz,User> {
 
     @RequestMapping(value = "/front/info", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getUserInfo(String token) throws Exception {
-        FrontUser userInfo = permissionService.getUserInfo(token);
+    public ResponseEntity<?> getUserInfo() throws Exception {
+        FrontUser userInfo = permissionService.getUserInfo();
         if(userInfo==null) {
             return ResponseEntity.status(401).body(false);
         } else {
@@ -78,7 +80,15 @@ public class UserController extends BaseController<UserBiz,User> {
 
     @RequestMapping(value = "/front/menus", method = RequestMethod.GET)
     public @ResponseBody
-    List<MenuTree> getMenusByUsername(String token) throws Exception {
-        return permissionService.getMenusByUsername(token);
+    List<MenuTree> getMenusByUsername() throws Exception {
+        return permissionService.getMenusByUsername();
+    }
+
+    @RequestMapping(value = "/dataDepart",method = RequestMethod.GET)
+    public List<String> getUserDataDepartIds(String userId){
+        if(BaseContextHandler.getUserID().equals(userId)){
+          return baseBiz.getUserDataDepartIds(userId);
+        }
+        return new ArrayList<>();
     }
 }
