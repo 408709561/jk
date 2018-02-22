@@ -89,7 +89,6 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
     }
 
     @Override
-    @CacheClear(pre = "user{1.username}")
     public void updateSelectiveById(User entity) {
         User user = mapper.selectByPrimaryKey(entity.getId());
         if (!user.getDepartId().equals(entity.getDepartId())) {
@@ -134,7 +133,6 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
      * @param username
      * @return
      */
-    @Cache(key = "user{1}")
     public User getUserByUsername(String username) {
         User user = new User();
         user.setUsername(username);

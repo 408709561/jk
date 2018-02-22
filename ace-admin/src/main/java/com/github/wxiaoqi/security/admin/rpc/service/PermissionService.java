@@ -179,8 +179,7 @@ public class PermissionService {
     }
 
     public List<MenuTree> getMenusByUsername() throws Exception {
-        User user = userBiz.getUserByUsername(BaseContextHandler.getUsername());
-        List<Menu> menus = menuBiz.getUserAuthorityMenuByUserId(user.getId());
+        List<Menu> menus = menuBiz.getUserAuthorityMenuByUserId(BaseContextHandler.getUserID());
         return getMenuTree(menus, AdminCommonConstant.ROOT);
     }
 }

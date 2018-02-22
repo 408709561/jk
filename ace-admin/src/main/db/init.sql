@@ -299,7 +299,7 @@ DROP TABLE IF EXISTS `base_position`;
 CREATE TABLE `base_position` (
   `id` varchar(36) NOT NULL,
   `name` varchar(255) DEFAULT NULL COMMENT '职位',
-  `code` varchar(255) DEFAULT NULL COMMENT '编码',
+  `code` varchar(100) DEFAULT NULL COMMENT '编码',
   `depart_id` varchar(36) DEFAULT NULL COMMENT '部门ID',
   `type` varchar(36) DEFAULT NULL COMMENT '类型',
   `crt_user_name` varchar(255) DEFAULT NULL COMMENT '创建人',
