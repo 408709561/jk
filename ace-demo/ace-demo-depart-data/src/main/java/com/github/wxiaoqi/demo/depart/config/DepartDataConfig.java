@@ -25,7 +25,6 @@
 
 package com.github.wxiaoqi.demo.depart.config;
 
-import com.github.wxiaoqi.security.common.data.DepartMybatisConfig;
 import com.github.wxiaoqi.security.common.data.MybatisDataInterceptor;
 import com.github.wxiaoqi.security.common.data.IUserDepartDataService;
 import org.apache.ibatis.session.SqlSessionFactory;

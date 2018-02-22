@@ -25,7 +25,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `auth_client`;
 CREATE TABLE `auth_client` (
-  `id` varchar(255) NOT NULL,
+  `id` varchar(36) NOT NULL,
   `code` varchar(255) DEFAULT NULL COMMENT '服务编码',
   `secret` varchar(255) DEFAULT NULL COMMENT '服务密钥',
   `name` varchar(255) DEFAULT NULL COMMENT '服务名',

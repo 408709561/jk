@@ -25,7 +25,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `dict_type`;
 CREATE TABLE `dict_type` (
   `id` varchar(36) NOT NULL COMMENT '主键',
-  `code` varchar(255) DEFAULT NULL COMMENT '编码',
+  `code` varchar(100) DEFAULT NULL COMMENT '编码',
   `type` varchar(1) DEFAULT NULL COMMENT '类型',
   `name` varchar(255) DEFAULT NULL COMMENT '目录名',
   `parent_id` varchar(36) DEFAULT NULL,
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `dict_value`;
 CREATE TABLE `dict_value` (
   `id` varchar(36) NOT NULL COMMENT '主键',
   `tenant_id` varchar(36) DEFAULT NULL COMMENT '租户ID',
-  `code` varchar(255) DEFAULT NULL COMMENT '编码',
+  `code` varchar(100) DEFAULT NULL COMMENT '编码',
   `value` varchar(255) DEFAULT NULL COMMENT '值',
   `label_default` varchar(255) DEFAULT NULL COMMENT '默认显示',
   `label_en_US` varchar(255) DEFAULT NULL COMMENT '英文显示',
