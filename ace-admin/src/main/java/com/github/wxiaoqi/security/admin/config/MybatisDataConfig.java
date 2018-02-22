@@ -56,6 +56,6 @@ public class MybatisDataConfig {
          * 有些mapper的某些方法不需要进行隔离，则可以在配置忽略，按逗号隔开.
          * 如:"com.github.wxiaoqi.security.admin.mapper.UserMapper.selectOne",表示该mapper下不进行租户隔离
          */
-        sqlSessionFactory.getConfiguration().addInterceptor(new MybatisDataInterceptor(userDepartDataService,"com.github.wxiaoqi.security.admin.mapper.UserMapper.selectOne"));
+        sqlSessionFactory.getConfiguration().addInterceptor(new MybatisDataInterceptor(userDepartDataService,"com.github.wxiaoqi.security.admin.mapper.UserMapper.selectOne","com.github.wxiaoqi.security.admin.mapper.UserMapper.selectByPrimaryKey"));
     }
 }
