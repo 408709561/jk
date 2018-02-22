@@ -35,4 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ResourceAuthorityBiz extends BusinessBiz<ResourceAuthorityMapper,ResourceAuthority> {
+    public void deleteByAuthorityIdAndResourceType(String s, String resourceTypeMenu, String type) {
+        this.mapper.deleteByAuthorityIdAndResourceType(s,resourceTypeMenu,type);
+    }
 }

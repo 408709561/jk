@@ -59,7 +59,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private ResourceAuthorityMapper resourceAuthorityMapper;
+    private ResourceAuthorityBiz resourceAuthorityBiz;
     @Autowired
     private MenuMapper menuMapper;
     @Autowired
@@ -130,7 +130,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
      */
     @CacheClear(keys = {"permission:menu", "permission:u"})
     public void modifyAuthorityMenu(String groupId, String[] menus, String type) {
-        resourceAuthorityMapper.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU, type);
+        resourceAuthorityBiz.deleteByAuthorityIdAndResourceType(groupId + "", AdminCommonConstant.RESOURCE_TYPE_MENU, type);
         List<Menu> menuList = menuMapper.selectAll();
         Map<String, String> map = new HashMap<String, String>();
         for (Menu menu : menuList) {
@@ -148,7 +148,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
             authority.setResourceId(menuId);
             authority.setParentId("-1");
             authority.setType(type);
-            resourceAuthorityMapper.insertSelective(authority);
+            resourceAuthorityBiz.insertSelective(authority);
         }
     }
 
@@ -176,7 +176,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
         authority.setResourceId(elementId + "");
         authority.setParentId("-1");
         authority.setType(type);
-        resourceAuthorityMapper.insertSelective(authority);
+        resourceAuthorityBiz.insertSelective(authority);
     }
 
     /**
@@ -192,7 +192,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
         authority.setResourceId(elementId + "");
         authority.setParentId("-1");
         authority.setType(type);
-        resourceAuthorityMapper.delete(authority);
+        resourceAuthorityBiz.delete(authority);
     }
 
 
@@ -225,7 +225,7 @@ public class GroupBiz extends BusinessBiz<GroupMapper, Group> {
         ResourceAuthority authority = new ResourceAuthority(AdminCommonConstant.AUTHORITY_TYPE_GROUP, AdminCommonConstant.RESOURCE_TYPE_BTN);
         authority.setAuthorityId(groupId);
         authority.setType(type);
-        List<ResourceAuthority> authorities = resourceAuthorityMapper.select(authority);
+        List<ResourceAuthority> authorities = resourceAuthorityBiz.selectList(authority);
         List<String> ids = new ArrayList<String>();
         for (ResourceAuthority auth : authorities) {
             ids.add(auth.getResourceId());
