@@ -57,7 +57,7 @@ wait_for_wrapper()
     else
         timeout $BUSYTIMEFLAG $TIMEOUT $0 --child --host=$HOST --port=$PORT --timeout=$TIMEOUT &
     fi
-    PID=$
+    PID=$!
     trap "kill -INT -$PID" INT
     wait $PID
     RESULT=$?
@@ -95,4 +95,83 @@ do
         shift 2
         ;;
         --host=*)
-        HOST="${1
+        HOST="${1#*=}"
+        shift 1
+        ;;
+        -p)
+        PORT="$2"
+        if [[ $PORT == "" ]]; then break; fi
+        shift 2
+        ;;
+        --port=*)
+        PORT="${1#*=}"
+        shift 1
+        ;;
+        -t)
+        TIMEOUT="$2"
+        if [[ $TIMEOUT == "" ]]; then break; fi
+        shift 2
+        ;;
+        --timeout=*)
+        TIMEOUT="${1#*=}"
+        shift 1
+        ;;
+        --)
+        shift
+        CLI="$@"
+        break
+        ;;
+        --help)
+        usage
+        ;;
+        *)
+        echoerr "Unknown argument: $1"
+        usage
+        ;;
+    esac
+done
+
+if [[ "$HOST" == "" || "$PORT" == "" ]]; then
+    echoerr "Error: you need to provide a host and port to test."
+    usage
+fi
+
+TIMEOUT=${TIMEOUT:-15}
+STRICT=${STRICT:-0}
+CHILD=${CHILD:-0}
+QUIET=${QUIET:-0}
+
+# check to see if timeout is from busybox?
+# check to see if timeout is from busybox?
+TIMEOUT_PATH=$(realpath $(which timeout))
+if [[ $TIMEOUT_PATH =~ "busybox" ]]; then
+        ISBUSY=1
+        BUSYTIMEFLAG="-t"
+else
+        ISBUSY=0
+        BUSYTIMEFLAG=""
+fi
+
+if [[ $CHILD -gt 0 ]]; then
+    wait_for
+    RESULT=$?
+    exit $RESULT
+else
+    if [[ $TIMEOUT -gt 0 ]]; then
+        wait_for_wrapper
+        RESULT=$?
+    else
+        wait_for
+        RESULT=$?
+    fi
+fi
+
+if [[ $CLI != "" ]]; then
+    if [[ $RESULT -ne 0 && $STRICT -eq 1 ]]; then
+        echoerr "$cmdname: strict mode, refusing to execute subprocess"
+        exit $RESULT
+    fi
+    exec $CLI
+else
+    exit $RESULT
+fi

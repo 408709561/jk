@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#[[ #!/usr/bin/env bash
 #   Use this script to test if a given TCP host/port are available
 
 cmdname=$(basename $0)
@@ -175,3 +175,4 @@ if [[ $CLI != "" ]]; then
 else
     exit $RESULT
 fi
+]]#
