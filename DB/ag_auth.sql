@@ -14,7 +14,7 @@ Use ag_auth;
  Target Server Version : 50718
  File Encoding         : utf-8
 
- Date: 02/12/2018 17:19:21 PM
+ Date: 02/25/2018 14:59:42 PM
 */
 
 SET NAMES utf8;
@@ -86,6 +86,34 @@ CREATE TABLE `auth_client_service` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `auth_client_service` VALUES ('21', '4', '5', null, null, null, null, null, null, null, null, null, null, null, null, null), ('43', '3', '16', null, null, null, null, null, null, null, null, null, null, null, null, null), ('45', '12', '16', null, null, null, null, null, null, null, null, null, null, null, null, null), ('46', '18', '18', null, null, null, null, null, null, null, null, null, null, null, null, null), ('53', '3', '6', null, null, null, null, null, null, null, null, null, null, null, null, null), ('61', '3', '1', null, null, null, null, null, null, null, null, null, null, null, null, null), ('62', '6', '1', null, null, null, null, null, null, null, null, null, null, null, null, null), ('63', '20', '1', null, null, null, null, null, null, null, null, null, null, null, null, null), ('65', '3', '21', null, null, null, null, null, null, null, null, null, null, null, null, null);
+COMMIT;
+
+-- ----------------------------
+--  Table structure for `gateway_route`
+-- ----------------------------
+DROP TABLE IF EXISTS `gateway_route`;
+CREATE TABLE `gateway_route` (
+  `id` varchar(50) NOT NULL,
+  `path` varchar(255) NOT NULL COMMENT '映射路劲',
+  `service_id` varchar(50) DEFAULT NULL COMMENT '映射服务',
+  `url` varchar(255) DEFAULT NULL COMMENT '映射外连接',
+  `retryable` tinyint(1) DEFAULT NULL COMMENT '是否重试',
+  `enabled` tinyint(1) NOT NULL COMMENT '是否启用',
+  `strip_prefix` tinyint(1) DEFAULT NULL COMMENT '是否忽略前缀',
+  `crt_user_name` varchar(255) DEFAULT NULL COMMENT '创建人',
+  `crt_user_id` varchar(36) DEFAULT NULL COMMENT '创建人ID',
+  `crt_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `upd_user_name` varchar(255) DEFAULT NULL COMMENT '最后更新人',
+  `upd_user_id` varchar(36) DEFAULT NULL COMMENT '最后更新人ID',
+  `upd_time` datetime DEFAULT NULL COMMENT '最后更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+--  Records of `gateway_route`
+-- ----------------------------
+BEGIN;
+INSERT INTO `gateway_route` VALUES ('admin', '/admin/**', 'ace-admin', null, '0', '1', '1', 'Mr.AG', '1', '2018-02-25 14:33:30', 'Mr.AG', '1', '2018-02-25 14:38:31'), ('auth', '/auth/**', 'ace-auth', null, '0', '1', '1', null, null, null, 'Mr.AG', '1', '2018-02-25 14:29:51'), ('dict', '/dict/**', 'ace-dict', null, '0', '1', '1', null, null, null, 'Mr.AG', '1', '2018-02-25 14:41:07');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
