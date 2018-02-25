@@ -15,16 +15,16 @@ zuul:
         - user
         - origin
         - url
-  routes:
-    back:
-      path: /admin/**
-      serviceId: ace-admin
-    auth:
-      path: /auth/**
-      serviceId: ace-auth
-    dict:
-      path: /dict/**
-      serviceId: ace-dict
+#  routes:
+#    back:
+#      path: /admin/**
+#      serviceId: ace-admin
+#    auth:
+#      path: /auth/**
+#      serviceId: ace-auth
+#    dict:
+#      path: /dict/**
+#      serviceId: ace-dict
 
 #  SendErrorFilter:
 #    post:

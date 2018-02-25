@@ -23,15 +23,20 @@
 
 package com.github.wxiaoqi.security.auth.runner;
 
+import com.alibaba.fastjson.JSON;
 import com.github.ag.core.util.RsaKeyHelper;
 import com.github.wxiaoqi.security.auth.configuration.KeyConfiguration;
 import com.github.wxiaoqi.security.auth.jwt.AECUtil;
+import com.github.wxiaoqi.security.auth.module.client.biz.GatewayRouteBiz;
+import com.github.wxiaoqi.security.auth.module.client.entity.GatewayRoute;
+import com.github.wxiaoqi.security.common.constant.RedisKeyConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,6 +61,9 @@ public class AuthServerRunner implements CommandLineRunner {
 
     @Autowired
     private RsaKeyHelper rsaKeyHelper;
+
+    @Autowired
+    private GatewayRouteBiz gatewayRouteBiz;
 
     @Override
     public void run(String... args) throws Exception {
@@ -86,5 +94,8 @@ public class AuthServerRunner implements CommandLineRunner {
             redisTemplate.opsForValue().set(REDIS_SERVICE_PUB_KEY, rsaKeyHelper.toHexString(keyMap.get("pub")));
         }
         log.info("完成公钥/密钥的初始化...");
+        List<GatewayRoute> gatewayRoutes = gatewayRouteBiz.selectListAll();
+        redisTemplate.opsForValue().set(RedisKeyConstants.ZUUL_ROUTE_KEY, JSON.toJSONString(gatewayRoutes));
+        log.info("完成网关路由的更新...");
     }
 }

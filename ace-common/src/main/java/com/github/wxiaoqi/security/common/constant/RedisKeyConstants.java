@@ -29,4 +29,5 @@ package com.github.wxiaoqi.security.common.constant;
  */
 public class RedisKeyConstants {
     public final static String USER_DEPART_PREFIX = "USER:DEPART";
+    public final static String ZUUL_ROUTE_KEY = "ZUUL:ROUTE";
 }
