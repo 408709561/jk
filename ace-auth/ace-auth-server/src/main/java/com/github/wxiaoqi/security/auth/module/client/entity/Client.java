@@ -24,6 +24,7 @@
 package com.github.wxiaoqi.security.auth.module.client.entity;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -31,6 +32,7 @@ import java.util.Date;
 @Table(name = "auth_client")
 public class Client {
     @Id
+    @GeneratedValue(generator = "UUID")
     private String id;
 
     private String code;
