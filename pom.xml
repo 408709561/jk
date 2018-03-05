@@ -34,12 +34,10 @@
         <module>ace-generator</module>
         <module>ace-auth</module>
         <module>ace-control</module>
-        <module>ace-admin</module>
         <module>ace-gate</module>
-        <module>ace-admin-interface</module>
         <module>ace-transaction</module>
         <module>ace-demo</module>
-        <module>ace-dict</module>
+        <module>ace-modules</module>
     </modules>
 
     <packaging>pom</packaging>
