@@ -1,0 +1,10 @@
+logging:
+    level:
+#        tk.mybatis: DEBUG
+        com.github.wxiaoqi.oss: DEBUG
+server:
+    port: 9992
+
+search:
+  lucence:
+    path: ./lucence/file
