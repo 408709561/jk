@@ -25,7 +25,7 @@
 
 package com.github.wxiaoqi.search.controller;
 
-import com.github.wxiaoqi.search.entity.IndexObject;
+import com.github.wxiaoqi.security.api.vo.search.IndexObject;
 import com.github.wxiaoqi.search.service.LuceneService;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import org.springframework.beans.factory.annotation.Autowired;

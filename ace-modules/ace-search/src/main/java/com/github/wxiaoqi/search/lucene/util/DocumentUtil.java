@@ -25,7 +25,7 @@
 
 package com.github.wxiaoqi.search.lucene.util;
 
-import com.github.wxiaoqi.search.entity.IndexObject;
+import com.github.wxiaoqi.security.api.vo.search.IndexObject;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;

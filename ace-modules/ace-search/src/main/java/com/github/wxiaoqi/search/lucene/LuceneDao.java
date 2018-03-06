@@ -25,7 +25,7 @@
 
 package com.github.wxiaoqi.search.lucene;
 
-import com.github.wxiaoqi.search.entity.IndexObject;
+import com.github.wxiaoqi.security.api.vo.search.IndexObject;
 import com.github.wxiaoqi.search.lucene.util.DocumentUtil;
 import com.github.wxiaoqi.search.lucene.util.IKAnalyzer5x;
 import com.github.wxiaoqi.search.lucene.util.QueryUtil;

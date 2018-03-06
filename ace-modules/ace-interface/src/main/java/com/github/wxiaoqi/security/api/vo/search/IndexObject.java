@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.wxiaoqi.search.entity;
+package com.github.wxiaoqi.security.api.vo.search;
 
 
 import java.io.Serializable;
