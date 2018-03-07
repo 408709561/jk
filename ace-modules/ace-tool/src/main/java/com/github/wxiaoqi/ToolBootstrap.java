@@ -27,7 +27,6 @@ package com.github.wxiaoqi;
 
 import com.github.wxiaoqi.security.auth.client.EnableAceAuthClient;
 import com.spring4all.swagger.EnableSwagger2Doc;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -47,10 +46,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCircuitBreaker
 // 开启服务鉴权
 @EnableFeignClients({"com.github.wxiaoqi.security.auth.client.feign","com.github.wxiaoqi.oss.feign"})
-@MapperScan("com.github.wxiaoqi")
 @EnableAceAuthClient
 @EnableSwagger2Doc
-public class Bootstrap {
+public class ToolBootstrap {
     public static void main(String[] args) {
-        new SpringApplicationBuilder(Bootstrap.class).web(true).run(args);    }
+        new SpringApplicationBuilder(ToolBootstrap.class).web(true).run(args);    }
 }
