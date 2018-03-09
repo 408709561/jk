@@ -11,4 +11,7 @@
 
     <artifactId>ace-transaction</artifactId>
     <packaging>pom</packaging>
+    <modules>
+        <module>ace-transaction-demo</module>
+    </modules>
 </project>

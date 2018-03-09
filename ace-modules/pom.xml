@@ -37,11 +37,9 @@
     <artifactId>ace-modules</artifactId>
     <modules>
         <module>ace-admin</module>
-        <module>ace-admin-interface</module>
+        <module>ace-interface</module>
         <module>ace-dict</module>
-        <module>ace-oss</module>
-        <module>ace-msg</module>
-        <module>ace-search</module>
+        <module>ace-tool</module>
     </modules>
 
 </project>

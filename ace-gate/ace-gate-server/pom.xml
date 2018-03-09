@@ -78,7 +78,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.wxiaoqi</groupId>
-            <artifactId>ace-admin-interface</artifactId>
+            <artifactId>ace-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
