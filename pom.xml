@@ -38,6 +38,7 @@
         <module>ace-transaction</module>
         <module>ace-demo</module>
         <module>ace-modules</module>
+        <module>ace-job</module>
     </modules>
 
     <packaging>pom</packaging>
