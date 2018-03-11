@@ -55,6 +55,7 @@ public class RedisConfiguration {
         jackson2JsonRedisSerializer.setObjectMapper(om);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(jackson2JsonRedisSerializer);
+        template.setDefaultSerializer(new StringRedisSerializer());
         template.afterPropertiesSet();
         return template;
     }

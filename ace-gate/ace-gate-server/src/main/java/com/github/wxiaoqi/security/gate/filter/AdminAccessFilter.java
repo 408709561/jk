@@ -33,6 +33,7 @@ import com.github.wxiaoqi.security.auth.client.config.ServiceAuthConfig;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.ServiceAuthUtil;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
+import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import com.github.wxiaoqi.security.common.exception.auth.UserForbiddenException;
 import com.github.wxiaoqi.security.common.util.ClientUtil;
@@ -184,6 +185,9 @@ public class AdminAccessFilter extends ZuulFilter {
         String authToken = request.getHeader(userAuthConfig.getTokenHeader());
         if (StringUtils.isBlank(authToken)) {
             authToken = request.getParameter("token");
+        }
+        if (authToken != null && authToken.startsWith(RequestHeaderConstants.JWT_TOKEN_TYPE)) {
+            authToken = authToken.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),authToken.length());
         }
         ctx.addZuulRequestHeader(userAuthConfig.getTokenHeader(), authToken);
         BaseContextHandler.setToken(authToken);

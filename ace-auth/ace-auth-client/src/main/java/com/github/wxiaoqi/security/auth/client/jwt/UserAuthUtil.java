@@ -27,13 +27,17 @@ import com.github.ag.core.constants.CommonConstants;
 import com.github.ag.core.util.jwt.IJWTInfo;
 import com.github.ag.core.util.jwt.JWTHelper;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
+import com.github.wxiaoqi.security.common.constant.RedisKeyConstants;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
+import com.github.wxiaoqi.security.common.util.RedisKeyUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ace on 2017/9/15.
@@ -52,10 +56,12 @@ public class UserAuthUtil {
     public IJWTInfo getInfoFromToken(String token) throws Exception {
         try {
             IJWTInfo infoFromToken = jwtHelper.getInfoFromToken(token, userAuthConfig.getPubKeyByte());
-            if(redisTemplate.hasKey(CommonConstants.REDIS_USER_TOKEN+infoFromToken.getId()+infoFromToken.getExpireTime().getTime())){
+            if(redisTemplate.hasKey(RedisKeyUtil.buildUserDisableKey(infoFromToken.getId(),infoFromToken.getExpireTime()))){
                 throw new NonLoginException("User token is invalid!");
             }
             if(new DateTime(infoFromToken.getExpireTime()).plusMinutes(userAuthConfig.getTokenLimitExpire()).isBeforeNow()){
+                redisTemplate.opsForValue().set(RedisKeyUtil.buildUserDisableKey(infoFromToken.getId(),infoFromToken.getExpireTime()), "1");
+                redisTemplate.delete(RedisKeyUtil.buildUserAbleKey(infoFromToken.getId(), infoFromToken.getExpireTime()));
                 throw new NonLoginException("User token expired!");
             }
             return infoFromToken;

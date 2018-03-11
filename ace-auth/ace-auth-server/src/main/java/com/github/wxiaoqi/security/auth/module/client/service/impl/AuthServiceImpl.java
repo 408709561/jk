@@ -29,11 +29,14 @@ import com.github.ag.core.util.jwt.JWTInfo;
 import com.github.wxiaoqi.security.auth.feign.IUserService;
 import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
 import com.github.wxiaoqi.security.auth.module.client.service.AuthService;
+import com.github.wxiaoqi.security.common.util.RedisKeyUtil;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,7 +69,9 @@ public class AuthServiceImpl implements AuthService {
             map.put(CommonConstants.JWT_KEY_TENANT_ID, String.valueOf(data.get("tenantId")));
             map.put(CommonConstants.JWT_KEY_DEPART_ID, String.valueOf(data.get("departId")));
             JWTInfo jwtInfo = new JWTInfo(data.get("username"), data.get("id"), data.get("name"));
-            token = jwtTokenUtil.generateToken(jwtInfo, map);
+            Date expireTime = DateTime.now().plusSeconds(jwtTokenUtil.getExpire()).toDate();
+            token = jwtTokenUtil.generateToken(jwtInfo, map, expireTime);
+            redisTemplate.opsForValue().set(RedisKeyUtil.buildUserAbleKey(data.get("id"), expireTime), "1");
         }
         return token;
     }
@@ -79,7 +84,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Boolean invalid(String token) throws Exception {
         IJWTInfo infoFromToken = jwtTokenUtil.getInfoFromToken(token);
-        redisTemplate.opsForValue().set(CommonConstants.REDIS_USER_TOKEN + infoFromToken.getId() + infoFromToken.getExpireTime().getTime(), "1");
+        redisTemplate.delete(RedisKeyUtil.buildUserAbleKey(infoFromToken.getId(), infoFromToken.getExpireTime()));
+        redisTemplate.opsForValue().set(RedisKeyUtil.buildUserDisableKey(infoFromToken.getId(), infoFromToken.getExpireTime()), "1");
         return true;
     }
 
@@ -87,6 +93,8 @@ public class AuthServiceImpl implements AuthService {
     public String refresh(String oldToken) throws Exception {
         IJWTInfo infoFromToken = jwtTokenUtil.getInfoFromToken(oldToken);
         invalid(oldToken);
-        return jwtTokenUtil.generateToken(infoFromToken,infoFromToken.getOtherInfo());
+        Date expireTime = DateTime.now().plusSeconds(jwtTokenUtil.getExpire()).toDate();
+        redisTemplate.opsForValue().set(RedisKeyUtil.buildUserAbleKey(infoFromToken.getId(), expireTime), "1");
+        return jwtTokenUtil.generateToken(infoFromToken, infoFromToken.getOtherInfo(), expireTime);
     }
 }

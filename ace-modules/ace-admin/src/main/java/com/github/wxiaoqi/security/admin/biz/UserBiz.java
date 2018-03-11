@@ -23,8 +23,6 @@
 
 package com.github.wxiaoqi.security.admin.biz;
 
-import com.ace.cache.annotation.Cache;
-import com.ace.cache.annotation.CacheClear;
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.merge.core.MergeCore;
 import com.github.wxiaoqi.security.admin.constant.UserConstant;
@@ -59,6 +57,9 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
     @Autowired
     private DepartMapper departMapper;
 
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT);
+
+
     @Override
     public User selectById(Object id) {
         User user = super.selectById(id);
@@ -70,9 +71,20 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
         }
     }
 
+    public Boolean changePassword(String oldPass, String newPass) {
+        User user = this.getUserByUsername(BaseContextHandler.getUsername());
+        if (encoder.matches(oldPass, user.getPassword())) {
+            String password = encoder.encode(newPass);
+            user.setPassword(password);
+            this.updateSelectiveById(user);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void insertSelective(User entity) {
-        String password = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT).encode(entity.getPassword());
+        String password = encoder.encode(entity.getPassword());
         entity.setPassword(password);
         entity.setIsDeleted(BooleanUtil.BOOLEAN_FALSE);
         entity.setIsDisabled(BooleanUtil.BOOLEAN_FALSE);

@@ -62,10 +62,15 @@ public class UserController extends BaseController<UserBiz,User> {
 
     @IgnoreUserToken
     @RequestMapping(value = "/validate", method = RequestMethod.POST)
-    public @ResponseBody
-    ObjectRestResponse<UserInfo> validate(String username, String password){
+    public ObjectRestResponse<UserInfo> validate(String username, String password){
         return new ObjectRestResponse<UserInfo>().data(permissionService.validate(username,password));
     }
+
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
+    public ObjectRestResponse<Boolean> changePassword(String oldPass, String newPass){
+        return new ObjectRestResponse<Boolean>().data(baseBiz.changePassword(oldPass,newPass));
+    }
+
 
     @RequestMapping(value = "/front/info", method = RequestMethod.GET)
     @ResponseBody

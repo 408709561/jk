@@ -31,6 +31,7 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
+import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
 import com.github.wxiaoqi.security.common.msg.BaseResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -81,6 +82,9 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
                         }
                     }
                 }
+            }
+            if (token != null && token.startsWith(RequestHeaderConstants.JWT_TOKEN_TYPE)) {
+                token = token.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),token.length());
             }
             try {
                 IJWTInfo infoFromToken = userAuthUtil.getInfoFromToken(token);
