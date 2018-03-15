@@ -1,0 +1,19 @@
+spring.application.name: ace-workflow
+server.port: 8082
+spring.jpa.hibernate.ddl-auto: update
+spring.jpa.database: MYSQL
+spring.datasource.url: jdbc:mysql://127.0.0.1:3306/ag_workflow?characterEncoding=UTF-8
+spring.datasource.username: root
+spring.datasource.password: 123456
+spring.datasource.driver-class-name: com.mysql.jdbc.Driver
+
+
+# 配置swagger
+swagger:
+    enabled: true
+    base-package: com.github.wxiaoqi.security.wf
+    title: ace-workflow
+    version: 1.0.0.SNAPSHOT
+    description: 工作流服务
+    contact:
+        name: workflow

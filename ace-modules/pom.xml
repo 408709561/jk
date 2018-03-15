@@ -40,6 +40,7 @@
         <module>ace-interface</module>
         <module>ace-dict</module>
         <module>ace-tool</module>
+        <module>ace-workflow</module>
     </modules>
 
 </project>
