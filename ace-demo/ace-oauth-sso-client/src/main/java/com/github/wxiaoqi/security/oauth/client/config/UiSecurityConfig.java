@@ -51,38 +51,44 @@ import java.io.IOException;
 @EnableOAuth2Sso
 public class UiSecurityConfig extends WebSecurityConfigurerAdapter {
 
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/**").authorizeRequests().anyRequest()
-                    .authenticated().and().csrf()
-                    .csrfTokenRepository(csrfTokenRepository()).and()
-                    .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
-                    .logout().logoutUrl("/logout").logoutSuccessUrl("/").and().authorizeRequests().antMatchers("/").permitAll()
-                    ;
-        }
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().anyRequest()
+                .authenticated()
+                .and().csrf()
+                .csrfTokenRepository(csrfTokenRepository())
+                .and()
+                .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/")
+                .and().authorizeRequests().antMatchers("/").permitAll();
+    }
 
-        private Filter csrfHeaderFilter() {
-            return new OncePerRequestFilter() {
-                @Override
-                protected void doFilterInternal(HttpServletRequest request,
-                                                HttpServletResponse response, FilterChain filterChain)
-                        throws ServletException, IOException {
-                    CsrfToken csrf = (CsrfToken) request
-                            .getAttribute(CsrfToken.class.getName());
-                    if (csrf != null) {
-                        Cookie cookie = new Cookie("XSRF-TOKEN",
-                                csrf.getToken());
-                        cookie.setPath("/");
-                        response.addCookie(cookie);
-                    }
-                    filterChain.doFilter(request, response);
+    private Filter csrfHeaderFilter() {
+        return new OncePerRequestFilter() {
+            @Override
+            protected void doFilterInternal(HttpServletRequest request,
+                                            HttpServletResponse response, FilterChain filterChain)
+                    throws ServletException, IOException {
+                CsrfToken csrf = (CsrfToken) request
+                        .getAttribute(CsrfToken.class.getName());
+                if (csrf != null) {
+                    Cookie cookie = new Cookie("XSRF-TOKEN",
+                            csrf.getToken());
+                    cookie.setPath("/");
+                    response.addCookie(cookie);
                 }
-            };
-        }
+                filterChain.doFilter(request, response);
+            }
+        };
+    }
 
-        private CsrfTokenRepository csrfTokenRepository() {
-            HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
-            repository.setHeaderName("X-XSRF-TOKEN");
-            return repository;
-        }
+    private CsrfTokenRepository csrfTokenRepository() {
+        HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+        repository.setHeaderName("X-XSRF-TOKEN");
+        return repository;
+    }
+
+
+
+
 }

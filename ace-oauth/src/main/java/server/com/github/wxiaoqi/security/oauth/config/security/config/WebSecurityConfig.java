@@ -18,11 +18,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
-                .authorizeRequests().antMatchers("/static/**", "/favicon.ico", "/webjars/**","/user")
+                .authorizeRequests().antMatchers("/static/**", "/favicon.ico", "/webjars/**")
                 .permitAll()
                 .and()
                 .formLogin().loginPage("/login").permitAll();
-
     }
 
 

@@ -38,7 +38,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ace-demo-depart-data</module>
-        <module>ace-oauth-client</module>
+        <module>ace-oauth-sso-client</module>
     </modules>
 
 
