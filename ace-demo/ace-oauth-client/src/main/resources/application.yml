@@ -1,0 +1,42 @@
+server:
+  port: 4040
+  context-path: /sso
+
+#监控短点配置
+management:
+  security:
+    enabled: false
+
+endpoints:
+  actuator:
+    enabled: true
+  shutdown:
+    enabled: false
+
+security:
+  user:
+    password: user
+  ignored: /,/favicon.ico,/index.html,/home.html,/dashboard.html,/js/**,/css/**,/webjars/**
+  sessions: ALWAYS
+  oauth2:
+    sso:
+      loginPath: /login
+    client:
+      accessTokenUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/oauth/token
+      userAuthorizationUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/oauth/authorize
+      clientId: client
+      clientSecret: client
+    resource:
+      userInfoUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/user
+
+spring:
+  application:
+    name: sso-client-demo
+  thymeleaf:
+    cache: false
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.netflix.discovery: 'OFF'
