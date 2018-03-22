@@ -23,22 +23,32 @@
  *
  */
 
-package server.com.github.wxiaoqi.security.oauth.config.security.controller;
+package com.github.wxiaoqi.security.oauth.config;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * @author ace
- * @create 2018/3/19.
+ * Created by ace on 2017/8/11.
  */
-@RestController
-public class UserController {
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @RequestMapping("/user")
-    public Principal userInfo(Principal principal) {
-        return principal;
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.requestMatchers()
+                .antMatchers("/login", "/oauth/authorize")
+                .and()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .authorizeRequests().antMatchers("/static/**", "/favicon.ico", "/webjars/**")
+                .permitAll()
+                .and()
+                .formLogin().loginPage("/login").permitAll();
     }
+
+
+
 }

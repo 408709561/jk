@@ -23,7 +23,7 @@
  *
  */
 
-package server.com.github.wxiaoqi.security.oauth.config.security.service;
+package com.github.wxiaoqi.security.oauth.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;

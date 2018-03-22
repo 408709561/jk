@@ -23,17 +23,22 @@
  *
  */
 
-package server.com.github.wxiaoqi.security.oauth.config.security.config;
+package com.github.wxiaoqi.security.oauth.config;
 
+import com.github.ag.core.constants.CommonConstants;
+import com.github.ag.core.util.RsaKeyHelper;
+import com.github.wxiaoqi.security.oauth.service.AECUtil;
+import com.github.wxiaoqi.security.oauth.service.SysUserDetailsService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -42,13 +47,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import server.com.github.wxiaoqi.security.oauth.config.security.service.SysUserDetailsService;
+import sun.security.rsa.RSAPrivateCrtKeyImpl;
+import sun.security.rsa.RSAPublicKeyImpl;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,12 +67,17 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager auth;
 
     @Autowired
-    private SysUserDetailsService sysUserDetailsService;
-
-    @Autowired
     private DataSource dataSource;
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private RsaKeyHelper rsaKeyHelper;
+    @Autowired
+    private AECUtil aecUtil;
+    private static final String REDIS_USER_PRI_KEY = "AG:AUTH:JWT:PRI";
+    private static final String REDIS_USER_PUB_KEY = "AG:AUTH:JWT:PUB";
+    private static final Integer TOKEN_EXPIRE_SECOND = 14400;
 
     @Bean
     public JdbcTokenStore tokenStore() {
@@ -110,8 +123,13 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         }
     }
 
+
+
+
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
+    public JwtAccessTokenConverter accessTokenConverter() throws IOException, InvalidKeyException {
+        byte[] pri = rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(REDIS_USER_PRI_KEY).toString()));
+        byte[] pub = rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(REDIS_USER_PUB_KEY).toString());
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter() {
             /***
              * 重写增强token方法,用于自定义一些token返回的信息
@@ -122,15 +140,21 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
                 User user = (User) authentication.getUserAuthentication().getPrincipal();// 与登录时候放进去的UserDetail实现类一直查看link{SecurityConfiguration}
                 /** 自定义一些token属性 ***/
                 final Map<String, Object> additionalInformation = new HashMap<>();
-                additionalInformation.put("userName", userName);
-                additionalInformation.put("roles", user.getAuthorities());
+                Date expireTime = DateTime.now().plusSeconds(TOKEN_EXPIRE_SECOND).toDate();
+                additionalInformation.put(CommonConstants.JWT_KEY_EXPIRE, expireTime);
+                additionalInformation.put(CommonConstants.JWT_KEY_USER_ID, "1");
+                additionalInformation.put(CommonConstants.JWT_KEY_TENANT_ID, "tenant");
+                additionalInformation.put(CommonConstants.JWT_KEY_DEPART_ID, "depart");
+                additionalInformation.put(CommonConstants.JWT_KEY_NAME, "管理员");
+                additionalInformation.put("subject", user.getUsername());
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
                 OAuth2AccessToken enhancedToken = super.enhance(accessToken, authentication);
                 return enhancedToken;
             }
 
         };
-        accessTokenConverter.setSigningKey("123");// 测试用,资源服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
+        accessTokenConverter.setKeyPair( new KeyPair(new RSAPublicKeyImpl(pub), RSAPrivateCrtKeyImpl.newKey(pri)));
+//        accessTokenConverter.setSigningKey("123");
         return accessTokenConverter;
     }
 

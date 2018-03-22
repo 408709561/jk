@@ -2,7 +2,7 @@ spring:
   application:
       name: ace-oauth-server
   redis:
-      database: 2
+      database: 1
       host: ${REDIS_HOST:127.0.0.1}
       port: ${REDIS_PORT:6379}
       pool:
@@ -42,3 +42,7 @@ logging:
     ## 这里设置为info，是因为如果不设置，debug时会不断打印mq日志。
     org.springframework.integration.endpoint.SourcePollingChannelAdapter: info
     org.springframework.security: DEBUG
+
+redis:
+  aec-key: xx288&^^%$!@#4dc
+  aec-iv: 0123456789abcdef

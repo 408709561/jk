@@ -23,31 +23,22 @@
  *
  */
 
-package server.com.github.wxiaoqi.security.oauth.config.security.config;
+package com.github.wxiaoqi.security.oauth.controller;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 /**
  * @author ace
- * @create 2018/3/21.
+ * @create 2018/3/19.
  */
-@Configuration
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+@RestController
+public class UserController {
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/login").permitAll()
-                .and()
-                .authorizeRequests().antMatchers("/static/**", "/favicon.ico", "/webjars/**")
-                .permitAll().and()
-                .exceptionHandling()
-                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED))
-                .and()
-                .authorizeRequests()
-                .anyRequest().authenticated();
+    @RequestMapping("/user")
+    public Principal userInfo(Principal principal) {
+        return principal;
     }
 }
