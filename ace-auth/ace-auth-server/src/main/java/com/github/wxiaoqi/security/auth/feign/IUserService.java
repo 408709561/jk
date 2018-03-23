@@ -49,4 +49,6 @@ public interface IUserService {
      */
   @RequestMapping(value = "/user/validate", method = RequestMethod.POST)
   public ObjectRestResponse<Map<String,String>> validate(@RequestParam("username") String username, @RequestParam("password") String password);
+  @RequestMapping(value = "/user/info", method = RequestMethod.POST)
+  public ObjectRestResponse<Map<String,String>> getUserInfoByUsername(@RequestParam("username") String username);
 }

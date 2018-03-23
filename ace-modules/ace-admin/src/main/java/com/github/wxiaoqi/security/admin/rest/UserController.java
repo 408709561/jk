@@ -27,6 +27,7 @@ import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
+import com.github.wxiaoqi.security.admin.vo.AuthUser;
 import com.github.wxiaoqi.security.admin.vo.FrontUser;
 import com.github.wxiaoqi.security.admin.vo.MenuTree;
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
@@ -35,6 +36,7 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +66,14 @@ public class UserController extends BaseController<UserBiz,User> {
     @RequestMapping(value = "/validate", method = RequestMethod.POST)
     public ObjectRestResponse<UserInfo> validate(String username, String password){
         return new ObjectRestResponse<UserInfo>().data(permissionService.validate(username,password));
+    }
+
+    @IgnoreUserToken
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    public ObjectRestResponse<AuthUser> validate(String username){
+        AuthUser user = new AuthUser();
+        BeanUtils.copyProperties(baseBiz.getUserByUsername(username),user);
+        return new ObjectRestResponse<AuthUser>().data(user);
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)

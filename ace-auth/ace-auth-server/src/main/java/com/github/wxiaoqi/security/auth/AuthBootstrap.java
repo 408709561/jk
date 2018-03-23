@@ -32,6 +32,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
  * Created by Ace on 2017/6/2.
@@ -43,6 +46,9 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan({"com.github.ag.core","com.github.wxiaoqi.security.auth"})
 @EnableAutoConfiguration
 @EnableSwagger2Doc
+@SessionAttributes("authorizationRequest")
+@EnableResourceServer
+@EnableAuthorizationServer
 public class AuthBootstrap {
     public static void main(String[] args) {
         SpringApplication.run(AuthBootstrap.class, args);

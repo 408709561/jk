@@ -22,14 +22,14 @@ security:
     sso:
       loginPath: /login
     client:
-      accessTokenUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/oauth/token
-      userAuthorizationUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/oauth/authorize
+      accessTokenUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9777}/oauth/token
+      userAuthorizationUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9777}/oauth/authorize
       clientId: client
       clientSecret: client
     resource:
 #      userInfoUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/user
       jwt:
-        key-uri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/oauth/token_key
+        key-uri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9777}/oauth/token_key
 spring:
   application:
     name: sso-client-demo
