@@ -39,7 +39,6 @@
         <module>ace-demo</module>
         <module>ace-modules</module>
         <module>ace-job</module>
-        <module>ace-oauth</module>
     </modules>
 
     <packaging>pom</packaging>
