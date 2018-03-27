@@ -127,12 +127,6 @@ public class AdminAccessFilter extends ZuulFilter {
             log.error(e.getMessage(), e);
             return null;
         }
-        // 判断当前租户是否过期
-//        ctx.addZuulRequestHeader(RequestHeaderConstants.TENANT, BaseContextHandler.getTenantID());
-//        if(!BaseContextHandler.getTenantID().equals(user.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID))) {
-//            setFailedRequest(JSON.toJSONString(new BusinessException("当前用户不属于当前租户,不具有该租户的任何权限!")), HttpStatus.FORBIDDEN.value());
-//            return null;
-//        }
         List<PermissionInfo> permissionIfs = userService.getAllPermissionInfo();
         // 判断资源是否启用权限约束
         Stream<PermissionInfo> stream = getPermissionIfs(requestUri, method, permissionIfs);
@@ -183,14 +177,16 @@ public class AdminAccessFilter extends ZuulFilter {
      */
     private IJWTInfo getJWTUser(HttpServletRequest request, RequestContext ctx) throws Exception {
         String authToken = request.getHeader(userAuthConfig.getTokenHeader());
+        String originToken = null;
         if (StringUtils.isBlank(authToken)) {
             authToken = request.getParameter("token");
         }
         if (authToken != null && authToken.startsWith(RequestHeaderConstants.JWT_TOKEN_TYPE)) {
+            originToken = authToken;
             authToken = authToken.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),authToken.length());
         }
-        ctx.addZuulRequestHeader(userAuthConfig.getTokenHeader(), authToken);
-        BaseContextHandler.setToken(authToken);
+        ctx.addZuulRequestHeader(userAuthConfig.getTokenHeader(), originToken);
+        BaseContextHandler.setToken(originToken);
         return userAuthUtil.getInfoFromToken(authToken);
     }
 

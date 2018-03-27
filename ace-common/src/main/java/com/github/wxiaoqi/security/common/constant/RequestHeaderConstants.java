@@ -31,5 +31,5 @@ package com.github.wxiaoqi.security.common.constant;
  */
 public class RequestHeaderConstants {
     public final static String TENANT = "X-Tenant-Auth";
-    public final static String JWT_TOKEN_TYPE = "bearer ";
+    public final static String JWT_TOKEN_TYPE = "Bearer ";
 }

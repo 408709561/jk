@@ -147,7 +147,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
                 additionalInformation.put(CommonConstants.JWT_KEY_TENANT_ID, user.getTenantId());
                 additionalInformation.put(CommonConstants.JWT_KEY_DEPART_ID, user.getDepartId());
                 additionalInformation.put(CommonConstants.JWT_KEY_NAME, user.getName());
-                additionalInformation.put("subject", user.getUsername());
+                additionalInformation.put("sub", user.getUsername());
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
                 OAuth2AccessToken enhancedToken = super.enhance(accessToken, authentication);
                 return enhancedToken;
