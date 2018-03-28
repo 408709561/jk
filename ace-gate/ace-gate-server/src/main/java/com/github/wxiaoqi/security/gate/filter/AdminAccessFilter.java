@@ -153,10 +153,12 @@ public class AdminAccessFilter extends ZuulFilter {
         return serviceInfo.parallelStream().filter(new Predicate<PermissionInfo>() {
             @Override
             public boolean test(PermissionInfo permissionInfo) {
-                String url = permissionInfo.getUri();
-                String uri = url.replaceAll("\\{\\*\\}", "[a-zA-Z\\\\d]+");
+                String uri = permissionInfo.getUri();
+                if (uri.indexOf("{") > 0) {
+                    uri = uri.replaceAll("\\{\\*\\}", "[a-zA-Z\\\\d]+");
+                }
                 String regEx = "^" + uri + "$";
-                return (Pattern.compile(regEx).matcher(requestUri).find() || requestUri.startsWith(url + "/"))
+                return (Pattern.compile(regEx).matcher(requestUri).find())
                         && method.equals(permissionInfo.getMethod());
             }
         });

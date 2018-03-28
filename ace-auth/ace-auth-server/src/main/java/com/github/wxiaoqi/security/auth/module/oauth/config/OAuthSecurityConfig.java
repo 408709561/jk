@@ -157,11 +157,4 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         accessTokenConverter.setKeyPair( new KeyPair(new RSAPublicKeyImpl(pub), RSAPrivateCrtKeyImpl.newKey(pri)));
         return accessTokenConverter;
     }
-
-    public static void main(String[] args) {
-        String old = "$2a$15$PBhj/OtlRxC2YNGcfyyO2.a0sCWrbT2xtsikW6M4yDOg8UuUnYhUu";
-        String news = "123456";
-        System.out.println(new BCryptPasswordEncoder(12).matches(news,old));
-    }
-
 }
