@@ -201,7 +201,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
+           <!--  <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
@@ -246,7 +246,7 @@
                         </resource>
                     </resources>
                 </configuration>
-            </plugin>
+            </plugin> -->
         </plugins>
     </build>
 </project>

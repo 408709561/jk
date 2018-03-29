@@ -13,5 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>ace-transaction-demo</module>
+        <module>ace-transaction-core</module>
     </modules>
 </project>
