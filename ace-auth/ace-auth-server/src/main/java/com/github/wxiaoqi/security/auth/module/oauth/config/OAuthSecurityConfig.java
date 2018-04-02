@@ -27,6 +27,7 @@ package com.github.wxiaoqi.security.auth.module.oauth.config;
 
 import com.github.ag.core.constants.CommonConstants;
 import com.github.ag.core.util.RsaKeyHelper;
+import com.github.wxiaoqi.security.auth.configuration.KeyConfiguration;
 import com.github.wxiaoqi.security.auth.constant.RedisKeyConstant;
 import com.github.wxiaoqi.security.auth.jwt.AECUtil;
 import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
@@ -60,6 +61,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +83,8 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     private AECUtil aecUtil;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private KeyConfiguration keyConfiguration;
 
     @Bean
     public JdbcTokenStore tokenStore() {
@@ -129,9 +133,18 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
 
 
     @Bean
-    public JwtAccessTokenConverter accessTokenConverter() throws IOException, InvalidKeyException {
-        byte[] pri = rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PRI_KEY).toString()));
-        byte[] pub = rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PUB_KEY).toString());
+    public JwtAccessTokenConverter accessTokenConverter() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
+        byte[] pri,pub = null;
+        try {
+            pri = rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PRI_KEY).toString()));
+            pub = rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PUB_KEY).toString());
+        }catch(Exception e){
+            Map<String, byte[]> keyMap = rsaKeyHelper.generateKey(keyConfiguration.getUserSecret());
+            redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_USER_PRI_KEY, aecUtil.encrypt(rsaKeyHelper.toHexString(keyMap.get("pri"))));
+            redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_USER_PUB_KEY, rsaKeyHelper.toHexString(keyMap.get("pub")));
+            pri = keyMap.get("pri");
+            pub = keyMap.get("pub");
+        }
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter() {
             /***
              * 重写增强token方法,用于自定义一些token返回的信息
