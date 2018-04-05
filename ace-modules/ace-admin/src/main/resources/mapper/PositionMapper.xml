@@ -55,5 +55,11 @@
         on d.id = bpd.depart_id
         where bpd.position_id = #{positionId}
     </select>
+    <select id="selectUserFlowPosition" resultMap="positionMap">
+        select p.* from base_position p
+          inner join base_position_user bpu
+        on bpu.position_id = p.id
+         where type = 'flow' AND bpu.user_id = #{userId}
+    </select>
 
 </mapper>

@@ -44,8 +44,8 @@ public class SearchController {
     @Autowired
     private LuceneService luceneService;
 
-    @RequestMapping(value = "/w/{word}", method = RequestMethod.GET)
-    public TableResultResponse<IndexObject> search(@PathVariable String word, @RequestParam(defaultValue = "1") Integer pageNumber, @RequestParam(defaultValue = "15") Integer pageSize) {
+    @RequestMapping(value = "", method = {RequestMethod.POST,RequestMethod.GET})
+    public TableResultResponse<IndexObject> search(@RequestParam String word, @RequestParam(defaultValue = "1") Integer pageNumber, @RequestParam(defaultValue = "15") Integer pageSize) {
         return luceneService.page(pageNumber, pageSize, word);
     }
 

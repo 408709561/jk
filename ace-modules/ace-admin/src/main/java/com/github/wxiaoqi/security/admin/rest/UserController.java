@@ -24,7 +24,9 @@
 package com.github.wxiaoqi.security.admin.rest;
 
 import com.github.ag.core.context.BaseContextHandler;
+import com.github.wxiaoqi.security.admin.biz.PositionBiz;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
+import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.admin.vo.AuthUser;
@@ -46,6 +48,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * ${DESCRIPTION}
@@ -57,28 +60,31 @@ import java.util.List;
 @RequestMapping("user")
 @CheckUserToken
 @CheckClientToken
-public class UserController extends BaseController<UserBiz,User> {
+public class UserController extends BaseController<UserBiz, User> {
 
     @Autowired
     private PermissionService permissionService;
 
+    @Autowired
+    private PositionBiz positionBiz;
+
     @IgnoreUserToken
     @RequestMapping(value = "/validate", method = RequestMethod.POST)
-    public ObjectRestResponse<UserInfo> validate(String username, String password){
-        return new ObjectRestResponse<UserInfo>().data(permissionService.validate(username,password));
+    public ObjectRestResponse<UserInfo> validate(String username, String password) {
+        return new ObjectRestResponse<UserInfo>().data(permissionService.validate(username, password));
     }
 
     @IgnoreUserToken
     @RequestMapping(value = "/info", method = RequestMethod.POST)
-    public ObjectRestResponse<AuthUser> validate(String username){
+    public ObjectRestResponse<AuthUser> validate(String username) {
         AuthUser user = new AuthUser();
-        BeanUtils.copyProperties(baseBiz.getUserByUsername(username),user);
+        BeanUtils.copyProperties(baseBiz.getUserByUsername(username), user);
         return new ObjectRestResponse<AuthUser>().data(user);
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    public ObjectRestResponse<Boolean> changePassword(String oldPass, String newPass){
-        return new ObjectRestResponse<Boolean>().data(baseBiz.changePassword(oldPass,newPass));
+    public ObjectRestResponse<Boolean> changePassword(String oldPass, String newPass) {
+        return new ObjectRestResponse<Boolean>().data(baseBiz.changePassword(oldPass, newPass));
     }
 
 
@@ -86,7 +92,7 @@ public class UserController extends BaseController<UserBiz,User> {
     @ResponseBody
     public ResponseEntity<?> getUserInfo() throws Exception {
         FrontUser userInfo = permissionService.getUserInfo();
-        if(userInfo==null) {
+        if (userInfo == null) {
             return ResponseEntity.status(401).body(false);
         } else {
             return ResponseEntity.ok(userInfo);
@@ -94,15 +100,24 @@ public class UserController extends BaseController<UserBiz,User> {
     }
 
     @RequestMapping(value = "/front/menus", method = RequestMethod.GET)
-    public @ResponseBody
+    public
+    @ResponseBody
     List<MenuTree> getMenusByUsername() throws Exception {
         return permissionService.getMenusByUsername();
     }
 
-    @RequestMapping(value = "/dataDepart",method = RequestMethod.GET)
-    public List<String> getUserDataDepartIds(String userId){
-        if(BaseContextHandler.getUserID().equals(userId)){
-          return baseBiz.getUserDataDepartIds(userId);
+    @RequestMapping(value = "/dataDepart", method = RequestMethod.GET)
+    public List<String> getUserDataDepartIds(String userId) {
+        if (BaseContextHandler.getUserID().equals(userId)) {
+            return baseBiz.getUserDataDepartIds(userId);
+        }
+        return new ArrayList<>();
+    }
+
+    @RequestMapping(value = "/flowPosition", method = RequestMethod.GET)
+    public List<String> getUserFlowPositions(String userId) {
+        if (BaseContextHandler.getUserID().equals(userId)) {
+            return positionBiz.getUserFlowPosition(userId).stream().map(Position::getName).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }

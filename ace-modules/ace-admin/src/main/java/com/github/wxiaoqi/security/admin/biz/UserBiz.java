@@ -25,16 +25,12 @@ package com.github.wxiaoqi.security.admin.biz;
 
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.merge.core.MergeCore;
-import com.github.wxiaoqi.security.admin.constant.UserConstant;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.mapper.DepartMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
-import com.github.wxiaoqi.security.common.biz.BusinessBiz;
-import com.github.wxiaoqi.security.common.util.BooleanUtil;
-import com.github.wxiaoqi.security.common.util.Query;
-import com.github.wxiaoqi.security.common.util.UUIDUtils;
+import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import com.github.wxiaoqi.security.common.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -50,14 +46,14 @@ import java.util.Map;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class UserBiz extends BusinessBiz<UserMapper, User> {
+public class UserBiz extends BaseBiz<UserMapper, User> {
     @Autowired
     private MergeCore mergeCore;
 
     @Autowired
     private DepartMapper departMapper;
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(UserConstant.PW_ENCORDER_SALT);
+    private Sha256PasswordEncoder encoder = new Sha256PasswordEncoder();
 
 
     @Override
@@ -85,7 +81,10 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
     @Override
     public void insertSelective(User entity) {
         String password = encoder.encode(entity.getPassword());
+        String departId = entity.getDepartId();
+        EntityUtils.setCreatAndUpdatInfo(entity);
         entity.setPassword(password);
+        entity.setDepartId(departId);
         entity.setIsDeleted(BooleanUtil.BOOLEAN_FALSE);
         entity.setIsDisabled(BooleanUtil.BOOLEAN_FALSE);
         String userId = UUIDUtils.generateUuid();
@@ -102,6 +101,7 @@ public class UserBiz extends BusinessBiz<UserMapper, User> {
 
     @Override
     public void updateSelectiveById(User entity) {
+        EntityUtils.setUpdatedInfo(entity);
         User user = mapper.selectByPrimaryKey(entity.getId());
         if (!user.getDepartId().equals(entity.getDepartId())) {
             departMapper.deleteDepartUser(user.getDepartId(), entity.getId());

@@ -27,6 +27,7 @@ import com.github.wxiaoqi.gate.ratelimit.config.IUserPrincipal;
 import com.github.wxiaoqi.security.auth.client.config.UserAuthConfig;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.ag.core.util.jwt.IJWTInfo;
+import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -53,9 +54,10 @@ public class UserPrincipal implements IUserPrincipal {
         IJWTInfo infoFromToken = null;
         try {
             String authToken = request.getHeader(userAuthConfig.getTokenHeader());
-            if(StringUtils.isEmpty(authToken)) {
+            if(StringUtils.isEmpty(authToken)||!authToken.startsWith(RequestHeaderConstants.JWT_TOKEN_TYPE)) {
                 infoFromToken = null;
             } else {
+                authToken = authToken.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),authToken.length());
                 infoFromToken = userAuthUtil.getInfoFromToken(authToken);
             }
         } catch (Exception e) {

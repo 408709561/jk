@@ -81,4 +81,10 @@ public interface PositionMapper extends CommonMapper<Position> {
      * @return
      */
     List<Depart> selectPositionDeparts(String positionId);
+
+    /**
+     * 获取用户的流程岗位
+     * @return
+     */
+    List<Position> selectUserFlowPosition(String userId);
 }

@@ -33,6 +33,7 @@ import com.github.wxiaoqi.security.auth.jwt.AECUtil;
 import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
 import com.github.wxiaoqi.security.auth.module.oauth.bean.OauthUser;
 import com.github.wxiaoqi.security.auth.module.oauth.service.OauthUserDetailsService;
+import com.github.wxiaoqi.security.common.util.Sha256PasswordEncoder;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -126,7 +127,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
 
         @Override
         public void init(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(oauthUserDetailsService).passwordEncoder(new BCryptPasswordEncoder(12));
+            auth.userDetailsService(oauthUserDetailsService).passwordEncoder(new Sha256PasswordEncoder());
         }
     }
 

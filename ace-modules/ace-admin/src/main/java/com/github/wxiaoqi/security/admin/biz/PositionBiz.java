@@ -43,6 +43,15 @@ public class PositionBiz extends BusinessBiz<PositionMapper,Position> {
     }
 
     /**
+     * 获取用户流程关联岗位
+     * @param userId
+     * @return
+     */
+    public List<Position> getUserFlowPosition(String userId){
+        return mapper.selectUserFlowPosition(userId);
+    }
+
+    /**
      * 获取岗位用户
      * @param positionId
      * @return

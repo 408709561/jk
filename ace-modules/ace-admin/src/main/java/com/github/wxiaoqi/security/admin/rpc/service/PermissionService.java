@@ -37,11 +37,11 @@ import com.github.wxiaoqi.security.admin.vo.MenuTree;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
+import com.github.wxiaoqi.security.common.util.Sha256PasswordEncoder;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -63,7 +63,8 @@ public class PermissionService {
     private ElementBiz elementBiz;
     @Autowired
     private UserAuthUtil userAuthUtil;
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private Sha256PasswordEncoder encoder = new Sha256PasswordEncoder();
+
 
 
     public UserInfo getUserByUsername(String username) {

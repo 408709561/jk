@@ -45,6 +45,8 @@ public class IndexObject implements Comparable<IndexObject>,Serializable{
 
 	private String postDate;
 
+	private String url;
+
 	public String getPostDate() {
 		return postDate;
 	}
@@ -61,7 +63,7 @@ public class IndexObject implements Comparable<IndexObject>,Serializable{
 		this.descripton = descripton;
 	}
 
-	private String url;
+
 
 	/*相似度*/
 	private float score;
@@ -82,7 +84,6 @@ public class IndexObject implements Comparable<IndexObject>,Serializable{
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 
 
 	public String getTitle() {
@@ -110,7 +111,6 @@ public class IndexObject implements Comparable<IndexObject>,Serializable{
 	}
 
 
-	
 	public IndexObject() {
 		super();
 	}
