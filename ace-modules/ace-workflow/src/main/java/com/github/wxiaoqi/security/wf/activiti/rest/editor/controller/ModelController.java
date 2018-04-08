@@ -79,17 +79,11 @@ public class ModelController {
      */
     @ApiOperation(value = "新建一个空模型")
     @PostMapping
-    public Map<String,Object> newModel() throws UnsupportedEncodingException {
+    public Map<String,Object> newModel(String name,String key,String description) throws UnsupportedEncodingException {
         RepositoryService repositoryService = processEngine.getRepositoryService();
         //初始化一个空模型
         Model model = repositoryService.newModel();
-
-        //设置一些默认信息，可以用参数接收
-        String name = "new-process";
-        String description = "";
         int revision = 1;
-        String key = "processes";
-
         ObjectNode modelNode = objectMapper.createObjectNode();
         modelNode.put(ModelDataJsonConstants.MODEL_NAME, name);
         modelNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);

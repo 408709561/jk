@@ -27,6 +27,7 @@ package com.github.wxiaoqi.security.wf.rest;
 
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
+import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.wf.feign.IUserFeign;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
@@ -115,7 +116,6 @@ public class TaskRest {
         }
         int start = (pageNum - 1) * pageSize;
         int limit = pageSize;
-
         long count = taskService.createTaskQuery().processVariableValueEquals("employee", BaseContextHandler.getUsername()).count();
         List<Task> tasks = taskService.createTaskQuery().processVariableValueEquals("employee", BaseContextHandler.getUsername()).listPage(start, limit);
         List<String> result = new ArrayList<>();
@@ -189,6 +189,7 @@ public class TaskRest {
     }
 
     @RequestMapping("/diagram")
+    @IgnoreUserToken
     public void getTaskFlowPng(String processInstanceId, HttpServletResponse response) throws Exception {
         String fileName = "diagram";
         InputStream inputStream = generateFLowPng(processInstanceId, fileName);

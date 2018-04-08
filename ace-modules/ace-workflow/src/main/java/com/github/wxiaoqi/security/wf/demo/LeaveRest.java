@@ -29,17 +29,19 @@ import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.wf.feign.IUserFeign;
+import org.activiti.engine.FormService;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,21 +65,36 @@ public class LeaveRest {
     @Autowired
     protected RuntimeService runtimeService;
 
+    @Autowired
+    private IdentityService identityService;
+
+    @Autowired
+    private FormService formService;
+
     @RequestMapping("/apply")
-    public ObjectRestResponse applyLeave(Date start, Date end, String reason) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("employee", BaseContextHandler.getUsername());
-        map.put("reason", reason);
-        map.put("start",start);
-        map.put("end",end);
-        // 请假流程key
-        String processName = "process";
-        //流程启动
-        ExecutionEntity pi1 = (ExecutionEntity) runtimeService.startProcessInstanceByKey(processName, map);
-        String taskId = pi1.getTasks().get(0).getId();
-        taskService.complete(taskId, map);
-        //完成第一步申请
-        return new ObjectRestResponse().data(pi1.getProcessInstanceId());
+    public ObjectRestResponse applyLeave(String startDate, String endDate, String reason) {
+        ExecutionEntity pi = null;
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("employee", BaseContextHandler.getUsername());
+            map.put("reason", reason);
+            map.put("startDate", new DateTime(startDate).toDate());
+            map.put("endDate", new DateTime(endDate).toDate());
+            // 请假流程key
+            String processName = "process";
+            //流程启动
+            identityService.setAuthenticatedUserId(BaseContextHandler.getUsername());
+            pi = (ExecutionEntity) runtimeService.startProcessInstanceByKey(processName, map);
+            String taskId = pi.getTasks().get(0).getId();
+            taskService.complete(taskId, map);
+        } finally {
+            identityService.setAuthenticatedUserId(null);
+        }
+        if(pi!=null) {
+            return new ObjectRestResponse().data(pi.getProcessInstanceId());
+        }else{
+            return new ObjectRestResponse().data("");
+        }
     }
 
     @RequestMapping("/approve")
@@ -109,4 +126,5 @@ public class LeaveRest {
         }
         return new ObjectRestResponse().data(false);
     }
+
 }
