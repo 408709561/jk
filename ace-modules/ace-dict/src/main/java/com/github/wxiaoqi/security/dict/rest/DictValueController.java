@@ -34,6 +34,7 @@ import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.dict.biz.DictValueBiz;
 import com.github.wxiaoqi.security.dict.entity.DictValue;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,6 +50,7 @@ import java.util.stream.Collectors;
 @RequestMapping("dictValue")
 @CheckClientToken
 @CheckUserToken
+@Api(tags = "字典值服务",description = "字典值服务")
 public class DictValueController extends BaseController<DictValueBiz,DictValue> {
     @IgnoreClientToken
     @IgnoreUserToken
