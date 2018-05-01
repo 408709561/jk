@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
 @CheckClientToken
 @CheckUserToken
 @Api(tags = "字典值服务",description = "字典值服务")
-public class DictValueController extends BaseController<DictValueBiz,DictValue> {
+public class DictValueController extends BaseController<DictValueBiz,DictValue,String> {
     @IgnoreClientToken
     @IgnoreUserToken
     @RequestMapping(value = "/type/{code}",method = RequestMethod.GET)

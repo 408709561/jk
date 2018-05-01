@@ -44,7 +44,7 @@ import java.util.List;
 @RequestMapping("dictType")
 @CheckClientToken
 @CheckUserToken
-public class DictTypeController extends BaseController<DictTypeBiz, DictType> {
+public class DictTypeController extends BaseController<DictTypeBiz, DictType,String> {
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<DictTree> getTree() {
         List<DictType> dictTypes = this.baseBiz.selectListAll();

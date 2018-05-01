@@ -37,7 +37,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("service")
-public class ServiceController extends BaseController<ClientBiz,Client>{
+public class ServiceController extends BaseController<ClientBiz,Client,String>{
 
     @RequestMapping(value = "/{id}/client", method = RequestMethod.PUT)
     @ResponseBody

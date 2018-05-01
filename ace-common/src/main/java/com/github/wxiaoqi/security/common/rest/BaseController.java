@@ -43,7 +43,7 @@ import java.util.Map;
  * @author wanghaobin
  * @version 2017-06-15 8:48
  */
-public class BaseController<Biz extends BaseBiz,Entity> {
+public class BaseController<Biz extends BaseBiz,Entity,PK> {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -65,7 +65,7 @@ public class BaseController<Biz extends BaseBiz,Entity> {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse<Entity> get(@PathVariable Object id){
+    public ObjectRestResponse<Entity> get(@PathVariable PK id){
         ObjectRestResponse<Entity> entityObjectRestResponse = new ObjectRestResponse<>();
         Object o = baseBiz.selectById(id);
         entityObjectRestResponse.data((Entity)o);
@@ -80,7 +80,7 @@ public class BaseController<Biz extends BaseBiz,Entity> {
     }
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     @ResponseBody
-    public ObjectRestResponse<Entity> remove(@PathVariable Object id){
+    public ObjectRestResponse<Entity> remove(@PathVariable PK id){
         baseBiz.deleteById(id);
         return new ObjectRestResponse<Entity>();
     }

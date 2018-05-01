@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("depart")
 @CheckClientToken
 @CheckUserToken
-public class DepartController extends BaseController<DepartBiz,Depart> {
+public class DepartController extends BaseController<DepartBiz,Depart,String> {
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public List<DepartTree> getTree() {
         List<Depart> departs = this.baseBiz.selectListAll();

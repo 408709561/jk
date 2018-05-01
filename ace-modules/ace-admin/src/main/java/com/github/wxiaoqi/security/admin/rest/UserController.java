@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
 @RequestMapping("user")
 @CheckUserToken
 @CheckClientToken
-public class UserController extends BaseController<UserBiz, User> {
+public class UserController extends BaseController<UserBiz, User,String> {
 
     @Autowired
     private PermissionService permissionService;
