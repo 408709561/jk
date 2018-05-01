@@ -59,7 +59,7 @@ import java.util.Map;
  * 流程模型Model操作相关
  * Created by chenhai on 2017/5/23.
  */
-@Api(description = "流程模型Model操作相关", tags = {"modeler"})
+@Api(description = "流程模型Model操作相关", tags = "流程模型模块")
 @RestController
 @RequestMapping("models")
 public class ModelController {
@@ -106,7 +106,9 @@ public class ModelController {
         editorNode.put("stencilset", stencilSetNode);
         repositoryService.addModelEditorSource(id, editorNode.toString().getBytes("utf-8"));
 //        return new ModelAndView("redirect:/modeler.html?modelId=" + id);
-        return success();
+        Map<String,Object> data = new HashMap<>();
+        data.put("modelId",id);
+        return success(data);
     }
 
     /**
@@ -249,7 +251,13 @@ public class ModelController {
         }
     }
 
-
+    private Map<String,Object> success(Map<String,Object> data) {
+        Map<String,Object> map = new HashMap();
+        map.putAll(data);
+        map.put("status",true);
+        map.put("reason","操作成功");
+        return map;
+    }
     private Map<String,Object> success() {
         Map<String,Object> map = new HashMap();
         map.put("status",true);

@@ -24,8 +24,10 @@
 package com.github.wxiaoqi.security.admin.rest;
 
 import com.github.ag.core.context.BaseContextHandler;
+import com.github.wxiaoqi.security.admin.biz.MenuBiz;
 import com.github.wxiaoqi.security.admin.biz.PositionBiz;
 import com.github.wxiaoqi.security.admin.biz.UserBiz;
+import com.github.wxiaoqi.security.admin.entity.Menu;
 import com.github.wxiaoqi.security.admin.entity.Position;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
@@ -68,6 +70,9 @@ public class UserController extends BaseController<UserBiz, User> {
     @Autowired
     private PositionBiz positionBiz;
 
+    @Autowired
+    private MenuBiz menuBiz;
+
     @IgnoreUserToken
     @RequestMapping(value = "/validate", method = RequestMethod.POST)
     public ObjectRestResponse<UserInfo> validate(String username, String password) {
@@ -104,6 +109,12 @@ public class UserController extends BaseController<UserBiz, User> {
     @ResponseBody
     List<MenuTree> getMenusByUsername() throws Exception {
         return permissionService.getMenusByUsername();
+    }
+
+    @RequestMapping(value = "/front/menu/all", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Menu> getAllMenus() throws Exception {
+        return menuBiz.selectListAll();
     }
 
     @RequestMapping(value = "/dataDepart", method = RequestMethod.GET)

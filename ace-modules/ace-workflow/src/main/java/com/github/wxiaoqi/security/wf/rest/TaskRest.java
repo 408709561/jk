@@ -30,6 +30,8 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.wf.feign.IUserFeign;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
@@ -51,6 +53,7 @@ import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,6 +75,7 @@ import java.util.List;
 @RestController
 @RequestMapping("tasks")
 @CheckUserToken
+@Api(description = "工作流任务模块", tags = "工作流任务")
 public class TaskRest {
 
     @Autowired
@@ -106,7 +110,8 @@ public class TaskRest {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/apply")
+    @ApiOperation(value = "获取个人发起任务")
+    @GetMapping("/apply")
     public TableResultResponse<Task> getMyApplyTasks(@RequestParam(defaultValue = "0") int pageNum, @RequestParam(defaultValue = "10") int pageSize) throws XMLStreamException {
         if (pageNum <= 1) {
             pageNum = 1;
@@ -132,7 +137,8 @@ public class TaskRest {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/finish")
+    @ApiOperation(value = "获取个人历史任务")
+    @GetMapping("/finish")
     public TableResultResponse<Task> getMyDealTasks(@RequestParam(defaultValue = "0") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         if (pageNum <= 1) {
             pageNum = 1;
@@ -155,7 +161,8 @@ public class TaskRest {
      * @param pageSize
      * @return
      */
-    @RequestMapping("/todo")
+    @ApiOperation(value = "获取待审批任务")
+    @GetMapping("/todo")
     public TableResultResponse<Task> getMyApproveTasks(@RequestParam(defaultValue = "0") int pageNum, @RequestParam(defaultValue = "10") int pageSize) {
         if (pageNum <= 1) {
             pageNum = 1;
@@ -188,7 +195,8 @@ public class TaskRest {
         return new TableResultResponse(count, result);
     }
 
-    @RequestMapping("/diagram")
+    @ApiOperation(value = "获取任务流程状态图")
+    @GetMapping("/diagram")
     @IgnoreUserToken
     public void getTaskFlowPng(String processInstanceId, HttpServletResponse response) throws Exception {
         String fileName = "diagram";

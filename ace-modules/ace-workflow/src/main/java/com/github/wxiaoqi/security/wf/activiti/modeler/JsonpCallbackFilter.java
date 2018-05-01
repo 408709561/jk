@@ -49,8 +49,9 @@ public class JsonpCallbackFilter implements Filter {
     Map<String, String[]> parms = httpRequest.getParameterMap();
 
     if (parms.containsKey("callback")) {
-      if (log.isDebugEnabled())
-          log.debug("Wrapping response with JSONP callback '" + parms.get("callback")[0] + "'");
+      if (log.isDebugEnabled()) {
+        log.debug("Wrapping response with JSONP callback '" + parms.get("callback")[0] + "'");
+      }
 
       OutputStream out = httpResponse.getOutputStream();
 

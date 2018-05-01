@@ -38,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("jwt")
+@Deprecated
 public class AuthController {
     @Value("${jwt.token-header}")
     private String tokenHeader;

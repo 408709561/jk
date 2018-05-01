@@ -29,7 +29,8 @@ import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.wf.feign.IUserFeign;
-import org.activiti.engine.FormService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
@@ -39,6 +40,7 @@ import org.activiti.engine.task.Task;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +56,7 @@ import java.util.function.Predicate;
 @RequestMapping("leave")
 @RestController
 @CheckUserToken
+@Api(description = "请假任务模块", tags = "请假任务模块")
 public class LeaveRest {
     @Autowired
     TaskService taskService;
@@ -68,15 +71,15 @@ public class LeaveRest {
     @Autowired
     private IdentityService identityService;
 
-    @Autowired
-    private FormService formService;
-
-    @RequestMapping("/apply")
+    @PostMapping("/apply")
+    @ApiOperation(value = "发起请假流程")
     public ObjectRestResponse applyLeave(String startDate, String endDate, String reason) {
         ExecutionEntity pi = null;
         try {
             Map<String, Object> map = new HashMap<String, Object>();
+            // 创建流程发起人
             map.put("employee", BaseContextHandler.getUsername());
+            // 写入流程相关数据
             map.put("reason", reason);
             map.put("startDate", new DateTime(startDate).toDate());
             map.put("endDate", new DateTime(endDate).toDate());
@@ -84,8 +87,10 @@ public class LeaveRest {
             String processName = "process";
             //流程启动
             identityService.setAuthenticatedUserId(BaseContextHandler.getUsername());
+            // 启动一个流程实例
             pi = (ExecutionEntity) runtimeService.startProcessInstanceByKey(processName, map);
             String taskId = pi.getTasks().get(0).getId();
+            // 根据实例把流程往下推
             taskService.complete(taskId, map);
         } finally {
             identityService.setAuthenticatedUserId(null);
@@ -97,15 +102,18 @@ public class LeaveRest {
         }
     }
 
-    @RequestMapping("/approve")
+    @PostMapping("/approve")
+    @ApiOperation(value = "审批请假流程")
     public ObjectRestResponse applyLeave(String processInstanceId, boolean agree) {
         Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("agree", agree);
-        System.out.println(BaseContextHandler.getUsername());
+        // 获取当前人拥有的流程岗位
         List<String> userFlowPositions = userFeign.getUserFlowPositions(BaseContextHandler.getUserID());
+        // 获取当前流程具有审批的岗位
         List<IdentityLink> identityLinksForTask = taskService.getIdentityLinksForTask(task.getId());
         boolean flag = false;
+        // 判断当前人是否需要相关审批岗位
         for (IdentityLink link : identityLinksForTask) {
             long count = userFlowPositions.stream().filter(new Predicate<String>() {
                 @Override
@@ -118,6 +126,7 @@ public class LeaveRest {
                 break;
             }
         }
+        // 当前人具有相关审批权限,则可以审批请假流程
         if (flag) {
             task.setAssignee(BaseContextHandler.getUsername());
             taskService.saveTask(task);
