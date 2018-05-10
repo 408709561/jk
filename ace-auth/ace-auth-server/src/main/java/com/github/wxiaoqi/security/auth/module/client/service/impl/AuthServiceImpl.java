@@ -29,6 +29,7 @@ import com.github.ag.core.util.jwt.JWTInfo;
 import com.github.wxiaoqi.security.auth.feign.IUserService;
 import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
 import com.github.wxiaoqi.security.auth.module.client.service.AuthService;
+import com.github.wxiaoqi.security.common.exception.auth.UserInvalidException;
 import com.github.wxiaoqi.security.common.util.RedisKeyUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +73,9 @@ public class AuthServiceImpl implements AuthService {
             Date expireTime = DateTime.now().plusSeconds(jwtTokenUtil.getExpire()).toDate();
             token = jwtTokenUtil.generateToken(jwtInfo, map, expireTime);
             redisTemplate.opsForValue().set(RedisKeyUtil.buildUserAbleKey(data.get("id"), expireTime), "1");
+            return token;
         }
-        return token;
+        throw new UserInvalidException("用户不存在或账户密码错误!");
     }
 
     @Override
