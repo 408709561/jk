@@ -65,18 +65,14 @@ public class AuthServerRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         boolean flag = false;
-        if (redisTemplate.hasKey(RedisKeyConstant.REDIS_USER_PRI_KEY)&&redisTemplate.hasKey(RedisKeyConstant.REDIS_USER_PUB_KEY)&&redisTemplate.hasKey(RedisKeyConstant.REDIS_SERVICE_PRI_KEY)&&redisTemplate.hasKey(RedisKeyConstant.REDIS_SERVICE_PUB_KEY)) {
+        if (redisTemplate.hasKey(RedisKeyConstant.REDIS_USER_PRI_KEY)&&redisTemplate.hasKey(RedisKeyConstant.REDIS_USER_PUB_KEY)){
             try {
                 keyConfiguration.setUserPriKey(rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PRI_KEY).toString())));
                 keyConfiguration.setUserPubKey(rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PUB_KEY).toString()));
-                keyConfiguration.setServicePriKey(rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_SERVICE_PRI_KEY).toString())));
-                keyConfiguration.setServicePubKey(rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_SERVICE_PUB_KEY).toString()));
             }catch (Exception e){
-                log.error("初始化公钥/密钥异常...",e);
+                log.error("初始化用户公钥/密钥异常...",e);
                 flag = true;
             }
-        } else {
-            flag = true;
         }
         if(flag){
             Map<String, byte[]> keyMap = rsaKeyHelper.generateKey(keyConfiguration.getUserSecret());
@@ -84,13 +80,28 @@ public class AuthServerRunner implements CommandLineRunner {
             keyConfiguration.setUserPubKey(keyMap.get("pub"));
             redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_USER_PRI_KEY, aecUtil.encrypt(rsaKeyHelper.toHexString(keyMap.get("pri"))));
             redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_USER_PUB_KEY, rsaKeyHelper.toHexString(keyMap.get("pub")));
-            keyMap = rsaKeyHelper.generateKey(keyConfiguration.getServiceSecret());
+        }
+        log.info("完成用户公钥/密钥的初始化...");
+        flag = false;
+        if (redisTemplate.hasKey(RedisKeyConstant.REDIS_SERVICE_PRI_KEY)&&redisTemplate.hasKey(RedisKeyConstant.REDIS_SERVICE_PUB_KEY)) {
+            try {
+                keyConfiguration.setServicePriKey(rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_SERVICE_PRI_KEY).toString())));
+                keyConfiguration.setServicePubKey(rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_SERVICE_PUB_KEY).toString()));
+            }catch (Exception e){
+                log.error("初始化服务公钥/密钥异常...",e);
+                flag = true;
+            }
+        } else {
+            flag = true;
+        }
+        if(flag){
+            Map<String, byte[]> keyMap = rsaKeyHelper.generateKey(keyConfiguration.getServiceSecret());
             keyConfiguration.setServicePriKey(keyMap.get("pri"));
             keyConfiguration.setServicePubKey(keyMap.get("pub"));
             redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_SERVICE_PRI_KEY, aecUtil.encrypt(rsaKeyHelper.toHexString(keyMap.get("pri"))));
             redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_SERVICE_PUB_KEY, rsaKeyHelper.toHexString(keyMap.get("pub")));
         }
-        log.info("完成公钥/密钥的初始化...");
+        log.info("完成服务公钥/密钥的初始化...");
         List<GatewayRoute> gatewayRoutes = gatewayRouteBiz.selectListAll();
         redisTemplate.opsForValue().set(RedisKeyConstants.ZUUL_ROUTE_KEY, JSON.toJSONString(gatewayRoutes));
         log.info("完成网关路由的更新...");

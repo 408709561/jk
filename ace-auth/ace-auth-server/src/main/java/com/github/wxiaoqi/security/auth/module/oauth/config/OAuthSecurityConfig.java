@@ -34,11 +34,13 @@ import com.github.wxiaoqi.security.auth.jwt.user.JwtTokenUtil;
 import com.github.wxiaoqi.security.auth.module.oauth.bean.OauthUser;
 import com.github.wxiaoqi.security.auth.module.oauth.service.OauthUserDetailsService;
 import com.github.wxiaoqi.security.common.util.Sha256PasswordEncoder;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -55,6 +57,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import sun.security.rsa.RSAPrivateCrtKeyImpl;
 import sun.security.rsa.RSAPublicKeyImpl;
 
@@ -68,6 +71,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@Slf4j
 public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -86,10 +90,15 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private KeyConfiguration keyConfiguration;
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
+
 
     @Bean
-    public JdbcTokenStore tokenStore() {
-        return new JdbcTokenStore(dataSource);
+    public RedisTokenStore redisTokenStore(){
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix("AG:OAUTH:");
+        return redisTokenStore;
     }
 
     @Override
@@ -107,7 +116,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
             throws Exception {
         endpoints
                 .authenticationManager(auth)
-                .tokenStore(tokenStore()).accessTokenConverter(accessTokenConverter())
+                .tokenStore(redisTokenStore()).accessTokenConverter(accessTokenConverter())
         ;
     }
 
@@ -140,6 +149,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
             pri = rsaKeyHelper.toBytes(aecUtil.decrypt(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PRI_KEY).toString()));
             pub = rsaKeyHelper.toBytes(redisTemplate.opsForValue().get(RedisKeyConstant.REDIS_USER_PUB_KEY).toString());
         }catch(Exception e){
+            log.error("初始化用户认证公钥/密钥异常...",e);
             Map<String, byte[]> keyMap = rsaKeyHelper.generateKey(keyConfiguration.getUserSecret());
             redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_USER_PRI_KEY, aecUtil.encrypt(rsaKeyHelper.toHexString(keyMap.get("pri"))));
             redisTemplate.opsForValue().set(RedisKeyConstant.REDIS_USER_PUB_KEY, rsaKeyHelper.toHexString(keyMap.get("pub")));
