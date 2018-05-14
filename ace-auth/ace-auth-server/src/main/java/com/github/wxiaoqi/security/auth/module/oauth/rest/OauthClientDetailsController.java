@@ -33,6 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("oauthClientDetails")
-public class OauthClientDetailsController extends BaseController<OauthClientDetailsBiz,OauthClientDetails> {
+public class OauthClientDetailsController extends BaseController<OauthClientDetailsBiz,OauthClientDetails,String> {
 
 }

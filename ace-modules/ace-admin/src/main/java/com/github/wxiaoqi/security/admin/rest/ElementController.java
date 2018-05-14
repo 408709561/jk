@@ -52,7 +52,7 @@ import java.util.List;
 @CheckUserToken
 @CheckClientToken
 @RequestMapping("element")
-public class ElementController extends BaseController<ElementBiz, Element> {
+public class ElementController extends BaseController<ElementBiz, Element,String> {
   @Autowired
   private UserBiz userBiz;
 

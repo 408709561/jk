@@ -36,6 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("departDataTest")
 //@CheckClientToken
 @CheckUserToken
-public class DepartDataTestController extends BaseController<DepartDataTestBiz,DepartDataTest> {
+public class DepartDataTestController extends BaseController<DepartDataTestBiz,DepartDataTest,String> {
 
 }

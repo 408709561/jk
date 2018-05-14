@@ -33,6 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequestMapping("gatewayRoute")
-public class GatewayRouteController extends BaseController<GatewayRouteBiz,GatewayRoute> {
+public class GatewayRouteController extends BaseController<GatewayRouteBiz,GatewayRoute,String> {
 
 }

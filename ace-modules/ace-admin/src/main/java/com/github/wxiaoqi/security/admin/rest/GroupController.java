@@ -59,7 +59,7 @@ import java.util.List;
 @Api("群组模块")
 @CheckUserToken
 @CheckClientToken
-public class GroupController extends BaseController<GroupBiz, Group> {
+public class GroupController extends BaseController<GroupBiz, Group,String> {
     @Autowired
     private ResourceAuthorityBiz resourceAuthorityBiz;
 

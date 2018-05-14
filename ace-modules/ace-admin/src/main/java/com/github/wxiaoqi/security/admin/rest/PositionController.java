@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("position")
 @CheckUserToken
 @CheckClientToken
-public class PositionController extends BaseController<PositionBiz, Position> {
+public class PositionController extends BaseController<PositionBiz, Position,String> {
 
     @RequestMapping(value = "/{id}/user", method = RequestMethod.PUT)
     @ResponseBody

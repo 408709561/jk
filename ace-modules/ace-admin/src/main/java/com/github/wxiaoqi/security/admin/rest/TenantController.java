@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("tenant")
 @CheckClientToken
 @CheckUserToken
-public class TenantController extends BaseController<TenantBiz,Tenant> {
+public class TenantController extends BaseController<TenantBiz,Tenant,String> {
     @Autowired
     private UserBiz userBiz;
     @RequestMapping(value = "/{id}/user",method = RequestMethod.PUT)

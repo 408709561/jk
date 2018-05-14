@@ -51,7 +51,7 @@ import java.util.List;
 @RequestMapping("menu")
 @CheckUserToken
 @CheckClientToken
-public class MenuController extends BaseController<MenuBiz, Menu> {
+public class MenuController extends BaseController<MenuBiz, Menu,String> {
     @Autowired
     private UserBiz userBiz;
 

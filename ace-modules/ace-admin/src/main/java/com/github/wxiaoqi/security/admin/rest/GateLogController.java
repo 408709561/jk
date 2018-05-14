@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CheckUserToken
 @CheckClientToken
 @RequestMapping("gateLog")
-public class GateLogController extends BaseController<GateLogBiz,GateLog> {
+public class GateLogController extends BaseController<GateLogBiz,GateLog,Integer> {
 //    @RequestMapping(value = "/page",method = RequestMethod.GET)
 //    @ResponseBody
 //    public TableResultResponse<GateLog> page(@RequestParam(defaultValue = "10") int limit, @RequestParam(defaultValue = "1")int offset, String name){

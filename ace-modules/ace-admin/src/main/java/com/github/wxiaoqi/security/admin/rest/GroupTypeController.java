@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("groupType")
 @CheckUserToken
 @CheckClientToken
-public class GroupTypeController extends BaseController<GroupTypeBiz,GroupType> {
+public class GroupTypeController extends BaseController<GroupTypeBiz,GroupType,String> {
 //
 //    @RequestMapping(value = "/page",method = RequestMethod.GET)
 //    @ResponseBody

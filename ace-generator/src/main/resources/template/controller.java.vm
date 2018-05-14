@@ -12,6 +12,6 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 @RequestMapping("${secondModuleName}")
 @CheckClientToken
 @CheckUserToken
-public class ${className}Controller extends BaseController<${className}Biz,${className}> {
+public class ${className}Controller extends BaseController<${className}Biz,${className},$pk.attrType> {
 
 }

@@ -26,6 +26,7 @@ package com.github.wxiaoqi.security.common.handler;
 import com.github.ag.core.exception.BaseException;
 import com.github.wxiaoqi.security.common.exception.auth.ClientTokenException;
 import com.github.wxiaoqi.security.common.exception.auth.NonLoginException;
+import com.github.wxiaoqi.security.common.exception.auth.UserInvalidException;
 import com.github.wxiaoqi.security.common.exception.base.BusinessException;
 import com.github.wxiaoqi.security.common.msg.BaseResponse;
 import org.slf4j.Logger;
@@ -70,6 +71,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NonLoginException.class)
     public BaseResponse userTokenExceptionHandler(HttpServletResponse response, NonLoginException ex) {
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        logger.error(ex.getMessage(),ex);
+        return new BaseResponse(ex.getStatus(), ex.getMessage());
+    }
+
+    @ExceptionHandler(UserInvalidException.class)
+    public BaseResponse userInvalidExceptionHandler(HttpServletResponse response, UserInvalidException ex) {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         logger.error(ex.getMessage(),ex);
         return new BaseResponse(ex.getStatus(), ex.getMessage());

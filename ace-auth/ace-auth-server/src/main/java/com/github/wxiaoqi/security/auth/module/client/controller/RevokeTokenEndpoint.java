@@ -52,8 +52,9 @@ public class RevokeTokenEndpoint {
     @RequestMapping(method = RequestMethod.DELETE, value = "/oauth/token")
     @ResponseBody
     public ObjectRestResponse revokeToken(String access_token) throws Exception {
-        if (consumerTokenServices.revokeToken(access_token)){
-            authService.invalid(getRealToken(access_token));
+        String realToken = getRealToken(access_token);
+        if (consumerTokenServices.revokeToken(realToken)){
+            authService.invalid(realToken);
             return new ObjectRestResponse<Boolean>().data(true);
         }else{
             return new ObjectRestResponse<Boolean>().data(false);
