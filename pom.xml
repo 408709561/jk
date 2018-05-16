@@ -39,7 +39,8 @@
         <module>ace-demo</module>
         <module>ace-modules</module>
         <module>ace-job</module>
-        <module>ace-merge</module>
+        <module>ace-merge-parent</module>
+        <module>ace-core</module>
     </modules>
 
     <packaging>pom</packaging>
