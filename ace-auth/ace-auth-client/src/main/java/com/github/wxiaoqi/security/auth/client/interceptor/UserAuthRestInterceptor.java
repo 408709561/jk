@@ -87,13 +87,20 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
                 token = token.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),token.length());
             }
             try {
+                String tenantID = BaseContextHandler.getTenantID();
                 IJWTInfo infoFromToken = userAuthUtil.getInfoFromToken(token);
                 BaseContextHandler.setToken(token);
                 BaseContextHandler.setUsername(infoFromToken.getUniqueName());
                 BaseContextHandler.setName(infoFromToken.getName());
                 BaseContextHandler.setUserID(infoFromToken.getId());
                 BaseContextHandler.setDepartID(infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_DEPART_ID));
-                BaseContextHandler.setTenantID(infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID));
+                String userTenantId = infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID);
+                if(StringUtils.isNoneBlank(tenantID)){
+                    if(!tenantID.equals(userTenantId)){
+                        throw new NonLoginException("用户不合法!");
+                    }
+                }
+                BaseContextHandler.setTenantID(userTenantId);
             }catch(NonLoginException ex){
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 logger.error(ex.getMessage(),ex);

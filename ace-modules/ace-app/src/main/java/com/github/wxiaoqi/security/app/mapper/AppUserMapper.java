@@ -23,14 +23,20 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.constant;
+package com.github.wxiaoqi.security.app.mapper;
+
+import com.github.wxiaoqi.security.app.entity.AppUser;
+import com.github.wxiaoqi.security.common.data.Tenant;
+import com.github.wxiaoqi.security.common.mapper.CommonMapper;
 
 /**
- * @author ace
- * @create 2018/2/10.
+ * 
+ * 
+ * @author Mr.AG
+ * @email 463540703@qq.com
+ * @version 2018-05-16 20:56:32
  */
-public class RequestHeaderConstants {
-    public final static String TENANT = "x-tenant-auth";
-    public final static String TENANT_FLAG = "x-tenant-flag";
-    public final static String JWT_TOKEN_TYPE = "Bearer ";
+@Tenant
+public interface AppUserMapper extends CommonMapper<AppUser> {
+	
 }

@@ -105,9 +105,10 @@ client:
   expire: 3600
   rsa-secret: x2318^^(*WRYQWR(QW&T
 
-redis:
-  aec-key: xx288&^^%$!@#4dc
-  aec-iv: 0123456789abcdef
+# 作废redis加解密key
+#redis:
+#  aec-key: xx288&^^%$!@#4dc
+#  aec-iv: 0123456789abcdef
 
 # 配置swagger
 swagger:

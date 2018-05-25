@@ -23,14 +23,30 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.constant;
+package com.github.wxiaoqi.security.app.oauth.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * @author ace
- * @create 2018/2/10.
+ * Created by ace on 2017/8/11.
  */
-public class RequestHeaderConstants {
-    public final static String TENANT = "x-tenant-auth";
-    public final static String TENANT_FLAG = "x-tenant-flag";
-    public final static String JWT_TOKEN_TYPE = "Bearer ";
+@Configuration
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http.requestMatchers()
+                .antMatchers("/login", "/oauth/authorize")
+                .and()
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .authorizeRequests().antMatchers("/appUser/register","/admin/**")
+                .permitAll()
+                .and().csrf().disable()
+                .formLogin().loginPage("/login").permitAll();
+    }
+
 }

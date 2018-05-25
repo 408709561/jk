@@ -23,14 +23,27 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.constant;
+package com.github.wxiaoqi.security.common.interceptor;
+
+import com.github.ag.core.context.BaseContextHandler;
+import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author ace
- * @create 2018/2/10.
+ * @create 2018/5/16.
  */
-public class RequestHeaderConstants {
-    public final static String TENANT = "x-tenant-auth";
-    public final static String TENANT_FLAG = "x-tenant-flag";
-    public final static String JWT_TOKEN_TYPE = "Bearer ";
+public class Tenantinterceptor extends HandlerInterceptorAdapter {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String tenantId = request.getHeader(RequestHeaderConstants.TENANT);
+        if(StringUtils.isNotBlank(tenantId)) {
+            BaseContextHandler.setTenantID(tenantId);
+        }
+        return super.preHandle(request, response, handler);
+    }
 }

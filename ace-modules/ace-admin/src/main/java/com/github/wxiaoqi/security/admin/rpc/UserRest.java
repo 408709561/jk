@@ -29,6 +29,7 @@ import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
+import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,6 +54,7 @@ public class UserRest {
 
     @Cache(key="permission")
     @RequestMapping(value = "/permissions", method = RequestMethod.GET)
+    @IgnoreUserToken
     public @ResponseBody
     List<PermissionInfo> getAllPermission(){
         return permissionService.getAllPermission();
