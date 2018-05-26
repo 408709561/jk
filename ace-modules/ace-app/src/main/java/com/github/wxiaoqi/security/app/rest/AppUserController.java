@@ -31,6 +31,7 @@ import com.github.wxiaoqi.security.app.entity.AppUser;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
+import com.github.wxiaoqi.security.common.exception.base.BusinessException;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,10 @@ public class AppUserController {
     @PostMapping("register")
     @IgnoreUserToken
     public ObjectRestResponse register(String mobile, String password) {
+        AppUser userByMobile = this.appUserBiz.getUserByMobile(mobile);
+        if(userByMobile!=null){
+            throw new BusinessException("手机号已经存在!");
+        }
         AppUser appuser = new AppUser();
         appuser.setMobile(mobile);
         appuser.setPassword(password);

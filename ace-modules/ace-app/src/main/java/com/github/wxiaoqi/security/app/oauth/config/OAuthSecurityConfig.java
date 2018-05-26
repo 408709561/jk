@@ -120,6 +120,10 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
                 .authorizedGrantTypes(authServerConfig.getGrantTypes().split(","))
+                // 访问token过期时长为一周过期
+                .accessTokenValiditySeconds(7*24*60*60)
+                // 刷新token过期时长为两个月
+                .refreshTokenValiditySeconds(60*24*60*60)
                 .scopes(authServerConfig.getScope());
     }
 
