@@ -4,6 +4,7 @@ import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.app.entity.AppUser;
 import com.github.wxiaoqi.security.app.mapper.AppUserMapper;
 import com.github.wxiaoqi.security.common.biz.BusinessBiz;
+import com.github.wxiaoqi.security.common.util.BooleanUtil;
 import com.github.wxiaoqi.security.common.util.Sha256PasswordEncoder;
 import com.github.wxiaoqi.security.common.validator.ValidatorUtils;
 import com.github.wxiaoqi.security.common.validator.group.AddGroup;
@@ -48,7 +49,14 @@ public class AppUserBiz extends BusinessBiz<AppUserMapper, AppUser> {
         entity.setPassword(password);
         entity.setName("xxx_"+entity.getMobile());
         entity.setTenantId(BaseContextHandler.getTenantID());
+        entity.setIsDeleted(BooleanUtil.BOOLEAN_FALSE);
         super.insertSelective(entity);
     }
 
+    @Override
+    public void deleteById(Object id) {
+        AppUser appUser = this.selectById(id);
+        appUser.setIsDeleted(BooleanUtil.switchValue(BooleanUtil.BOOLEAN_FALSE.equals(appUser.getIsDeleted())));
+        this.updateSelectiveById(appUser);
+    }
 }

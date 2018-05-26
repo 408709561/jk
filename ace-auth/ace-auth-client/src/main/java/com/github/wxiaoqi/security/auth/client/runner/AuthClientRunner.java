@@ -44,7 +44,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 @Slf4j
 public class AuthClientRunner implements CommandLineRunner {
-
     @Autowired
     private ServiceAuthConfig serviceAuthConfig;
     @Autowired
@@ -54,17 +53,17 @@ public class AuthClientRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("初始化加载用户pubKey");
         try {
             refreshUserPubKey();
+            log.info("完成初始化加载用户pubKey");
         }catch(Exception e){
-            log.error("初始化加载用户pubKey失败,1分钟后自动重试!",e);
+            log.error("初始化加载用户pubKey失败,请检查auth服务是否正常启动,1分钟后自动重试!",e);
         }
-        log.info("初始化加载客户pubKey");
         try {
             refreshServicePubKey();
+            log.info("完成初始化加载客户pubKey");
         }catch(Exception e){
-            log.error("初始化加载客户pubKey失败,1分钟后自动重试!",e);
+            log.error("初始化加载客户pubKey失败,请检查auth服务是否正常启动,1分钟后自动重试!",e);
         }
     }
     @Scheduled(cron = "0 0/1 * * * ?")

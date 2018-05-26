@@ -1,7 +1,7 @@
 #
 zuul:
   ignored-services: "*"
-  sensitive-headers:
+  sensitive-headers: x-tenant-auth
   prefix: /api #为zuul设置一个公共的前缀
   ratelimit: # 网关限流
     key-prefix: gate_rate

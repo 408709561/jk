@@ -68,4 +68,12 @@ public class AppUserController {
         return ObjectRestResponse.ok(userByMobile);
     }
 
+    /**
+     * 修改密码
+     */
+    @PostMapping("changePassword")
+    public ObjectRestResponse changePassword(String newPassword, String oldPassword) {
+        return ObjectRestResponse.ok(appUserBiz.changePassword(oldPassword,newPassword));
+    }
+
 }

@@ -54,11 +54,11 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         /*
             增加服务权限烂机器
          */
-//        registry.addInterceptor(getServiceAuthRestInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(getServiceAuthRestInterceptor()).addPathPatterns("/**");
         /*
             增加用户权限拦截器
          */
-//        registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns("/**");
        super.addInterceptors(registry);
     }
 

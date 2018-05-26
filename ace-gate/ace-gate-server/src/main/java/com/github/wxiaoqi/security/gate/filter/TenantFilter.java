@@ -84,12 +84,6 @@ public class TenantFilter implements Filter {
     class UriWrapperRequest extends HttpServletRequestWrapper {
         private String uri;
 
-        /**
-         * Constructs a request object wrapping the given request.
-         *
-         * @param request
-         * @throws IllegalArgumentException if the request is null
-         */
         public UriWrapperRequest(HttpServletRequest request, String uri) {
             super(request);
             this.uri = uri;
