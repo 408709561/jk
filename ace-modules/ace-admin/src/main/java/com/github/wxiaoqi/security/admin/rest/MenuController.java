@@ -31,6 +31,8 @@ import com.github.wxiaoqi.security.admin.vo.MenuTree;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.rest.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,10 +53,12 @@ import java.util.List;
 @RequestMapping("menu")
 @CheckUserToken
 @CheckClientToken
+@Api(tags="菜单模块")
 public class MenuController extends BaseController<MenuBiz, Menu,String> {
     @Autowired
     private UserBiz userBiz;
 
+    @ApiOperation("获取菜单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public List<Menu> list(String title) {
@@ -65,6 +69,7 @@ public class MenuController extends BaseController<MenuBiz, Menu,String> {
         return baseBiz.selectByExample(example);
     }
 
+    @ApiOperation("获取菜单树")
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     @ResponseBody
     public List<MenuTree> getTree(String title) {
@@ -74,86 +79,5 @@ public class MenuController extends BaseController<MenuBiz, Menu,String> {
         }
         return MenuTree.buildTree(baseBiz.selectByExample(example), AdminCommonConstant.ROOT);
     }
-
-
-
-//    @RequestMapping(value = "/system", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<Menu> getSystem() {
-//        Menu menu = new Menu();
-//        menu.setParentId(AdminCommonConstant.ROOT);
-//        return baseBiz.selectList(menu);
-//    }
-
-//    @RequestMapping(value = "/menuTree", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<MenuTree> listMenu(String parentId) {
-//        try {
-//            if (parentId == null) {
-//                parentId = this.getSystem().get(0).getId();
-//            }
-//        } catch (Exception e) {
-//            return new ArrayList<MenuTree>();
-//        }
-//        List<MenuTree> trees = new ArrayList<MenuTree>();
-//        MenuTree node = null;
-//        Example example = new Example(Menu.class);
-//        Menu parent = baseBiz.selectById(parentId);
-//        example.createCriteria().andLike("path", parent.getPath() + "%").andNotEqualTo("id",parent.getId());
-//        return getMenuTree(baseBiz.selectByExample(example), parent.getId());
-//    }
-
-//    @RequestMapping(value = "/authorityTree", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<AuthorityMenuTree> listAuthorityMenu() {
-//        List<AuthorityMenuTree> trees = new ArrayList<AuthorityMenuTree>();
-//        AuthorityMenuTree node = null;
-//        for (Menu menu : baseBiz.selectListAll()) {
-//            node = new AuthorityMenuTree();
-//            node.setText(menu.getTitle());
-//            BeanUtils.copyProperties(menu, node);
-//            trees.add(node);
-//        }
-//        return TreeUtil.bulid(trees, AdminCommonConstant.ROOT, null);
-//    }
-//
-//    @RequestMapping(value = "/user/authorityTree", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<MenuTree> listUserAuthorityMenu(String parentId){
-//        String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
-//        try {
-//            if (parentId == null) {
-//                parentId = this.getSystem().get(0).getId();
-//            }
-//        } catch (Exception e) {
-//            return new ArrayList<MenuTree>();
-//        }
-//        return getMenuTree(baseBiz.getUserAuthorityMenuByUserId(userId),parentId);
-//    }
-//
-//    @RequestMapping(value = "/user/system", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<Menu> listUserAuthoritySystem() {
-//        String userId = userBiz.getUserByUsername(getCurrentUserName()).getId();
-//        return baseBiz.getUserAuthoritySystemByUserId(userId);
-//    }
-
-//    private List<MenuTree> getMenuTree(List<Menu> menus,String root) {
-//        List<MenuTree> trees = new ArrayList<MenuTree>();
-//        MenuTree node = null;
-//        for (Menu menu : menus) {
-//            node = new MenuTree();
-//            BeanUtils.copyProperties(menu, node);
-//            node.setLabel(menu.getTitle());
-//            trees.add(node);
-//        }
-//        return TreeUtil.bulid(trees,root,  new Comparator<MenuTree>() {
-//            @Override
-//            public int compare(MenuTree o1, MenuTree o2) {
-//                return o1.getOrderNum() - o2.getOrderNum();
-//            }
-//        }) ;
-//    }
-
 
 }

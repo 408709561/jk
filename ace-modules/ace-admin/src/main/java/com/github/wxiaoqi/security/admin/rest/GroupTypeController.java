@@ -28,6 +28,7 @@ import com.github.wxiaoqi.security.admin.entity.GroupType;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckClientToken;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.rest.BaseController;
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,7 +42,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("groupType")
 @CheckUserToken
 @CheckClientToken
-public class GroupTypeController extends BaseController<GroupTypeBiz,GroupType,String> {
+@Api(tags = "角色组")
+public class GroupTypeController extends BaseController<GroupTypeBiz, GroupType, String> {
 //
 //    @RequestMapping(value = "/page",method = RequestMethod.GET)
 //    @ResponseBody
