@@ -40,6 +40,7 @@
         <module>ace-modules</module>
         <module>ace-job</module>
         <module>ace-merge-parent</module>
+        <module>jwt-core</module>
     </modules>
 
     <packaging>pom</packaging>
