@@ -29,6 +29,7 @@ import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.github.wxiaoqi.security.common.util.StringEscapeEditor;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,7 @@ public class BaseController<Biz extends BaseBiz,Entity,PK> {
 
     @RequestMapping(value = "",method = RequestMethod.POST)
     @ResponseBody
+    @ApiOperation("新增单个对象")
     public ObjectRestResponse<Entity> add(@RequestBody Entity entity){
         baseBiz.insertSelective(entity);
         return new ObjectRestResponse<Entity>().data(entity);
@@ -65,6 +67,7 @@ public class BaseController<Biz extends BaseBiz,Entity,PK> {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation("查询单个对象")
     public ObjectRestResponse<Entity> get(@PathVariable PK id){
         ObjectRestResponse<Entity> entityObjectRestResponse = new ObjectRestResponse<>();
         Object o = baseBiz.selectById(id);
@@ -74,12 +77,14 @@ public class BaseController<Biz extends BaseBiz,Entity,PK> {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
     @ResponseBody
+    @ApiOperation("更新单个对象")
     public ObjectRestResponse<Entity> update(@RequestBody Entity entity){
         baseBiz.updateSelectiveById(entity);
         return new ObjectRestResponse<Entity>().data(entity);
     }
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
     @ResponseBody
+    @ApiOperation("移除单个对象")
     public ObjectRestResponse<Entity> remove(@PathVariable PK id){
         baseBiz.deleteById(id);
         return new ObjectRestResponse<Entity>();
@@ -87,9 +92,11 @@ public class BaseController<Biz extends BaseBiz,Entity,PK> {
 
     @RequestMapping(value = "/all",method = RequestMethod.GET)
     @ResponseBody
+    @ApiOperation("获取所有数据")
     public List<Entity> all(){
         return baseBiz.selectListAll();
     }
+    @ApiOperation("分页获取数据")
     @RequestMapping(value = "/page",method = RequestMethod.GET)
     @ResponseBody
     public TableResultResponse<Entity> list(@RequestParam Map<String, Object> params){
