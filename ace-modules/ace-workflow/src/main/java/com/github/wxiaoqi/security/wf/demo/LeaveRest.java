@@ -29,6 +29,7 @@ import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.wf.feign.IUserFeign;
+import com.github.wxiaoqi.security.wf.service.FlowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.IdentityService;
@@ -59,17 +60,7 @@ import java.util.function.Predicate;
 @Api(description = "请假任务模块", tags = "请假任务模块")
 public class LeaveRest {
     @Autowired
-    TaskService taskService;
-
-    @Autowired
-    @Lazy
-    IUserFeign userFeign;
-
-    @Autowired
-    protected RuntimeService runtimeService;
-
-    @Autowired
-    private IdentityService identityService;
+    private FlowService flowService;
 
     @PostMapping("/apply")
     @ApiOperation(value = "发起请假流程")
@@ -85,15 +76,10 @@ public class LeaveRest {
             map.put("endDate", new DateTime(endDate).toDate());
             // 请假流程key
             String processName = "process";
-            //流程启动
-            identityService.setAuthenticatedUserId(BaseContextHandler.getUsername());
-            // 启动一个流程实例
-            pi = (ExecutionEntity) runtimeService.startProcessInstanceByKey(processName, map);
-            String taskId = pi.getTasks().get(0).getId();
-            // 根据实例把流程往下推
-            taskService.complete(taskId, map);
-        } finally {
-            identityService.setAuthenticatedUserId(null);
+            pi = flowService.createProcess(processName, map);
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
         if(pi!=null) {
             return new ObjectRestResponse().data(pi.getProcessInstanceId());
@@ -105,32 +91,9 @@ public class LeaveRest {
     @PostMapping("/approve")
     @ApiOperation(value = "审批请假流程")
     public ObjectRestResponse applyLeave(String processInstanceId, boolean agree) {
-        Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("agree", agree);
-        // 获取当前人拥有的流程岗位
-        List<String> userFlowPositions = userFeign.getUserFlowPositions(BaseContextHandler.getUserID());
-        // 获取当前流程具有审批的岗位
-        List<IdentityLink> identityLinksForTask = taskService.getIdentityLinksForTask(task.getId());
-        boolean flag = false;
-        // 判断当前人是否需要相关审批岗位
-        for (IdentityLink link : identityLinksForTask) {
-            long count = userFlowPositions.stream().filter(new Predicate<String>() {
-                @Override
-                public boolean test(String s) {
-                    return s.equals(link.getGroupId());
-                }
-            }).count();
-            if (count > 0) {
-                flag = true;
-                break;
-            }
-        }
-        // 当前人具有相关审批权限,则可以审批请假流程
-        if (flag) {
-            task.setAssignee(BaseContextHandler.getUsername());
-            taskService.saveTask(task);
-            taskService.complete(task.getId(), map);
+        if(flowService.executeProcess(processInstanceId,map)){
             return new ObjectRestResponse().data(true);
         }
         return new ObjectRestResponse().data(false);
