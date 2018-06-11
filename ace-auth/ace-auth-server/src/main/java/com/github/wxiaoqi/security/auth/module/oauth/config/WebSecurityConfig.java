@@ -26,6 +26,7 @@
 package com.github.wxiaoqi.security.auth.module.oauth.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
@@ -44,6 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .authorizeRequests().antMatchers("/static/**", "/favicon.ico", "/webjars/**","/client/**","/v2/api-docs")
+                .permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.OPTIONS)
                 .permitAll()
                 .and()
                 .formLogin().loginPage("/login").permitAll();
