@@ -117,7 +117,7 @@ public class AdminAccessFilter extends ZuulFilter {
         final String method = request.getMethod();
         BaseContextHandler.setToken(null);
         // 不进行拦截的地址
-        if (isStartWith(requestUri) || HttpMethod.OPTIONS.equals(method)) {
+        if (isStartWith(requestUri) || HttpMethod.OPTIONS.matches(method)) {
             return null;
         }
         IJWTInfo user = null;

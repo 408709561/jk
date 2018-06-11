@@ -65,7 +65,7 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String method = request.getMethod();
-        if (HttpMethod.OPTIONS.equals(method)){
+        if (HttpMethod.OPTIONS.matches(method)){
             return super.preHandle(request, response, handler);
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
