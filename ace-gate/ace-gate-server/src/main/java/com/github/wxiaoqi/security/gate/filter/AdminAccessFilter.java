@@ -47,6 +47,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -116,7 +117,7 @@ public class AdminAccessFilter extends ZuulFilter {
         final String method = request.getMethod();
         BaseContextHandler.setToken(null);
         // 不进行拦截的地址
-        if (isStartWith(requestUri)) {
+        if (isStartWith(requestUri) || HttpMethod.OPTIONS.matches(method)) {
             return null;
         }
         IJWTInfo user = null;

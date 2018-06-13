@@ -38,6 +38,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -63,6 +64,10 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String method = request.getMethod();
+        if (HttpMethod.OPTIONS.matches(method)){
+            return super.preHandle(request, response, handler);
+        }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         // 配置该注解，说明不进行用户拦截
         CheckUserToken annotation = handlerMethod.getBeanType().getAnnotation(CheckUserToken.class);
