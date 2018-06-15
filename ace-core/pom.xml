@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.wxiaoqi</groupId>
-    <artifactId>jwt-core</artifactId>
+    <artifactId>ace-core</artifactId>
     <version>4.0-SNAPSHOT</version>
     <build>
         <plugins>

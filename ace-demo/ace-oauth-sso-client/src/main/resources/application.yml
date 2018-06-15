@@ -27,7 +27,6 @@ security:
       clientId: client
       clientSecret: client
     resource:
-#      userInfoUri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9999}/uaa/user
       jwt:
         key-uri: http://${AUTH_SERVER_HOST:localhost}:${AUTH_SERVER_PORT:9777}/oauth/token_key
 spring:

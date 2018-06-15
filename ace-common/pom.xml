@@ -87,7 +87,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.wxiaoqi</groupId>
-            <artifactId>jwt-core</artifactId>
+            <artifactId>ace-core</artifactId>
             <version>4.0-SNAPSHOT</version>
         </dependency>
         <dependency>
