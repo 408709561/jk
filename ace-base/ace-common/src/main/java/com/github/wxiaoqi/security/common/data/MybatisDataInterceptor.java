@@ -38,7 +38,6 @@ import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import sun.net.www.content.text.plain;
 
 import java.io.StringReader;
 import java.sql.Connection;
@@ -114,7 +113,7 @@ public class MybatisDataInterceptor implements Interceptor {
                 if (userDataDepartIds != null && userDataDepartIds.size() > 0) {
                     for (int i = 0; i < userDataDepartIds.size(); i++) {
                         whereSql.append(" or ");
-                        whereSql.append(addAlias(plain, annotation.departField())).append(" = '").append(userDataDepartIds.get(i)).append("' ");
+                        whereSql.append(addAlias(plain, depart.departField())).append(" = '").append(userDataDepartIds.get(i)).append("' ");
                     }
                 }
             }
