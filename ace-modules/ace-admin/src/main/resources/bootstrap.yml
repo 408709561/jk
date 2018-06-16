@@ -1,6 +1,3 @@
-#
-
-
 spring:
   cloud:
     config:
@@ -8,5 +5,5 @@ spring:
            service-id: ace-config
            enabled: true
         label: master  # git 分支
-        name: gate
+        name: admin
         profile: dev
