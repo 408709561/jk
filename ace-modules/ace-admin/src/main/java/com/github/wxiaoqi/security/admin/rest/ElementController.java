@@ -31,6 +31,8 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,12 +54,14 @@ import java.util.List;
 @CheckUserToken
 @CheckClientToken
 @RequestMapping("element")
+@Api(tags = "资源管理")
 public class ElementController extends BaseController<ElementBiz, Element,String> {
   @Autowired
   private UserBiz userBiz;
 
   @RequestMapping(value = "/list", method = RequestMethod.GET)
   @ResponseBody
+  @ApiOperation("根据菜单获取资源")
   public TableResultResponse<Element> page(@RequestParam(defaultValue = "10") int limit,
       @RequestParam(defaultValue = "1") int offset,String name, @RequestParam(defaultValue = "0") String menuId) {
     Example example = new Example(Element.class);

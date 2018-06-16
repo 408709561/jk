@@ -40,6 +40,8 @@ import com.github.wxiaoqi.security.auth.client.annotation.CheckUserToken;
 import com.github.wxiaoqi.security.auth.client.annotation.IgnoreUserToken;
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -62,6 +64,7 @@ import java.util.stream.Collectors;
 @RequestMapping("user")
 @CheckUserToken
 @CheckClientToken
+@Api(tags = "用户模块")
 public class UserController extends BaseController<UserBiz, User,String> {
 
     @Autowired
@@ -74,12 +77,14 @@ public class UserController extends BaseController<UserBiz, User,String> {
     private MenuBiz menuBiz;
 
     @IgnoreUserToken
+    @ApiOperation("账户密码验证")
     @RequestMapping(value = "/validate", method = RequestMethod.POST)
     public ObjectRestResponse<UserInfo> validate(String username, String password) {
         return new ObjectRestResponse<UserInfo>().data(permissionService.validate(username, password));
     }
 
     @IgnoreUserToken
+    @ApiOperation("根据账户名获取用户信息")
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     public ObjectRestResponse<AuthUser> validate(String username) {
         AuthUser user = new AuthUser();
@@ -87,12 +92,16 @@ public class UserController extends BaseController<UserBiz, User,String> {
         return new ObjectRestResponse<AuthUser>().data(user);
     }
 
+
+    @ApiOperation("账户修改密码")
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
     public ObjectRestResponse<Boolean> changePassword(String oldPass, String newPass) {
         return new ObjectRestResponse<Boolean>().data(baseBiz.changePassword(oldPass, newPass));
     }
 
 
+
+    @ApiOperation("获取用户信息接口")
     @RequestMapping(value = "/front/info", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> getUserInfo() throws Exception {
@@ -104,6 +113,7 @@ public class UserController extends BaseController<UserBiz, User,String> {
         }
     }
 
+    @ApiOperation("获取用户访问菜单")
     @RequestMapping(value = "/front/menus", method = RequestMethod.GET)
     public
     @ResponseBody
@@ -111,12 +121,14 @@ public class UserController extends BaseController<UserBiz, User,String> {
         return permissionService.getMenusByUsername();
     }
 
+    @ApiOperation("获取所有菜单")
     @RequestMapping(value = "/front/menu/all", method = RequestMethod.GET)
     public @ResponseBody
     List<Menu> getAllMenus() throws Exception {
         return menuBiz.selectListAll();
     }
 
+    @ApiOperation("获取用户可管辖部门id列表")
     @RequestMapping(value = "/dataDepart", method = RequestMethod.GET)
     public List<String> getUserDataDepartIds(String userId) {
         if (BaseContextHandler.getUserID().equals(userId)) {
@@ -125,6 +137,7 @@ public class UserController extends BaseController<UserBiz, User,String> {
         return new ArrayList<>();
     }
 
+    @ApiOperation("获取用户流程审批岗位")
     @RequestMapping(value = "/flowPosition", method = RequestMethod.GET)
     public List<String> getUserFlowPositions(String userId) {
         if (BaseContextHandler.getUserID().equals(userId)) {

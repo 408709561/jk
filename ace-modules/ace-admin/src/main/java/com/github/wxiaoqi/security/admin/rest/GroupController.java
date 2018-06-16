@@ -39,6 +39,7 @@ import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.TreeUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,13 +57,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("group")
-@Api("群组模块")
+@Api("角色模块")
 @CheckUserToken
 @CheckClientToken
 public class GroupController extends BaseController<GroupBiz, Group,String> {
     @Autowired
     private ResourceAuthorityBiz resourceAuthorityBiz;
-
+    @ApiOperation("获取角色列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public List<Group> list(String name, String groupType) {
@@ -80,7 +81,7 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return baseBiz.selectByExample(example);
     }
 
-
+    @ApiOperation("用户关联角色")
     @RequestMapping(value = "/{id}/user", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse modifiyUsers(@PathVariable String id, String members, String leaders) {
@@ -88,12 +89,14 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("获取角色关联用户")
     @RequestMapping(value = "/{id}/user", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<GroupUsers> getUsers(@PathVariable String id) {
         return new ObjectRestResponse<GroupUsers>().data(baseBiz.getGroupUsers(id));
     }
 
+    @ApiOperation("分配角色可访问菜单")
     @RequestMapping(value = "/{id}/authority/menu", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse modifyMenuAuthority(@PathVariable String id, String menuTrees) {
@@ -102,12 +105,14 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("获取角色可访问菜单")
     @RequestMapping(value = "/{id}/authority/menu", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<AuthorityMenuTree>> getMenuAuthority(@PathVariable String id) {
         return new ObjectRestResponse().data(baseBiz.getAuthorityMenu(id, AdminCommonConstant.RESOURCE_TYPE_VIEW));
     }
 
+    @ApiOperation("角色分配菜单可访问资源")
     @RequestMapping(value = "/{id}/authority/element/add", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse addElementAuthority(@PathVariable String id, String menuId, String elementId) {
@@ -115,6 +120,7 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("角色移除菜单可访问资源")
     @RequestMapping(value = "/{id}/authority/element/remove", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse removeElementAuthority(@PathVariable String id, String menuId, String elementId) {
@@ -122,12 +128,14 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("获取角色可访问资源")
     @RequestMapping(value = "/{id}/authority/element", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<String>> getElementAuthority(@PathVariable String id) {
         return new ObjectRestResponse().data(baseBiz.getAuthorityElement(id, AdminCommonConstant.RESOURCE_TYPE_VIEW));
     }
 
+    @ApiOperation("分配角色可授权菜单")
     @RequestMapping(value = "/{id}/authorize/menu", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse modifyMenuAuthorize(@PathVariable String id, String menuTrees) {
@@ -136,12 +144,14 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("获取角色可授权菜单")
     @RequestMapping(value = "/{id}/authorize/menu", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<AuthorityMenuTree>> getMenuAuthorize(@PathVariable String id) {
         return new ObjectRestResponse().data(baseBiz.getAuthorityMenu(id, AdminCommonConstant.RESOURCE_TYPE_AUTHORISE));
     }
 
+    @ApiOperation("角色分配菜单可授权资源")
     @RequestMapping(value = "/{id}/authorize/element/add", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse addElementAuthorize(@PathVariable String id, String menuId, String elementId) {
@@ -149,6 +159,7 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("角色移除菜单可授权资源")
     @RequestMapping(value = "/{id}/authorize/element/remove", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse removeElementAuthorize(@PathVariable String id, String menuId, String elementId) {
@@ -156,12 +167,14 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
         return new ObjectRestResponse();
     }
 
+    @ApiOperation("获取角色可授权资源")
     @RequestMapping(value = "/{id}/authorize/element", method = RequestMethod.GET)
     @ResponseBody
     public ObjectRestResponse<List<String>> getElementAuthorize(@PathVariable String id) {
         return new ObjectRestResponse().data(baseBiz.getAuthorityElement(id, AdminCommonConstant.RESOURCE_TYPE_AUTHORISE));
     }
 
+    @ApiOperation("获取角色树")
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     @ResponseBody
     public List<GroupTree> tree(String name, String groupType) {
@@ -180,6 +193,7 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
      * @param menuId
      * @return
      */
+    @ApiOperation("获取用户可管理资源")
     @RequestMapping(value = "/element/authorize/list", method = RequestMethod.GET)
     public TableResultResponse<Element> getAuthorizeElement(String menuId) {
         List<Element> elements = baseBiz.getAuthorizeElements(menuId);
@@ -190,6 +204,7 @@ public class GroupController extends BaseController<GroupBiz, Group,String> {
      * 获取可管理的菜单
      * @return
      */
+    @ApiOperation("获取用户可管理菜单")
     @RequestMapping(value = "/menu/authorize/list", method = RequestMethod.GET)
     public List<MenuTree> getAuthorizeMenus() {
         return TreeUtil.bulid(baseBiz.getAuthorizeMenus(), AdminCommonConstant.ROOT, null);
