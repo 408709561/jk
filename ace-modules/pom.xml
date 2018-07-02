@@ -41,6 +41,7 @@
         <module>ace-dict</module>
         <module>ace-tool</module>
         <module>ace-workflow</module>
+        <module>ace-app</module>
     </modules>
 
 </project>

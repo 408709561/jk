@@ -38,7 +38,6 @@ import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import sun.net.www.content.text.plain;
 
 import java.io.StringReader;
 import java.sql.Connection;
@@ -83,7 +82,7 @@ public class MybatisDataInterceptor implements Interceptor {
         Class<?> clazz = Class.forName(className);
 
         Tenant tenant = clazz.getAnnotation(Tenant.class);
-        Depart annotation = clazz.getAnnotation(Depart.class);
+        Depart depart = clazz.getAnnotation(Depart.class);
         BoundSql boundSql = handler.getBoundSql();
         //获取sql
         String sql = boundSql.getSql();
@@ -99,22 +98,22 @@ public class MybatisDataInterceptor implements Interceptor {
             whereSql.append(addAlias(plain, tenant.userField())).append(" = '").append(BaseContextHandler.getUserID()).append("'");
             whereSql.append(" or ");
             whereSql.append(addAlias(plain, tenant.tenantField()) + " = '" + BaseContextHandler.getTenantID() + "' )");
-            if (annotation != null) {
+            if (depart != null) {
                 whereSql.append(" and ( ");
             }
         }
         // 部门数据隔离
-        if (annotation != null) {
+        if (depart != null) {
             // 添加用户自己的查询条件
             whereSql.append(" ( 1 = 0 or ");
-            whereSql.append(addAlias(plain, annotation.userField())).append(" = '").append(BaseContextHandler.getUserID()).append("'");
+            whereSql.append(addAlias(plain, depart.userField())).append(" = '").append(BaseContextHandler.getUserID()).append("'");
             // 拼接部门数据sql
             if (userDepartDataService != null) {
                 List<String> userDataDepartIds = userDepartDataService.getUserDataDepartIds(BaseContextHandler.getUserID());
                 if (userDataDepartIds != null && userDataDepartIds.size() > 0) {
                     for (int i = 0; i < userDataDepartIds.size(); i++) {
                         whereSql.append(" or ");
-                        whereSql.append(addAlias(plain, annotation.departField())).append(" = '").append(userDataDepartIds.get(i)).append("' ");
+                        whereSql.append(addAlias(plain, depart.departField())).append(" = '").append(userDataDepartIds.get(i)).append("' ");
                     }
                 }
             }

@@ -23,14 +23,22 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.constant;
+package com.github.wxiaoqi.security.app.oauth.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 /**
  * @author ace
- * @create 2018/2/10.
+ * @create 2018/3/19.
  */
-public class RequestHeaderConstants {
-    public final static String TENANT = "x-tenant-auth";
-    public final static String TENANT_FLAG = "x-tenant-flag";
-    public final static String JWT_TOKEN_TYPE = "Bearer ";
+@RestController
+public class UserController {
+
+    @RequestMapping("/user")
+    public Principal userInfo(Principal principal) {
+        return principal;
+    }
 }

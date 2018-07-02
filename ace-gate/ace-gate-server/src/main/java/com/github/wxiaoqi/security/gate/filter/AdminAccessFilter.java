@@ -120,25 +120,25 @@ public class AdminAccessFilter extends ZuulFilter {
         if (isStartWith(requestUri) || HttpMethod.OPTIONS.matches(method)) {
             return null;
         }
-        IJWTInfo user = null;
-        try {
-            user = getJWTUser(request, ctx);
-        } catch (Exception e) {
-            setFailedRequest(JSON.toJSONString(new NonLoginException("用户身份过期,请重新登录!")), HttpStatus.UNAUTHORIZED.value());
-            log.error(e.getMessage(), e);
-            return null;
-        }
         List<PermissionInfo> permissionIfs = userService.getAllPermissionInfo();
         // 判断资源是否启用权限约束
         Stream<PermissionInfo> stream = getPermissionIfs(requestUri, method, permissionIfs);
         List<PermissionInfo> result = stream.collect(Collectors.toList());
         PermissionInfo[] permissions = result.toArray(new PermissionInfo[]{});
         if (permissions.length > 0) {
+            IJWTInfo user = null;
+            try {
+                user = getJWTUser(request, ctx);
+            } catch (Exception e) {
+                setFailedRequest(JSON.toJSONString(new NonLoginException("用户身份过期,请重新登录!")), HttpStatus.UNAUTHORIZED.value());
+                log.error(e.getMessage(), e);
+                return null;
+            }
             checkUserPermission(permissions, ctx, user);
+            BaseContextHandler.remove();
         }
         // 申请客户端密钥头
         ctx.addZuulRequestHeader(serviceAuthConfig.getTokenHeader(), serviceAuthUtil.getClientToken());
-        BaseContextHandler.remove();
         return null;
     }
 

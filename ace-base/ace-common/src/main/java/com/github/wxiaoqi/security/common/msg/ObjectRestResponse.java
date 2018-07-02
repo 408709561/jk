@@ -43,5 +43,11 @@ public class ObjectRestResponse<T> extends BaseResponse {
         this.data = data;
     }
 
+    public static ObjectRestResponse ok(Object data) {
+        return new ObjectRestResponse<Object>().data(data);
+    }
 
+    public static ObjectRestResponse ok() {
+        return new ObjectRestResponse<Object>();
+    }
 }

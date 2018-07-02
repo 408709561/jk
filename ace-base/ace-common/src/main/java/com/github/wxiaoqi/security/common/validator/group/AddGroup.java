@@ -23,14 +23,13 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.constant;
+package com.github.wxiaoqi.security.common.validator.group;
 
 /**
- * @author ace
- * @create 2018/2/10.
+ * 新增数据 Group
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2017-03-16 0:04
  */
-public class RequestHeaderConstants {
-    public final static String TENANT = "x-tenant-auth";
-    public final static String TENANT_FLAG = "x-tenant-flag";
-    public final static String JWT_TOKEN_TYPE = "Bearer ";
+public interface AddGroup {
 }

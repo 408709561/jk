@@ -23,14 +23,17 @@
  *
  */
 
-package com.github.wxiaoqi.security.common.constant;
+package com.github.wxiaoqi.security.common.validator.group;
+
+import javax.validation.GroupSequence;
 
 /**
- * @author ace
- * @create 2018/2/10.
+ * 定义校验顺序，如果AddGroup组失败，则UpdateGroup组不会再校验
+ * @author chenshun
+ * @email sunlightcs@gmail.com
+ * @date 2017-03-15 23:15
  */
-public class RequestHeaderConstants {
-    public final static String TENANT = "x-tenant-auth";
-    public final static String TENANT_FLAG = "x-tenant-flag";
-    public final static String JWT_TOKEN_TYPE = "Bearer ";
+@GroupSequence({AddGroup.class, UpdateGroup.class})
+public interface Group {
+
 }
