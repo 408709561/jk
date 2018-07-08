@@ -88,6 +88,7 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
             }
+            token = token.replaceAll("%20"," ");
             if (token != null && token.startsWith(RequestHeaderConstants.JWT_TOKEN_TYPE)) {
                 token = token.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),token.length());
             }

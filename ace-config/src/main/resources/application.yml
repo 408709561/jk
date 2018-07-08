@@ -12,8 +12,8 @@ server:
 
 eureka:
     instance:
-        statusPageUrlPath: /info
-        healthCheckUrlPath: /health
+        statusPageUrlPath: /actuator/info
+        healthCheckUrlPath: /actuator/health
         # docker 部署开启
 #        prefer-ip-address: true
 #        ip-address: 127.0.0.1

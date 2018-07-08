@@ -30,10 +30,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 /**
@@ -47,7 +46,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @EnableAutoConfiguration
 @EnableSwagger2Doc
 @SessionAttributes("authorizationRequest")
-@EnableResourceServer
+//@EnableResourceServer
 @EnableAuthorizationServer
 public class AuthBootstrap {
     public static void main(String[] args) {
