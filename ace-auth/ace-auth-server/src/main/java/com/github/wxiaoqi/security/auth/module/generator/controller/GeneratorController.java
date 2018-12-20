@@ -7,6 +7,7 @@ import com.github.wxiaoqi.security.auth.module.client.entity.Client;
 import com.github.wxiaoqi.security.auth.module.generator.service.GeneratorService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class GeneratorController {
     /**
      * 生成代码
      */
-    @RequestMapping("/build")
+    @GetMapping("/build")
     public void code(String id, String packageName, boolean zipkin, boolean tx, HttpServletResponse response) throws IOException {
         Client client = clientBiz.selectById(id);
         if (client != null) {

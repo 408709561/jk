@@ -41,7 +41,7 @@ public class GateConfig {
 
     @Bean
     RedisRouteLocator redisRouteLocator() {
-        RedisRouteLocator redisRouteLocator = new RedisRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
+        RedisRouteLocator redisRouteLocator = new RedisRouteLocator(this.server.getServlet().getServletPrefix(), this.zuulProperties);
         redisRouteLocator.setRedisTemplate(this.redisTemplate);
         return redisRouteLocator;
     }

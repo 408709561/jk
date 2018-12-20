@@ -52,7 +52,7 @@
 
         #if($zipkin)
         <!-- 链路追踪 -->
-        <dependency>
+       <!--  <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
         </dependency>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-        </dependency>
+        </dependency> -->
         #end
         #if($tx)
         <!-- 分布式事物 -->
@@ -108,9 +108,9 @@
         </dependency>
         <!-- druid -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.0</version>
+            <groupId>com.github.drtrang</groupId>
+            <artifactId>druid-spring-boot2-starter</artifactId>
+            <version>1.1.10</version>
         </dependency>
 
         <dependency>
@@ -127,14 +127,20 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.1.2</version>
+            <version>1.2.3</version>
         </dependency>
 
         <!-- swagger -->
-        <dependency>
+       <dependency>
             <groupId>com.spring4all</groupId>
-            <artifactId>spring-boot-starter-swagger</artifactId>
-            <version>1.5.1.RELEASE</version>
+            <artifactId>swagger-spring-boot-starter</artifactId>
+            <version>1.6.0.RELEASE</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
 
         <dependency>
@@ -165,7 +171,7 @@
 
     </dependencies>
     <!--依赖管理，用于管理spring-cloud的依赖，其中Camden.SR3是版本号-->
-    <dependencyManagement>
+    <!-- <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -185,7 +191,7 @@
                 <version>1.0.11</version>
             </dependency>
         </dependencies>
-    </dependencyManagement>
+    </dependencyManagement> -->
     <build>
         <finalName>${clientId}</finalName>
         <plugins>

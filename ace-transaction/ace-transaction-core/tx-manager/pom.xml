@@ -50,7 +50,8 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client-server</artifactId>
+            <version>1.4.3.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>

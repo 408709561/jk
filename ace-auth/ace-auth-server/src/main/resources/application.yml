@@ -123,9 +123,9 @@
 #  mappers: com.github.wxiaoqi.security.common.mapper.CommonMapper
 #
 #
-#logging:
-#  level:
+logging:
+  level:
 #    root: info
 #    ## 这里设置为info，是因为如果不设置，debug时会不断打印mq日志。
 #    org.springframework.integration.endpoint.SourcePollingChannelAdapter: info
-##    org.springframework.security: DEBUG
+    org.springframework.security: DEBUG
