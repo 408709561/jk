@@ -52,6 +52,7 @@ public class FeignOkHttpConfig {
 		return new okhttp3.OkHttpClient.Builder().readTimeout(feignOkHttpReadTimeout, TimeUnit.SECONDS).connectTimeout(feignConnectTimeout, TimeUnit.SECONDS)
 				.writeTimeout(feignWriteTimeout, TimeUnit.SECONDS).connectionPool(new ConnectionPool())
 				 .addInterceptor(okHttpLoggingInterceptor)
+				.retryOnConnectionFailure(true)
 				.build();
 	}
 }
