@@ -59,9 +59,6 @@
 #
 #
 #zuul:
-#   host:
-#        connect-timeout-millis: 10000
-#        socket-timeout-millis: 60000
 #  ignored-services: "*"
 #  sensitive-headers:
 #  prefix: /api #为zuul设置一个公共的前缀

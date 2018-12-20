@@ -1,17 +1,19 @@
 spring:
     application:
         name: ace-monitor
+    boot:
+        admin:
+          routes:
+            endpoints: env,metrics,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream
+          turbine:
+            clusters: agcloud
+            location: turbine
 server:
     port: 8764 #启动端口
 
 eureka:
      instance:
         preferIpAddress: true
-        statusPageUrlPath: /actuator/info
-        healthCheckUrlPath: /actuator/health
-        metadata-map:
-          user.name: admin        #These two are needed so that the server
-          user.password: admin
      client:
         registerWithEureka: true
         fetchRegistry: true

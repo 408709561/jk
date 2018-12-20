@@ -42,7 +42,6 @@
         <module>ace-tool</module>
         <module>ace-workflow</module>
         <module>ace-app</module>
-        <module>ace-estate</module>
     </modules>
 
 </project>

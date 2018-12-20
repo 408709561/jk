@@ -1,4 +1,27 @@
-
+/*
+ *
+ *  *  Copyright (C) 2018  Wanghaobin<463540703@qq.com>
+ *
+ *  *  AG-Enterprise 企业版源码
+ *  *  郑重声明:
+ *  *  如果你从其他途径获取到，请告知老A传播人，奖励1000。
+ *  *  老A将追究授予人和传播人的法律责任!
+ *
+ *  *  This program is free software; you can redistribute it and/or modify
+ *  *  it under the terms of the GNU General Public License as published by
+ *  *  the Free Software Foundation; either version 2 of the License, or
+ *  *  (at your option) any later version.
+ *
+ *  *  This program is distributed in the hope that it will be useful,
+ *  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  *  GNU General Public License for more details.
+ *
+ *  *  You should have received a copy of the GNU General Public License along
+ *  *  with this program; if not, write to the Free Software Foundation, Inc.,
+ *  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ */
 
 package com.github.wxiaoqi.security.auth.module.oauth.config;
 
@@ -20,7 +43,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -30,7 +53,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import sun.security.rsa.RSAPrivateCrtKeyImpl;
 import sun.security.rsa.RSAPublicKeyImpl;
@@ -62,20 +84,15 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private KeyConfiguration keyConfiguration;
-//    @Autowired
-//    private RedisConnectionFactory redisConnectionFactory;
+    @Autowired
+    private RedisConnectionFactory redisConnectionFactory;
 
-//    @Bean
-//    public RedisTokenStore redisTokenStore(){
-//        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-//        redisTokenStore.setPrefix("AG:OAUTH:");
-//        return redisTokenStore;
-//    }
 
     @Bean
-    public JwtTokenStore jwtTokenStore() throws NoSuchAlgorithmException, InvalidKeyException, IOException {
-        JwtTokenStore jwtTokenStore = new JwtTokenStore(accessTokenConverter());
-        return jwtTokenStore;
+    public RedisTokenStore redisTokenStore(){
+        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+        redisTokenStore.setPrefix("AG:OAUTH:");
+        return redisTokenStore;
     }
 
     @Override
@@ -93,7 +110,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
             throws Exception {
         endpoints
                 .authenticationManager(auth)
-                .tokenStore(jwtTokenStore()).accessTokenConverter(accessTokenConverter())
+                .tokenStore(redisTokenStore()).accessTokenConverter(accessTokenConverter())
         ;
     }
 
@@ -104,6 +121,20 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         clients.jdbc(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
+
+    @Configuration
+    @Order(100)
+    protected static class AuthenticationManagerConfiguration extends GlobalAuthenticationConfigurerAdapter {
+        @Autowired
+        private OauthUserDetailsService oauthUserDetailsService;
+
+        @Override
+        public void init(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(oauthUserDetailsService).passwordEncoder(new Sha256PasswordEncoder());
+        }
+    }
+
+
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() throws IOException, InvalidKeyException, NoSuchAlgorithmException {
