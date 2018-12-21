@@ -1,8 +1,8 @@
 #!/bin/bash
 
 BUILD_TAG="test1001"
-REGISTRY_URL="registry-internal.cn-hangzhou.aliyuncs.com"
-NAME_SPACE="c-wms"
+REGISTRY_URL="registry.cn-shenzhen.aliyuncs.com"
+NAME_SPACE="jk_basic"
 
 if [ "$2" != "" ];
     then
@@ -53,15 +53,15 @@ push_tag()
 if [ "$1" = "test" ];
     then
     # login
-    REGISTRY_URL="172.172.172.201:5000"
-    NAME_SPACE="ace"
-    docker login --username=123 $REGISTRY_URL --password=123
-    push_tag
+#    REGISTRY_URL="172.172.172.201:5000"
+#    NAME_SPACE="ace"
+#    docker login --username=123 $REGISTRY_URL --password=123
+#    push_tag
     elif [ "$1" = "prod" ];
     then
-    REGISTRY_URL="registry.cn-hangzhou.aliyuncs.com"
-    NAME_SPACE="duanzonglong"
-    docker login --username=implicitfn@126.com $REGISTRY_URL --password=123456!@#
+    REGISTRY_URL="registry.cn-shenzhen.aliyuncs.com"
+    NAME_SPACE="jk_basic"
+    docker login --username=408709561@qq.com $REGISTRY_URL --password=Champion11
     push_tag
     else
     echo '测试环境参考命令:dpush.sh test test1001'
