@@ -1,8 +1,8 @@
 #!/bin/bash
 
-BUILD_TAG="test1001"
+BUILD_TAG="test"
 REGISTRY_URL="registry-internal.cn-hangzhou.aliyuncs.com"
-NAME_SPACE="c-wms"
+NAME_SPACE="jk_basic"
 
 if [ "$2" != "" ];
     then
@@ -60,8 +60,8 @@ if [ "$1" = "test" ];
     elif [ "$1" = "prod" ];
     then
     REGISTRY_URL="registry.cn-hangzhou.aliyuncs.com"
-    NAME_SPACE="duanzonglong"
-    docker login --username=implicitfn@126.com $REGISTRY_URL --password=123456!@#
+    NAME_SPACE="jk_basic"
+    docker login --username=408709561@qq.com $REGISTRY_URL --password=Champion11
     push_tag
     else
     echo '测试环境参考命令:dpush.sh test test1001'
