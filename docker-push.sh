@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BUILD_TAG="test"
-REGISTRY_URL="registry-internal.cn-hangzhou.aliyuncs.com"
+REGISTRY_URL="registry.cn-shenzhen.aliyuncs.com"
 NAME_SPACE="jk_basic"
 
 if [ "$2" != "" ];
