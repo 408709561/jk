@@ -63,6 +63,7 @@ public class OkHttpTokenInterceptor implements Interceptor {
 				.newBuilder()
 				.header(userAuthConfig.getTokenHeader(), BaseContextHandler.getToken())
 				.build();
+		log.info("请求url:" + chain.request().url());
 		Response response = chain.proceed(newRequest);
 		if(HttpStatus.FORBIDDEN.value()==response.code()){
 			if(response.body().string().contains(String.valueOf(RestCodeConstants.EX_CLIENT_INVALID_CODE))){
