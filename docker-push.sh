@@ -55,7 +55,7 @@ if [ "$1" = "test" ];
     # login
     REGISTRY_URL="47.107.44.141:5000"
     NAME_SPACE="ace"
-    docker login --username=hlnie $REGISTRY_URL --password=champion11
+    docker login --username=408709561@qq.com $REGISTRY_URL --password=champion11
     push_tag
     elif [ "$1" = "prod" ];
     then
