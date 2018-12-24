@@ -5,7 +5,7 @@ spring:
         config:
             server:
                 git:
-                    uri: http://118.126.104.133:82/ace-enterpriese/config.git
+                    uri: https://github.com/408709561/config.git
 
 server:
     port: 8750 #启动端口
