@@ -69,11 +69,6 @@
     </dependencies>
     <repositories>
         <repository>
-            <id>aliyun</id>
-            <name>aliyun</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-        <repository>
             <id>oss</id>
             <name>oss</name>
             <url>https://oss.sonatype.org/content/groups/public</url>
