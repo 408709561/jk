@@ -43,7 +43,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -53,6 +53,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import sun.security.rsa.RSAPrivateCrtKeyImpl;
 import sun.security.rsa.RSAPublicKeyImpl;
@@ -84,15 +85,20 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private KeyConfiguration keyConfiguration;
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
+//    @Autowired
+//    private RedisConnectionFactory redisConnectionFactory;
 
+//    @Bean
+//    public RedisTokenStore redisTokenStore(){
+//        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+//        redisTokenStore.setPrefix("AG:OAUTH:");
+//        return redisTokenStore;
+//    }
 
     @Bean
-    public RedisTokenStore redisTokenStore(){
-        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
-        redisTokenStore.setPrefix("AG:OAUTH:");
-        return redisTokenStore;
+    public JwtTokenStore jwtTokenStore() throws NoSuchAlgorithmException, InvalidKeyException, IOException {
+        JwtTokenStore jwtTokenStore = new JwtTokenStore(accessTokenConverter());
+        return jwtTokenStore;
     }
 
     @Override
@@ -110,7 +116,7 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
             throws Exception {
         endpoints
                 .authenticationManager(auth)
-                .tokenStore(redisTokenStore()).accessTokenConverter(accessTokenConverter())
+                .tokenStore(jwtTokenStore()).accessTokenConverter(accessTokenConverter())
         ;
     }
 
@@ -121,20 +127,6 @@ public class OAuthSecurityConfig extends AuthorizationServerConfigurerAdapter {
         clients.jdbc(dataSource)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
-
-    @Configuration
-    @Order(100)
-    protected static class AuthenticationManagerConfiguration extends GlobalAuthenticationConfigurerAdapter {
-        @Autowired
-        private OauthUserDetailsService oauthUserDetailsService;
-
-        @Override
-        public void init(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(oauthUserDetailsService).passwordEncoder(new Sha256PasswordEncoder());
-        }
-    }
-
-
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() throws IOException, InvalidKeyException, NoSuchAlgorithmException {

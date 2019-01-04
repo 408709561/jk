@@ -28,8 +28,6 @@ package com.github.wxiaoqi.security.app.filter;
 import com.github.ag.core.context.BaseContextHandler;
 import com.github.wxiaoqi.security.common.constant.RequestHeaderConstants;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 

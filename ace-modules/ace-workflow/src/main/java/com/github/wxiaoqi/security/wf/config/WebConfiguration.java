@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 拦截器和全局配置
@@ -42,7 +42,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration("securityWebConfig")
 @Primary
-public class WebConfiguration extends WebMvcConfigurerAdapter {
+public class WebConfiguration implements WebMvcConfigurer {
     @Bean
     GlobalExceptionHandler getGlobalExceptionHandler() {
         return new GlobalExceptionHandler();
@@ -58,7 +58,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             增加用户权限拦截器
          */
         registry.addInterceptor(getUserAuthRestInterceptor()).addPathPatterns("/**");
-        super.addInterceptors(registry);
     }
 
     /**

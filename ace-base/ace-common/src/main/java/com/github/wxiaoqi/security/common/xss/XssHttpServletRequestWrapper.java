@@ -28,6 +28,7 @@ package com.github.wxiaoqi.security.common.xss;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -66,6 +67,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public Map<String, String[]> getParameterMap() {
         Map<String, String[]> parameterMap = super.getParameterMap();
+        Map<String, String[]> resultMap = new HashMap<>();
         if(parameterMap == null){
             return null;
         }
@@ -79,9 +81,9 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             for (int i = 0; i < count; i++) {
                 encodedValues[i] = cleanXSS(values[i]);
             }
-            parameterMap.put(entry.getKey(),encodedValues);
+            resultMap.put(entry.getKey(),encodedValues);
         }
-        return parameterMap;
+        return resultMap;
     }
 
     @Override

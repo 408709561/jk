@@ -14,7 +14,7 @@ spring:
         default-property-inclusion: non_null
     datasource:
         name: test
-        url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/ag_dict?useUnicode=true&characterEncoding=UTF8
+        url: jdbc:mysql://localhost:3306/ag_dict?useUnicode=true&characterEncoding=UTF8
         username: root
         password: 123456
         # 使用druid数据源
@@ -41,8 +41,8 @@ spring:
         pool:
             max-active: 20
     rabbitmq:
-        host: ${RABBIT_MQ_HOST:localhost}
-        port: ${RABBIT_MQ_PORT:5672}
+        host: localhost
+        port: 5672
         username: guest
         password: guest
     zipkin:
@@ -73,5 +73,5 @@ auth:
     limit-expire: 1440 # 一天过去,单位分钟
   client:
     id: ace-dict
-    secret: 123456
+    secret: 123566
     token-header: client-token

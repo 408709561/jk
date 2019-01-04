@@ -65,7 +65,10 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String method = request.getMethod();
-        if (HttpMethod.OPTIONS.matches(method)){
+        if (HttpMethod.OPTIONS.matches(method)) {
+            return super.preHandle(request, response, handler);
+        }
+        if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -88,9 +91,9 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
                     }
                 }
             }
-            token = token.replaceAll("%20"," ");
+            token = token.replaceAll("%20", " ");
             if (token != null && token.startsWith(RequestHeaderConstants.JWT_TOKEN_TYPE)) {
-                token = token.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(),token.length());
+                token = token.substring(RequestHeaderConstants.JWT_TOKEN_TYPE.length(), token.length());
             }
             try {
                 String tenantID = BaseContextHandler.getTenantID();
@@ -101,15 +104,15 @@ public class UserAuthRestInterceptor extends HandlerInterceptorAdapter {
                 BaseContextHandler.setUserID(infoFromToken.getId());
                 BaseContextHandler.setDepartID(infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_DEPART_ID));
                 String userTenantId = infoFromToken.getOtherInfo().get(CommonConstants.JWT_KEY_TENANT_ID);
-                if(StringUtils.isNoneBlank(tenantID)){
-                    if(!tenantID.equals(userTenantId)){
+                if (StringUtils.isNoneBlank(tenantID)) {
+                    if (!tenantID.equals(userTenantId)) {
                         throw new NonLoginException("用户不合法!");
                     }
                 }
                 BaseContextHandler.setTenantID(userTenantId);
-            }catch(NonLoginException ex){
+            } catch (NonLoginException ex) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
-                logger.error(ex.getMessage(),ex);
+                logger.error(ex.getMessage(), ex);
                 response.setContentType("UTF-8");
                 response.getOutputStream().println(JSON.toJSONString(new BaseResponse(ex.getStatus(), ex.getMessage())));
                 return false;

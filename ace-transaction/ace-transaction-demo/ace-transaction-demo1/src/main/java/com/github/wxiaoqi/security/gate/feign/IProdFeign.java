@@ -24,7 +24,7 @@
 package com.github.wxiaoqi.security.gate.feign;
 
 import com.github.wxiaoqi.security.gate.config.FeignConfiguration;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**

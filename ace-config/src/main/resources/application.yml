@@ -5,20 +5,20 @@ spring:
         config:
             server:
                 git:
-                    uri: https://github.com/408709561/config.git
+                    uri: https://github.com/408709561/config-test.git
 
 server:
     port: 8750 #启动端口
 
 eureka:
     instance:
-        statusPageUrlPath: /info
-        healthCheckUrlPath: /health
+        statusPageUrlPath: /actuator/info
+        healthCheckUrlPath: /actuator/health
         # docker 部署开启
 #        prefer-ip-address: true
 #        ip-address: 127.0.0.1
     client:
         serviceUrl:
-#            defaultZone: http://localhost:8761/eureka/
+            defaultZone: http://localhost:8761/eureka/
                     # docker 部署开启
-            defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+#            defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/

@@ -65,7 +65,10 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String method = request.getMethod();
-        if (HttpMethod.OPTIONS.matches(method)){
+        if (HttpMethod.OPTIONS.matches(method)) {
+            return super.preHandle(request, response, handler);
+        }
+        if (!(handler instanceof HandlerMethod)) {
             return super.preHandle(request, response, handler);
         }
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -87,16 +90,16 @@ public class ServiceAuthRestInterceptor extends HandlerInterceptorAdapter {
                         return super.preHandle(request, response, handler);
                     }
                 }
-            }catch(ClientTokenException ex){
+            } catch (ClientTokenException ex) {
                 response.setStatus(HttpStatus.FORBIDDEN.value());
-                logger.error(ex.getMessage(),ex);
+                logger.error(ex.getMessage(), ex);
                 response.setContentType("UTF-8");
                 response.getOutputStream().println(JSON.toJSONString(new BaseResponse(ex.getStatus(), ex.getMessage())));
                 return false;
             }
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            response.getOutputStream().println(JSON.toJSONString(new BaseResponse(RestCodeConstants.EX_CLIENT_FORBIDDEN_CODE,"Client is Forbidden!")));
+            response.getOutputStream().println(JSON.toJSONString(new BaseResponse(RestCodeConstants.EX_CLIENT_FORBIDDEN_CODE, "Client is Forbidden!")));
             return false;
         }
     }

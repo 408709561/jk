@@ -1,25 +1,24 @@
 package ${package}.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.codingapi.tx.datasource.relational.LCNTransactionDataSource;
+import com.github.trang.druid.autoconfigure.DruidDataSourceConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 
 /**
  * 代理数据源
+ *
  * @author ace
  * @version 2018/1/18.
  */
-@AutoConfigureAfter(DruidDataSourceAutoConfigure.class)
+@AutoConfigureAfter(DruidDataSourceConfiguration.class)
 @Configuration
 public class TxConfiguration {
 
@@ -34,30 +33,11 @@ public class TxConfiguration {
     }
 
     public DataSource createDataSource(Environment env) {
-        DruidDataSource dataSource = DruidDataSourceBuilder.create().build();
-        if(dataSource.getUsername() == null) {
-            dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        }
-
-        if(dataSource.getPassword() == null) {
-            dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        }
-
-        if(dataSource.getUrl() == null) {
-            dataSource.setUrl(env.getProperty("spring.datasource.url"));
-        }
-
-        if(dataSource.getDriverClassName() == null) {
-            dataSource.setDriverClassName(env.getProperty("spring.datasource.driver-class-name"));
-        }
-
-        if(!"false".equals(env.getProperty("spring.datasource.druid.StatViewServlet.enabled"))) {
-            try {
-                dataSource.setFilters("stat");
-            } catch (SQLException var4) {
-                var4.printStackTrace();
-            }
-        }
-        return dataSource;
+        DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.username(env.getProperty("spring.datasource.username"));
+        dataSourceBuilder.password(env.getProperty("spring.datasource.password"));
+        dataSourceBuilder.url(env.getProperty("spring.datasource.url"));
+        dataSourceBuilder.driverClassName(env.getProperty("spring.datasource.driver-class-name"));
+        return dataSourceBuilder.build();
     }
 }
