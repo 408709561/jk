@@ -73,5 +73,5 @@ auth:
     limit-expire: 1440 # 一天过去,单位分钟
   client:
     id: ace-dict
-    secret: 123566
+    secret: 123456
     token-header: client-token
