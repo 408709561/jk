@@ -6,7 +6,8 @@ spring:
            enabled: true
         label: master  # git 分支
         name: auth
-        profile: dev_v2
+        profile: dev
+#         uri: http://ace-config:8750
 
 eureka:
     instance:
