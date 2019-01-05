@@ -7,7 +7,7 @@ spring:
         label: master  # git 分支
         name: auth
         profile: dev
-#         uri: http://ace-config:8750
+          #         uri: http://ace-config:8750
 
 eureka:
     instance:

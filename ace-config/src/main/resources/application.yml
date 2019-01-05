@@ -17,7 +17,6 @@ eureka:
         # docker 部署开启
         prefer-ip-address: true
 #        ip-address: 127.0.0.1
-#        hostname: ace-config
     client:
         serviceUrl:
 #            defaultZone: http://localhost:8761/eureka/
