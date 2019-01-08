@@ -36,13 +36,13 @@ spring:
             maxOpenPreparedStatements: 20
     redis:
         database: 1
-        host: ${REDIS_HOST:localhost}
+        host: ${REDIS_HOST:127.0.0.1}
         port: ${REDIS_PORT:6379}
         pool:
             max-active: 20
     rabbitmq:
-        host: localhost
-        port: 5672
+        host: ${RABBIT_MQ_HOST:localhost}
+        port: ${RABBIT_MQ_PORT:5672}
         username: guest
         password: guest
     zipkin:
@@ -75,3 +75,44 @@ auth:
     id: ace-dict
     secret: 123566
     token-header: client-token
+
+
+#请求和响应GZIP压缩支持
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+
+
+ribbon:
+  eureka:
+    enabled: true
+  ReadTimeout: 120000
+  ConnectTimeout: 120000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+  OkToRetryOnAllOperations: false
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+
+
+hystrix:
+  threadpool:
+    default:
+            coreSize: 1000
+            maxQueueSize: 1000
+            queueSizeRejectionThreshold: 500
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 110000
