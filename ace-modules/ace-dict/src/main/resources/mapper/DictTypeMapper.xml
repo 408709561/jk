@@ -5,22 +5,22 @@
 
 	<!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.github.wxiaoqi.security.dict.entity.DictType" id="dictTypeMap">
-        <result property="id" column="id"/>
-        <result property="code" column="code"/>
-        <result property="type" column="type"/>
-        <result property="name" column="name"/>
-        <result property="parentId" column="parent_id"/>
-        <result property="crtUserName" column="crt_user_name"/>
-        <result property="crtUserId" column="crt_user_id"/>
-        <result property="crtTime" column="crt_time"/>
-        <result property="updUserName" column="upd_user_name"/>
-        <result property="updUserId" column="upd_user_id"/>
-        <result property="updTime" column="upd_time"/>
-        <result property="attr1" column="attr1"/>
-        <result property="attr2" column="attr2"/>
-        <result property="attr3" column="attr3"/>
-        <result property="attr4" column="attr4"/>
-        <result property="tenantId" column="tenant_id"/>
+        <result property="id" jdbcType="VARCHAR" column="id"/>
+        <result property="code" jdbcType="VARCHAR" column="code"/>
+        <result property="type" jdbcType="VARCHAR" column="type"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="parentId" jdbcType="INTEGER" column="parent_id"/>
+        <result property="crtUserName" jdbcType="VARCHAR" column="crt_user_name"/>
+        <result property="crtUserId" jdbcType="VARCHAR" column="crt_user_id"/>
+        <result property="crtTime" jdbcType="DATE" column="crt_time"/>
+        <result property="updUserName" jdbcType="VARCHAR" column="upd_user_name"/>
+        <result property="updUserId" jdbcType="VARCHAR" column="upd_user_id"/>
+        <result property="updTime" jdbcType="DATE"  column="upd_time"/>
+        <result property="attr1" jdbcType="VARCHAR" column="attr1"/>
+        <result property="attr2" jdbcType="VARCHAR"  column="attr2"/>
+        <result property="attr3" jdbcType="VARCHAR" column="attr3"/>
+        <result property="attr4" jdbcType="VARCHAR" column="attr4"/>
+        <result property="tenantId"  column="tenant_id"/>
     </resultMap>
 
 </mapper>
