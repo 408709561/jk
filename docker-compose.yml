@@ -90,3 +90,4 @@ services:
       - MYSQL_PORT=3306
       - RABBIT_MQ_HOST=rabbitmq
       - RABBIT_MQ_PORT=5672
+      - TZ=Asia/Shanghai
